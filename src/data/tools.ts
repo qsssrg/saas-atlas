@@ -267,7 +267,7 @@ export const tools: Tool[] = [
     description:
       'Affordable AI writing assistant with 40+ use cases, tone matching, and plagiarism checking. Best value for solo creators.',
     tagline: 'AI writing assistant that costs a fraction',
-    website: 'https://rytr.me',
+    website: 'https://rytr.me/?via=rintaro',
     founded: 2021,
     headquarters: 'New Delhi',
     originCountry: 'IN',
