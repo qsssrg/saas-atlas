@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     "cross-country SaaS",
     "best AI tools",
   ],
+  verification: {
+    google: "DhOiHoHfkxGS3VH0A-zucEkrMprEhmqvhBR75CEXJ7M",
+  },
 };
 
 function Header() {
