@@ -15,7 +15,7 @@ export const categories: CategoryInfo[] = [
     description:
       'AI tools that generate images from text prompts. Compare Midjourney, DALL-E, Stable Diffusion and more across different markets.',
     icon: '🎨',
-    toolCount: 0, // TODO: Phase 2
+    toolCount: 5,
   },
   {
     slug: 'ai-coding',
@@ -23,7 +23,7 @@ export const categories: CategoryInfo[] = [
     description:
       'AI-powered code completion, generation, and debugging tools. Compare GitHub Copilot, Cursor, and alternatives available in your country.',
     icon: '💻',
-    toolCount: 0, // TODO: Phase 2
+    toolCount: 5,
   },
 ];
 
