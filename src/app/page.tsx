@@ -10,9 +10,9 @@ export default function Home() {
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       {/* Hero */}
       <section className="mb-16 text-center">
-        <h1 className="mb-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+        <h1 className="mb-4 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
           Discover AI Tools{" "}
-          <span className="text-purple-400">Across Borders</span>
+          <span className="text-purple-600">Across Borders</span>
         </h1>
         <p className="mx-auto max-w-2xl text-lg text-gray-500">
           Compare pricing, features, and availability of AI SaaS tools across{" "}
@@ -23,7 +23,7 @@ export default function Home() {
 
       {/* Categories */}
       <section className="mb-16">
-        <h2 className="mb-6 text-2xl font-bold text-white">
+        <h2 className="mb-6 text-2xl font-bold text-gray-900">
           Browse by Category
         </h2>
         <div className="grid gap-4 sm:grid-cols-3">
@@ -31,10 +31,10 @@ export default function Home() {
             <Link
               key={cat.slug}
               href={`/categories/${cat.slug}`}
-              className="rounded-lg border border-purple-900/30 p-6 transition-shadow hover:border-purple-500/50"
+              className="rounded-lg border border-purple-200 p-6 transition-shadow hover:border-purple-400"
             >
               <span className="text-3xl">{cat.icon}</span>
-              <h3 className="mt-2 text-lg font-semibold text-white">
+              <h3 className="mt-2 text-lg font-semibold text-gray-900">
                 {cat.name}
               </h3>
               <p className="mt-1 text-sm text-gray-500">
@@ -50,12 +50,12 @@ export default function Home() {
       {/* AI Writing Tools - Featured */}
       <section className="mb-16">
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-white">
+          <h2 className="text-2xl font-bold text-gray-900">
             AI Writing Tools
           </h2>
           <Link
             href="/categories/ai-writing"
-            className="text-sm font-medium text-purple-400 hover:text-purple-300"
+            className="text-sm font-medium text-purple-600 hover:text-purple-700"
           >
             View all →
           </Link>
@@ -65,17 +65,17 @@ export default function Home() {
             <Link
               key={tool.slug}
               href={`/tools/${tool.slug}`}
-              className="rounded-lg border border-purple-900/30 p-6 transition-shadow hover:border-purple-500/50"
+              className="rounded-lg border border-purple-200 p-6 transition-shadow hover:border-purple-400"
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="text-lg font-semibold text-white">
+                  <h3 className="text-lg font-semibold text-gray-900">
                     {tool.name}
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">{tool.tagline}</p>
                 </div>
                 {tool.hasFreeplan && (
-                  <span className="rounded-full bg-green-900/30 px-2 py-0.5 text-xs font-medium text-green-400">
+                  <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
                     Free plan
                   </span>
                 )}
@@ -84,7 +84,7 @@ export default function Home() {
                 {tool.description}
               </p>
               <div className="mt-4 flex items-center justify-between">
-                <span className="text-sm font-medium text-white">
+                <span className="text-sm font-medium text-gray-900">
                   {tool.startingPrice === 0
                     ? "Free"
                     : `From $${tool.startingPrice}/mo`}
@@ -106,8 +106,8 @@ export default function Home() {
       </section>
 
       {/* Cross-Country Discovery */}
-      <section className="mb-16 rounded-lg bg-purple-900/20 p-8">
-        <h2 className="mb-4 text-2xl font-bold text-white">
+      <section className="mb-16 rounded-lg bg-purple-50 p-8">
+        <h2 className="mb-4 text-2xl font-bold text-gray-900">
           🌍 Cross-Country Discovery
         </h2>
         <p className="mb-6 text-gray-500">
@@ -119,10 +119,10 @@ export default function Home() {
             <Link
               key={country.code}
               href={`/countries/${country.code.toLowerCase()}`}
-              className="rounded-lg bg-[#1a1530] p-4 transition-shadow hover:border-purple-500/50"
+              className="rounded-lg bg-purple-50 p-4 transition-shadow hover:border-purple-400"
             >
               <span className="text-2xl">{country.flag}</span>
-              <h3 className="mt-1 font-medium text-white">
+              <h3 className="mt-1 font-medium text-gray-900">
                 {country.name}
               </h3>
               <p className="text-xs text-gray-500">
@@ -134,8 +134,8 @@ export default function Home() {
       </section>
 
       {/* Expert Section */}
-      <section className="rounded-lg border border-purple-900/30 p-8">
-        <h2 className="mb-4 text-2xl font-bold text-white">
+      <section className="rounded-lg border border-purple-200 p-8">
+        <h2 className="mb-4 text-2xl font-bold text-gray-900">
           Expert Insights
         </h2>
         <p className="text-gray-500">
@@ -146,7 +146,7 @@ export default function Home() {
         </p>
         <Link
           href="/about"
-          className="mt-4 inline-block text-sm font-medium text-purple-400 hover:text-purple-300"
+          className="mt-4 inline-block text-sm font-medium text-purple-600 hover:text-purple-700"
         >
           Learn more about our methodology →
         </Link>

@@ -57,30 +57,30 @@ export default async function CountryPage({
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <nav className="mb-6 text-sm text-gray-500">
-        <Link href="/" className="hover:text-gray-300">Home</Link>
+        <Link href="/" className="hover:text-gray-600">Home</Link>
         {" › "}
-        <span className="text-white">
+        <span className="text-gray-900">
           {country.flag} {country.name}
         </span>
       </nav>
 
       <header className="mb-10">
-        <h1 className="text-3xl font-bold text-white">
+        <h1 className="text-3xl font-bold text-gray-900">
           {country.flag} Best AI Tools in {country.name}
         </h1>
-        <p className="mt-2 text-lg text-gray-400">
+        <p className="mt-2 text-lg text-gray-500">
           Compare the most popular AI SaaS tools available in {country.name}.
           Ranked by popularity with pricing, features, and expert analysis.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
-          <span className="rounded-full bg-purple-900/20 px-3 py-1 text-sm text-gray-400">
+          <span className="rounded-full bg-purple-50 px-3 py-1 text-sm text-gray-500">
             Region: {country.region}
           </span>
-          <span className="rounded-full bg-purple-900/20 px-3 py-1 text-sm text-gray-400">
+          <span className="rounded-full bg-purple-50 px-3 py-1 text-sm text-gray-500">
             Currency: {country.currency} ({country.currencySymbol})
           </span>
           {country.saasMarketSize && (
-            <span className="rounded-full bg-purple-900/30 px-3 py-1 text-sm text-purple-300">
+            <span className="rounded-full bg-purple-100 px-3 py-1 text-sm text-purple-600">
               SaaS Market: {country.saasMarketSize}
             </span>
           )}
@@ -90,7 +90,7 @@ export default async function CountryPage({
       {/* Tools by category */}
       {toolsByCategory.map(({ category: cat, tools: catTools }) => (
         <section key={cat.slug} className="mb-10">
-          <h2 className="mb-4 text-2xl font-bold text-white">
+          <h2 className="mb-4 text-2xl font-bold text-gray-900">
             {cat.icon} {cat.name} in {country.name}
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -102,24 +102,24 @@ export default async function CountryPage({
                 <Link
                   key={tool.slug}
                   href={`/tools/${tool.slug}/${countryParam}`}
-                  className="rounded-lg border border-purple-900/30 p-5 transition-shadow hover:border-purple-500/50"
+                  className="rounded-lg border border-purple-200 p-5 transition-shadow hover:border-purple-400"
                 >
                   <div className="flex items-start justify-between">
-                    <h3 className="font-semibold text-white">{tool.name}</h3>
+                    <h3 className="font-semibold text-gray-900">{tool.name}</h3>
                     {popularity && (
-                      <span className="rounded-full bg-purple-900/30 px-2 py-0.5 text-xs font-medium text-purple-300">
+                      <span className="rounded-full bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-600">
                         #{popularity.rank}
                       </span>
                     )}
                   </div>
                   <p className="mt-1 text-sm text-gray-500">{tool.tagline}</p>
-                  <p className="mt-3 text-sm font-medium text-white">
+                  <p className="mt-3 text-sm font-medium text-gray-900">
                     {tool.startingPrice === 0
                       ? "Free"
                       : `From $${tool.startingPrice}/mo`}
                   </p>
                   {tool.hasFreeplan && (
-                    <span className="mt-2 inline-block rounded-full bg-green-900/30 px-2 py-0.5 text-xs text-green-400">
+                    <span className="mt-2 inline-block rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-700">
                       Free plan
                     </span>
                   )}
@@ -132,7 +132,7 @@ export default async function CountryPage({
 
       {/* Other countries */}
       <section>
-        <h2 className="mb-4 text-2xl font-bold text-white">
+        <h2 className="mb-4 text-2xl font-bold text-gray-900">
           🌍 Compare with Other Countries
         </h2>
         <div className="flex flex-wrap gap-2">
@@ -140,7 +140,7 @@ export default async function CountryPage({
             <Link
               key={c.code}
               href={`/countries/${c.code.toLowerCase()}`}
-              className="rounded-full border border-purple-900/30 px-3 py-1 text-sm text-gray-400 hover:bg-[#1a1530]"
+              className="rounded-full border border-purple-200 px-3 py-1 text-sm text-gray-500 hover:bg-purple-50"
             >
               {c.flag} {c.name}
             </Link>

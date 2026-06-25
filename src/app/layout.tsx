@@ -35,36 +35,36 @@ export const metadata: Metadata = {
 
 function Header() {
   return (
-    <header className="border-b border-purple-900/30 bg-[#1a1530]">
+    <header className="border-b border-purple-200 bg-purple-50">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2">
           <span className="text-2xl">🌍</span>
-          <span className="text-xl font-bold text-white">
+          <span className="text-xl font-bold text-gray-900">
             SaaS Atlas
           </span>
         </Link>
         <nav className="hidden items-center gap-6 md:flex">
           <Link
             href="/categories/ai-writing"
-            className="text-sm text-gray-400 hover:text-purple-300"
+            className="text-sm text-gray-500 hover:text-purple-700"
           >
             AI Writing
           </Link>
           <Link
             href="/categories/ai-image"
-            className="text-sm text-gray-400 hover:text-purple-300"
+            className="text-sm text-gray-500 hover:text-purple-700"
           >
             AI Image
           </Link>
           <Link
             href="/categories/ai-coding"
-            className="text-sm text-gray-400 hover:text-purple-300"
+            className="text-sm text-gray-500 hover:text-purple-700"
           >
             AI Coding
           </Link>
           <Link
             href="/about"
-            className="text-sm text-gray-400 hover:text-purple-300"
+            className="text-sm text-gray-500 hover:text-purple-700"
           >
             About
           </Link>
@@ -76,7 +76,7 @@ function Header() {
 
 function Footer() {
   return (
-    <footer className="border-t border-purple-900/30 bg-[#0d0919]">
+    <footer className="border-t border-purple-200 bg-gray-50">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           <p className="text-sm text-gray-500">
@@ -116,7 +116,7 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className="flex min-h-full flex-col bg-[#0f0b1a]">
+      <body className="flex min-h-full flex-col bg-white">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

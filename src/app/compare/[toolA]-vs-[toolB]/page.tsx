@@ -51,15 +51,15 @@ function ComparisonRow({
   highlight?: "a" | "b" | "tie";
 }) {
   return (
-    <tr className="border-b border-purple-900/20">
-      <td className="py-3 pr-4 text-sm font-medium text-white">{label}</td>
+    <tr className="border-b border-purple-100">
+      <td className="py-3 pr-4 text-sm font-medium text-gray-900">{label}</td>
       <td
-        className={`px-4 py-3 text-sm ${highlight === "a" ? "font-semibold text-green-400" : "text-gray-400"}`}
+        className={`px-4 py-3 text-sm ${highlight === "a" ? "font-semibold text-green-700" : "text-gray-500"}`}
       >
         {valueA}
       </td>
       <td
-        className={`pl-4 py-3 text-sm ${highlight === "b" ? "font-semibold text-green-400" : "text-gray-400"}`}
+        className={`pl-4 py-3 text-sm ${highlight === "b" ? "font-semibold text-green-700" : "text-gray-500"}`}
       >
         {valueB}
       </td>
@@ -87,18 +87,18 @@ export default async function ComparePage({
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
       <nav className="mb-6 text-sm text-gray-500">
-        <Link href="/" className="hover:text-gray-300">Home</Link>
+        <Link href="/" className="hover:text-gray-600">Home</Link>
         {" › "}
-        <span className="text-white">
+        <span className="text-gray-900">
           {toolA.name} vs {toolB.name}
         </span>
       </nav>
 
       <header className="mb-8 text-center">
-        <h1 className="text-3xl font-bold text-white">
+        <h1 className="text-3xl font-bold text-gray-900">
           {toolA.name} vs {toolB.name}
         </h1>
-        <p className="mt-2 text-lg text-gray-400">
+        <p className="mt-2 text-lg text-gray-500">
           Side-by-side comparison of two leading{" "}
           {toolA.category === "ai-writing"
             ? "AI writing"
@@ -110,9 +110,9 @@ export default async function ComparePage({
       </header>
 
       {/* Quick verdict */}
-      <section className="mb-10 rounded-lg bg-purple-900/20 p-6">
-        <h2 className="text-lg font-bold text-white">Quick Verdict</h2>
-        <p className="mt-2 text-gray-300">
+      <section className="mb-10 rounded-lg bg-purple-50 p-6">
+        <h2 className="text-lg font-bold text-gray-900">Quick Verdict</h2>
+        <p className="mt-2 text-gray-600">
           <strong>{toolA.name}</strong> is best for{" "}
           {toolA.bestFor[0]?.toLowerCase()}, while{" "}
           <strong>{toolB.name}</strong> is ideal for{" "}
@@ -129,14 +129,14 @@ export default async function ComparePage({
       <section className="mb-10 overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="border-b-2 border-purple-900/30">
+            <tr className="border-b-2 border-purple-200">
               <th className="py-3 pr-4 text-left text-sm font-semibold text-gray-500">
                 Feature
               </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">
                 {toolA.name}
               </th>
-              <th className="pl-4 py-3 text-left text-sm font-semibold text-white">
+              <th className="pl-4 py-3 text-left text-sm font-semibold text-gray-900">
                 {toolB.name}
               </th>
             </tr>
@@ -220,12 +220,12 @@ export default async function ComparePage({
           href={toolA.website}
           target="_blank"
           rel="noopener noreferrer nofollow"
-          className="rounded-lg border-2 border-purple-600 p-6 text-center transition-colors hover:bg-purple-900/20"
+          className="rounded-lg border-2 border-purple-600 p-6 text-center transition-colors hover:bg-purple-50"
         >
-          <h3 className="text-lg font-bold text-purple-400">
+          <h3 className="text-lg font-bold text-purple-600">
             Try {toolA.name}
           </h3>
-          <p className="mt-1 text-sm text-gray-400">
+          <p className="mt-1 text-sm text-gray-500">
             {toolA.hasFreeplan ? "Start free" : "Start free trial"} →
           </p>
         </a>
@@ -233,12 +233,12 @@ export default async function ComparePage({
           href={toolB.website}
           target="_blank"
           rel="noopener noreferrer nofollow"
-          className="rounded-lg border-2 border-purple-600 p-6 text-center transition-colors hover:bg-purple-900/20"
+          className="rounded-lg border-2 border-purple-600 p-6 text-center transition-colors hover:bg-purple-50"
         >
-          <h3 className="text-lg font-bold text-purple-400">
+          <h3 className="text-lg font-bold text-purple-600">
             Try {toolB.name}
           </h3>
-          <p className="mt-1 text-sm text-gray-400">
+          <p className="mt-1 text-sm text-gray-500">
             {toolB.hasFreeplan ? "Start free" : "Start free trial"} →
           </p>
         </a>
@@ -246,7 +246,7 @@ export default async function ComparePage({
 
       {/* Related comparisons */}
       <section className="mt-10">
-        <h2 className="mb-4 text-xl font-bold text-white">
+        <h2 className="mb-4 text-xl font-bold text-gray-900">
           More Comparisons
         </h2>
         <div className="flex flex-wrap gap-2">
@@ -261,14 +261,14 @@ export default async function ComparePage({
               <Link
                 key={`${toolA.slug}-vs-${t.slug}`}
                 href={`/compare/${toolA.slug}-vs-${t.slug}`}
-                className="rounded-full border border-purple-900/30 px-3 py-1 text-sm text-gray-400 hover:bg-[#1a1530]"
+                className="rounded-full border border-purple-200 px-3 py-1 text-sm text-gray-500 hover:bg-purple-50"
               >
                 {toolA.name} vs {t.name}
               </Link>,
               <Link
                 key={`${toolB.slug}-vs-${t.slug}`}
                 href={`/compare/${toolB.slug}-vs-${t.slug}`}
-                className="rounded-full border border-purple-900/30 px-3 py-1 text-sm text-gray-400 hover:bg-[#1a1530]"
+                className="rounded-full border border-purple-200 px-3 py-1 text-sm text-gray-500 hover:bg-purple-50"
               >
                 {toolB.name} vs {t.name}
               </Link>,

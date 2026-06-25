@@ -36,13 +36,13 @@ export default async function ToolPage({
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
       {/* Breadcrumb */}
       <nav className="mb-6 text-sm text-gray-500">
-        <Link href="/" className="hover:text-gray-300">
+        <Link href="/" className="hover:text-gray-600">
           Home
         </Link>
         {" › "}
         <Link
           href={`/categories/${tool.category}`}
-          className="hover:text-gray-300"
+          className="hover:text-gray-600"
         >
           {tool.category === "ai-writing"
             ? "AI Writing"
@@ -51,36 +51,36 @@ export default async function ToolPage({
               : "AI Coding"}
         </Link>
         {" › "}
-        <span className="text-white">{tool.name}</span>
+        <span className="text-gray-900">{tool.name}</span>
       </nav>
 
       {/* Header */}
       <header className="mb-8">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-white">{tool.name}</h1>
+            <h1 className="text-3xl font-bold text-gray-900">{tool.name}</h1>
             <p className="mt-1 text-lg text-gray-500">{tool.tagline}</p>
           </div>
           <a
             href={tool.website}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-white hover:bg-purple-700"
+            className="rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-purple-700"
           >
             Visit {tool.name} →
           </a>
         </div>
-        <p className="mt-4 text-gray-400">{tool.description}</p>
+        <p className="mt-4 text-gray-500">{tool.description}</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {tool.hasFreeplan && (
-            <span className="rounded-full bg-green-900/30 px-3 py-1 text-xs font-medium text-green-400">
+            <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
               Free plan available
             </span>
           )}
-          <span className="rounded-full bg-purple-900/20 px-3 py-1 text-xs text-gray-400">
+          <span className="rounded-full bg-purple-50 px-3 py-1 text-xs text-gray-500">
             Founded {tool.founded}
           </span>
-          <span className="rounded-full bg-purple-900/20 px-3 py-1 text-xs text-gray-400">
+          <span className="rounded-full bg-purple-50 px-3 py-1 text-xs text-gray-500">
             📍 {tool.headquarters}
           </span>
         </div>
@@ -88,15 +88,15 @@ export default async function ToolPage({
 
       {/* Pricing */}
       <section className="mb-10">
-        <h2 className="mb-4 text-2xl font-bold text-white">Pricing</h2>
+        <h2 className="mb-4 text-2xl font-bold text-gray-900">Pricing</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {tool.pricing.map((tier) => (
             <div
               key={tier.name}
-              className="rounded-lg border border-purple-900/30 p-6"
+              className="rounded-lg border border-purple-200 p-6"
             >
-              <h3 className="font-semibold text-white">{tier.name}</h3>
-              <p className="mt-2 text-3xl font-bold text-white">
+              <h3 className="font-semibold text-gray-900">{tier.name}</h3>
+              <p className="mt-2 text-3xl font-bold text-gray-900">
                 {tier.price === 0 ? (
                   "Free"
                 ) : (
@@ -113,8 +113,8 @@ export default async function ToolPage({
               )}
               <ul className="mt-4 space-y-2">
                 {tier.features.map((f) => (
-                  <li key={f} className="flex items-start text-sm text-gray-400">
-                    <span className="mr-2 text-green-400">✓</span>
+                  <li key={f} className="flex items-start text-sm text-gray-500">
+                    <span className="mr-2 text-green-700">✓</span>
                     {f}
                   </li>
                 ))}
@@ -122,17 +122,17 @@ export default async function ToolPage({
             </div>
           ))}
         </div>
-        <p className="mt-3 text-xs text-gray-400">
+        <p className="mt-3 text-xs text-gray-500">
           Last updated: {tool.lastUpdated}
         </p>
       </section>
 
       {/* Features */}
       <section className="mb-10">
-        <h2 className="mb-4 text-2xl font-bold text-white">Key Features</h2>
+        <h2 className="mb-4 text-2xl font-bold text-gray-900">Key Features</h2>
         <div className="grid gap-2 sm:grid-cols-2">
           {tool.features.map((f) => (
-            <div key={f} className="flex items-center gap-2 text-gray-300">
+            <div key={f} className="flex items-center gap-2 text-gray-600">
               <span className="text-blue-500">●</span>
               {f}
             </div>
@@ -143,10 +143,10 @@ export default async function ToolPage({
       {/* Best For / Limitations */}
       <div className="mb-10 grid gap-6 sm:grid-cols-2">
         <section>
-          <h2 className="mb-3 text-xl font-bold text-green-400">Best For</h2>
+          <h2 className="mb-3 text-xl font-bold text-green-700">Best For</h2>
           <ul className="space-y-2">
             {tool.bestFor.map((b) => (
-              <li key={b} className="flex items-start text-sm text-gray-300">
+              <li key={b} className="flex items-start text-sm text-gray-600">
                 <span className="mr-2">👍</span>
                 {b}
               </li>
@@ -154,10 +154,10 @@ export default async function ToolPage({
           </ul>
         </section>
         <section>
-          <h2 className="mb-3 text-xl font-bold text-red-400">Limitations</h2>
+          <h2 className="mb-3 text-xl font-bold text-red-700">Limitations</h2>
           <ul className="space-y-2">
             {tool.limitations.map((l) => (
-              <li key={l} className="flex items-start text-sm text-gray-300">
+              <li key={l} className="flex items-start text-sm text-gray-600">
                 <span className="mr-2">⚠️</span>
                 {l}
               </li>
@@ -168,7 +168,7 @@ export default async function ToolPage({
 
       {/* Cross-Country Availability */}
       <section className="mb-10">
-        <h2 className="mb-4 text-2xl font-bold text-white">
+        <h2 className="mb-4 text-2xl font-bold text-gray-900">
           🌍 Available in {tool.availableCountries.length} Countries
         </h2>
         <div className="grid gap-3 sm:grid-cols-4">
@@ -182,14 +182,14 @@ export default async function ToolPage({
                 <Link
                   key={country.code}
                   href={`/tools/${tool.slug}/${country.code.toLowerCase()}`}
-                  className="rounded-lg border border-purple-900/30 p-3 text-center transition-shadow hover:border-purple-500/50"
+                  className="rounded-lg border border-purple-200 p-3 text-center transition-shadow hover:border-purple-400"
                 >
                   <span className="text-xl">{country.flag}</span>
-                  <p className="mt-1 text-sm font-medium text-white">
+                  <p className="mt-1 text-sm font-medium text-gray-900">
                     {country.name}
                   </p>
                   {popularity && (
-                    <p className="text-xs text-purple-400">
+                    <p className="text-xs text-purple-600">
                       #{popularity.rank} in category
                     </p>
                   )}
@@ -200,11 +200,11 @@ export default async function ToolPage({
       </section>
 
       {/* Affiliate CTA */}
-      <section className="rounded-lg bg-purple-900/20 p-6 text-center">
-        <h2 className="text-xl font-bold text-white">
+      <section className="rounded-lg bg-purple-50 p-6 text-center">
+        <h2 className="text-xl font-bold text-gray-900">
           Try {tool.name} Today
         </h2>
-        <p className="mt-2 text-gray-400">
+        <p className="mt-2 text-gray-500">
           {tool.hasFreeplan
             ? `Start with ${tool.name}'s free plan — no credit card required.`
             : `Start your free trial of ${tool.name} today.`}
@@ -213,7 +213,7 @@ export default async function ToolPage({
           href={tool.website}
           target="_blank"
           rel="noopener noreferrer nofollow"
-          className="mt-4 inline-block rounded-lg bg-purple-600 px-6 py-3 text-sm font-medium text-white hover:bg-purple-700"
+          className="mt-4 inline-block rounded-lg bg-purple-600 px-6 py-3 text-sm font-medium text-gray-900 hover:bg-purple-700"
         >
           Get Started with {tool.name} →
         </a>

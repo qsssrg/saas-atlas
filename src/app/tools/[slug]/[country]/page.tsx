@@ -54,29 +54,29 @@ export default async function ToolCountryPage({
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
       {/* Breadcrumb */}
       <nav className="mb-6 text-sm text-gray-500">
-        <Link href="/" className="hover:text-gray-300">Home</Link>
+        <Link href="/" className="hover:text-gray-600">Home</Link>
         {" › "}
-        <Link href={`/tools/${tool.slug}`} className="hover:text-gray-300">
+        <Link href={`/tools/${tool.slug}`} className="hover:text-gray-600">
           {tool.name}
         </Link>
         {" › "}
-        <span className="text-white">
+        <span className="text-gray-900">
           {country.flag} {country.name}
         </span>
       </nav>
 
       {/* Header */}
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-white">
+        <h1 className="text-3xl font-bold text-gray-900">
           {tool.name} in {country.name} {country.flag}
         </h1>
-        <p className="mt-2 text-lg text-gray-400">
+        <p className="mt-2 text-lg text-gray-500">
           Everything you need to know about using {tool.name} in{" "}
           {country.name} — pricing, availability, local alternatives, and expert
           analysis.
         </p>
         {popularity && (
-          <div className="mt-3 inline-block rounded-full bg-purple-900/30 px-3 py-1 text-sm font-medium text-purple-300">
+          <div className="mt-3 inline-block rounded-full bg-purple-100 px-3 py-1 text-sm font-medium text-purple-600">
             #{popularity.rank} most popular{" "}
             {tool.category === "ai-writing"
               ? "AI writing tool"
@@ -90,15 +90,15 @@ export default async function ToolCountryPage({
 
       {/* Pricing in local context */}
       <section className="mb-10">
-        <h2 className="mb-4 text-2xl font-bold text-white">
+        <h2 className="mb-4 text-2xl font-bold text-gray-900">
           Pricing for {country.name} Users
         </h2>
-        <div className="rounded-lg border border-purple-900/30 p-6">
+        <div className="rounded-lg border border-purple-200 p-6">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {tool.pricing.map((tier) => (
-              <div key={tier.name} className="rounded-lg bg-[#1a1530] p-4">
-                <h3 className="font-semibold text-white">{tier.name}</h3>
-                <p className="mt-1 text-2xl font-bold text-white">
+              <div key={tier.name} className="rounded-lg bg-purple-50 p-4">
+                <h3 className="font-semibold text-gray-900">{tier.name}</h3>
+                <p className="mt-1 text-2xl font-bold text-gray-900">
                   {tier.price === 0 ? (
                     "Free"
                   ) : (
@@ -112,7 +112,7 @@ export default async function ToolCountryPage({
                 </p>
                 <ul className="mt-3 space-y-1">
                   {tier.features.map((f) => (
-                    <li key={f} className="text-sm text-gray-400">
+                    <li key={f} className="text-sm text-gray-500">
                       ✓ {f}
                     </li>
                   ))}
@@ -129,7 +129,7 @@ export default async function ToolCountryPage({
 
       {/* Alternatives in this country */}
       <section className="mb-10">
-        <h2 className="mb-4 text-2xl font-bold text-white">
+        <h2 className="mb-4 text-2xl font-bold text-gray-900">
           Alternatives to {tool.name} in {country.name}
         </h2>
         <div className="grid gap-3 sm:grid-cols-2">
@@ -141,18 +141,18 @@ export default async function ToolCountryPage({
               <Link
                 key={alt.slug}
                 href={`/tools/${alt.slug}/${countryParam}`}
-                className="rounded-lg border border-purple-900/30 p-4 transition-shadow hover:border-purple-500/50"
+                className="rounded-lg border border-purple-200 p-4 transition-shadow hover:border-purple-400"
               >
                 <div className="flex items-start justify-between">
-                  <h3 className="font-semibold text-white">{alt.name}</h3>
+                  <h3 className="font-semibold text-gray-900">{alt.name}</h3>
                   {altPopularity && (
-                    <span className="text-xs text-purple-400">
+                    <span className="text-xs text-purple-600">
                       #{altPopularity.rank}
                     </span>
                   )}
                 </div>
-                <p className="mt-1 text-sm text-gray-400">{alt.tagline}</p>
-                <p className="mt-2 text-sm font-medium text-white">
+                <p className="mt-1 text-sm text-gray-500">{alt.tagline}</p>
+                <p className="mt-2 text-sm font-medium text-gray-900">
                   {alt.startingPrice === 0
                     ? "Free"
                     : `From $${alt.startingPrice}/mo`}
@@ -165,7 +165,7 @@ export default async function ToolCountryPage({
 
       {/* Cross-country links */}
       <section className="mb-10">
-        <h2 className="mb-4 text-2xl font-bold text-white">
+        <h2 className="mb-4 text-2xl font-bold text-gray-900">
           🌍 {tool.name} in Other Countries
         </h2>
         <div className="flex flex-wrap gap-2">
@@ -175,7 +175,7 @@ export default async function ToolCountryPage({
               <Link
                 key={c.code}
                 href={`/tools/${tool.slug}/${c.code.toLowerCase()}`}
-                className="rounded-full border border-purple-900/30 px-3 py-1 text-sm text-gray-400 hover:bg-[#1a1530]"
+                className="rounded-full border border-purple-200 px-3 py-1 text-sm text-gray-500 hover:bg-purple-50"
               >
                 {c.flag} {c.name}
               </Link>
@@ -184,11 +184,11 @@ export default async function ToolCountryPage({
       </section>
 
       {/* CTA */}
-      <section className="rounded-lg bg-purple-900/20 p-6 text-center">
-        <h2 className="text-xl font-bold text-white">
+      <section className="rounded-lg bg-purple-50 p-6 text-center">
+        <h2 className="text-xl font-bold text-gray-900">
           Try {tool.name} from {country.name}
         </h2>
-        <p className="mt-2 text-gray-400">
+        <p className="mt-2 text-gray-500">
           {tool.hasFreeplan
             ? `Start free — no credit card required. Works worldwide including ${country.name}.`
             : `Start your free trial. Available in ${country.name} and ${tool.availableCountries.length - 1} other countries.`}
@@ -197,7 +197,7 @@ export default async function ToolCountryPage({
           href={tool.website}
           target="_blank"
           rel="noopener noreferrer nofollow"
-          className="mt-4 inline-block rounded-lg bg-purple-600 px-6 py-3 text-sm font-medium text-white hover:bg-purple-700"
+          className="mt-4 inline-block rounded-lg bg-purple-600 px-6 py-3 text-sm font-medium text-gray-900 hover:bg-purple-700"
         >
           Get Started with {tool.name} →
         </a>
