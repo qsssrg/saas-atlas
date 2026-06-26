@@ -25,6 +25,22 @@ export const categories: CategoryInfo[] = [
     icon: '💻',
     toolCount: 5,
   },
+  {
+    slug: 'ai-voice',
+    name: 'AI Voice & Audio',
+    description:
+      'AI-powered voice synthesis, audio editing, and content repurposing tools. Compare ElevenLabs, Murf AI, Descript and more across markets.',
+    icon: '🎙️',
+    toolCount: 4,
+  },
+  {
+    slug: 'ai-productivity',
+    name: 'AI Productivity',
+    description:
+      'AI-powered presentation, meeting, and document tools. Compare Gamma, Beautiful.ai, Fireflies.ai and more for your workflow.',
+    icon: '⚡',
+    toolCount: 4,
+  },
 ];
 
 export function getCategoryBySlug(slug: string): CategoryInfo | undefined {

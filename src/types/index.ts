@@ -69,7 +69,7 @@ export interface ExpertTake {
   lastReviewed: string; // ISO date
 }
 
-export type ToolCategory = 'ai-writing' | 'ai-image' | 'ai-coding';
+export type ToolCategory = 'ai-writing' | 'ai-image' | 'ai-coding' | 'ai-voice' | 'ai-productivity';
 
 export interface Country {
   code: string; // ISO 3166-1 alpha-2
