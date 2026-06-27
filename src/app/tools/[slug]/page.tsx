@@ -48,7 +48,11 @@ export default async function ToolPage({
             ? "AI Writing"
             : tool.category === "ai-image"
               ? "AI Image"
-              : "AI Coding"}
+              : tool.category === "ai-coding"
+                ? "AI Coding"
+                : tool.category === "ai-voice"
+                  ? "AI Voice & Audio"
+                  : "AI Productivity"}
         </Link>
         {" › "}
         <span className="text-gray-900">{tool.name}</span>
@@ -165,6 +169,62 @@ export default async function ToolPage({
           </ul>
         </section>
       </div>
+
+      {/* Expert Take */}
+      {tool.expertTake && (
+        <section className="mb-10 rounded-lg border border-purple-200 bg-white p-6">
+          <h2 className="mb-4 text-2xl font-bold text-gray-900">
+            Expert Take
+          </h2>
+          <p className="mb-4 text-gray-600">{tool.expertTake.summary}</p>
+          <div className="mb-4 grid gap-4 sm:grid-cols-2">
+            <div>
+              <h3 className="mb-2 text-sm font-semibold text-green-700">
+                Strengths
+              </h3>
+              <ul className="space-y-1">
+                {tool.expertTake.pros.map((p) => (
+                  <li
+                    key={p}
+                    className="flex items-start text-sm text-gray-600"
+                  >
+                    <span className="mr-2 text-green-600">+</span>
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="mb-2 text-sm font-semibold text-red-700">
+                Weaknesses
+              </h3>
+              <ul className="space-y-1">
+                {tool.expertTake.cons.map((c) => (
+                  <li
+                    key={c}
+                    className="flex items-start text-sm text-gray-600"
+                  >
+                    <span className="mr-2 text-red-500">-</span>
+                    {c}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="rounded-md bg-purple-50 p-4">
+            <p className="text-sm font-medium text-gray-900">
+              Verdict
+            </p>
+            <p className="mt-1 text-sm text-gray-600">
+              {tool.expertTake.verdict}
+            </p>
+          </div>
+          <p className="mt-3 text-xs italic text-gray-400">
+            {tool.expertTake.authorNote} — Last reviewed:{" "}
+            {tool.expertTake.lastReviewed}
+          </p>
+        </section>
+      )}
 
       {/* Cross-Country Availability */}
       <section className="mb-10">
