@@ -18,9 +18,13 @@ export async function generateMetadata({
   const cat = getCategoryBySlug(category);
   if (!cat) return { title: "Category Not Found" };
 
+  const title = `Best ${cat.name} 2026 — Compare Pricing, Features & Alternatives`;
   return {
-    title: `Best ${cat.name} 2026 — Compare Pricing, Features & Alternatives`,
+    title,
     description: cat.description,
+    openGraph: { title, description: cat.description, type: "website", url: `https://saas-atlas.uk/categories/${cat.slug}` },
+    twitter: { card: "summary_large_image", title, description: cat.description },
+    alternates: { canonical: `https://saas-atlas.uk/categories/${cat.slug}` },
   };
 }
 

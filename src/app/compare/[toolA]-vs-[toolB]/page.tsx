@@ -33,9 +33,14 @@ export async function generateMetadata({
   const toolB = getToolBySlug(slugB);
   if (!toolA || !toolB) return { title: "Comparison Not Found" };
 
+  const title = `${toolA.name} vs ${toolB.name} (2026) — Pricing, Features & Expert Verdict`;
+  const description = `Detailed comparison of ${toolA.name} ($${toolA.startingPrice}/mo) vs ${toolB.name} ($${toolB.startingPrice}/mo). Which AI tool is better for your needs? Expert analysis and side-by-side feature comparison.`;
   return {
-    title: `${toolA.name} vs ${toolB.name} (2026) — Pricing, Features & Expert Verdict`,
-    description: `Detailed comparison of ${toolA.name} ($${toolA.startingPrice}/mo) vs ${toolB.name} ($${toolB.startingPrice}/mo). Which AI tool is better for your needs? Expert analysis and side-by-side feature comparison.`,
+    title,
+    description,
+    openGraph: { title, description, type: "article", url: `https://saas-atlas.uk/compare/${slugA}-vs-${slugB}` },
+    twitter: { card: "summary_large_image", title, description },
+    alternates: { canonical: `https://saas-atlas.uk/compare/${slugA}-vs-${slugB}` },
   };
 }
 

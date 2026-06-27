@@ -28,9 +28,16 @@ export async function generateMetadata({
   const country = getCountryByCode(countryParam.toUpperCase());
   if (!tool || !country) return { title: "Not Found" };
 
+  const categoryLabel = tool.category === "ai-writing" ? "writing" : tool.category === "ai-image" ? "image" : tool.category === "ai-coding" ? "coding" : tool.category === "ai-voice" ? "voice" : "productivity";
+  const title = `${tool.name} in ${country.name} — Pricing in ${country.currency}, Alternatives & Review`;
+  const description = `Is ${tool.name} the best AI ${categoryLabel} tool in ${country.name}? Compare pricing (${country.currencySymbol}${Math.round(tool.startingPrice * 1.0)}/mo), features, and local alternatives. Expert review from a 25-year IT veteran.`;
+
   return {
-    title: `${tool.name} in ${country.name} — Pricing in ${country.currency}, Alternatives & Review`,
-    description: `Is ${tool.name} the best AI ${tool.category === "ai-writing" ? "writing" : tool.category === "ai-image" ? "image" : "coding"} tool in ${country.name}? Compare pricing (${country.currencySymbol}${Math.round(tool.startingPrice * 1.0)}/mo), features, and local alternatives. Expert review from a 25-year IT veteran.`,
+    title,
+    description,
+    openGraph: { title, description, type: "article", url: `https://saas-atlas.uk/tools/${tool.slug}/${countryParam.toLowerCase()}` },
+    twitter: { card: "summary_large_image", title, description },
+    alternates: { canonical: `https://saas-atlas.uk/tools/${tool.slug}/${countryParam.toLowerCase()}` },
   };
 }
 

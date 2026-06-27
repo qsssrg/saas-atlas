@@ -15,19 +15,39 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://saas-atlas.uk"),
   title: {
     default: "SaaS Atlas — Discover AI Tools Across Borders",
     template: "%s | SaaS Atlas",
   },
   description:
-    "Compare AI SaaS tools across countries. Find the best AI writing, image, and coding tools popular in the US, UK, India, and beyond. Expert insights from 25 years in IT.",
+    "Compare AI writing, image, coding, voice, and productivity tools across 8 countries. Expert insights from 25 years in IT help you pick the right AI SaaS tool.",
   keywords: [
     "AI tools comparison",
     "SaaS comparison",
     "AI writing tools",
+    "AI voice tools",
+    "AI productivity tools",
     "cross-country SaaS",
     "best AI tools",
   ],
+  openGraph: {
+    type: "website",
+    siteName: "SaaS Atlas",
+    title: "SaaS Atlas — Discover AI Tools Across Borders",
+    description:
+      "Compare AI writing, image, coding, voice, and productivity tools across 8 countries. Expert insights from 25 years in IT.",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SaaS Atlas — Discover AI Tools Across Borders",
+    description:
+      "Compare AI writing, image, coding, voice, and productivity tools across 8 countries.",
+  },
+  alternates: {
+    canonical: "https://saas-atlas.uk",
+  },
   verification: {
     google: "DhOiHoHfkxGS3VH0A-zucEkrMprEhmqvhBR75CEXJ7M",
   },
@@ -61,6 +81,18 @@ function Header() {
             className="text-sm text-gray-500 hover:text-purple-700"
           >
             AI Coding
+          </Link>
+          <Link
+            href="/categories/ai-voice"
+            className="text-sm text-gray-500 hover:text-purple-700"
+          >
+            AI Voice
+          </Link>
+          <Link
+            href="/categories/ai-productivity"
+            className="text-sm text-gray-500 hover:text-purple-700"
+          >
+            AI Productivity
           </Link>
           <Link
             href="/about"

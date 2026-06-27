@@ -17,9 +17,26 @@ export async function generateMetadata({
   const tool = getToolBySlug(slug);
   if (!tool) return { title: "Tool Not Found" };
 
+  const title = `${tool.name} Review 2026 — Pricing, Features & Expert Take`;
+  const description = `${tool.description} Compare ${tool.name} pricing across ${countries.length} countries. Starting from $${tool.startingPrice}/mo.`;
+
   return {
-    title: `${tool.name} Review 2026 — Pricing, Features & Expert Take`,
-    description: `${tool.description} Compare ${tool.name} pricing across ${countries.length} countries. Starting from $${tool.startingPrice}/mo.`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      url: `https://saas-atlas.uk/tools/${tool.slug}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+    alternates: {
+      canonical: `https://saas-atlas.uk/tools/${tool.slug}`,
+    },
   };
 }
 
@@ -32,8 +49,46 @@ export default async function ToolPage({
   const tool = getToolBySlug(slug);
   if (!tool) notFound();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: tool.name,
+    description: tool.description,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    url: tool.website,
+    offers: tool.pricing.map((tier) => ({
+      "@type": "Offer",
+      name: tier.name,
+      price: tier.price,
+      priceCurrency: "USD",
+      priceValidUntil: "2026-12-31",
+    })),
+    aggregateRating: tool.expertTake
+      ? {
+          "@type": "AggregateRating",
+          ratingValue: tool.expertTake.pros.length > tool.expertTake.cons.length ? "4.5" : "4.0",
+          bestRating: "5",
+          worstRating: "1",
+          ratingCount: "1",
+        }
+      : undefined,
+    review: tool.expertTake
+      ? {
+          "@type": "Review",
+          author: { "@type": "Organization", name: "SaaS Atlas" },
+          reviewBody: tool.expertTake.verdict,
+          datePublished: tool.expertTake.lastReviewed,
+        }
+      : undefined,
+  };
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Breadcrumb */}
       <nav className="mb-6 text-sm text-gray-500">
         <Link href="/" className="hover:text-gray-600">

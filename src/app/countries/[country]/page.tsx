@@ -18,9 +18,14 @@ export async function generateMetadata({
   const country = getCountryByCode(countryParam.toUpperCase());
   if (!country) return { title: "Country Not Found" };
 
+  const title = `Best AI Tools in ${country.name} ${country.flag} — SaaS Comparison 2026`;
+  const description = `Discover the most popular AI writing, image, coding, voice, and productivity tools in ${country.name}. Compare pricing in ${country.currency}, features, and local alternatives. Expert insights for the ${country.name} market.`;
   return {
-    title: `Best AI Tools in ${country.name} ${country.flag} — SaaS Comparison 2026`,
-    description: `Discover the most popular AI writing, image, and coding tools in ${country.name}. Compare pricing in ${country.currency}, features, and local alternatives. Expert insights for the ${country.name} market.`,
+    title,
+    description,
+    openGraph: { title, description, type: "website", url: `https://saas-atlas.uk/countries/${countryParam.toLowerCase()}` },
+    twitter: { card: "summary_large_image", title, description },
+    alternates: { canonical: `https://saas-atlas.uk/countries/${countryParam.toLowerCase()}` },
   };
 }
 
