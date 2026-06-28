@@ -3,9 +3,13 @@ import { tools } from "@/data/tools";
 import { countries } from "@/data/countries";
 import { categories } from "@/data/categories";
 
-export default function Home() {
-  const aiWritingTools = tools.filter((t) => t.category === "ai-writing");
+const countryFlags: Record<string, string> = {
+  US: "🇺🇸", GB: "🇬🇧", CA: "🇨🇦", AU: "🇦🇺", IN: "🇮🇳",
+  SG: "🇸🇬", IE: "🇮🇪", NZ: "🇳🇿", IL: "🇮🇱", HK: "🇭🇰",
+  RO: "🇷🇴",
+};
 
+export default function Home() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       {/* Hero */}
@@ -47,63 +51,64 @@ export default function Home() {
         </div>
       </section>
 
-      {/* AI Writing Tools - Featured */}
-      <section className="mb-16">
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-900">
-            AI Writing Tools
-          </h2>
-          <Link
-            href="/categories/ai-writing"
-            className="text-sm font-medium text-purple-600 hover:text-purple-700"
-          >
-            View all →
-          </Link>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {aiWritingTools.map((tool) => (
-            <Link
-              key={tool.slug}
-              href={`/tools/${tool.slug}`}
-              className="rounded-lg border border-purple-200 p-6 transition-shadow hover:border-purple-400"
-            >
-              <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {tool.name}
-                  </h3>
-                  <p className="mt-1 text-sm text-gray-500">{tool.tagline}</p>
-                </div>
-                {tool.hasFreeplan && (
-                  <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
-                    Free plan
-                  </span>
-                )}
-              </div>
-              <p className="mt-3 text-sm text-gray-500 line-clamp-2">
-                {tool.description}
-              </p>
-              <div className="mt-4 flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-900">
-                  {tool.startingPrice === 0
-                    ? "Free"
-                    : `From $${tool.startingPrice}/mo`}
-                </span>
-                <span className="text-xs text-gray-500">
-                  {tool.originCountry === "US"
-                    ? "🇺🇸"
-                    : tool.originCountry === "IN"
-                      ? "🇮🇳"
-                      : tool.originCountry === "HK"
-                        ? "🇭🇰"
-                        : "🌍"}{" "}
-                  {tool.headquarters}
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+      {/* All Categories - Tool Listings */}
+      {categories.map((cat) => {
+        const catTools = tools.filter((t) => t.category === cat.slug);
+        return (
+          <section key={cat.slug} className="mb-16">
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-gray-900">
+                {cat.icon} {cat.name}
+              </h2>
+              <Link
+                href={`/categories/${cat.slug}`}
+                className="text-sm font-medium text-purple-600 hover:text-purple-700"
+              >
+                View all →
+              </Link>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {catTools.map((tool) => (
+                <Link
+                  key={tool.slug}
+                  href={`/tools/${tool.slug}`}
+                  className="rounded-lg border border-purple-200 p-6 transition-shadow hover:border-purple-400"
+                >
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        {tool.name}
+                      </h3>
+                      <p className="mt-1 text-sm text-gray-500">
+                        {tool.tagline}
+                      </p>
+                    </div>
+                    {tool.hasFreeplan && (
+                      <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+                        Free plan
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-3 text-sm text-gray-500 line-clamp-2">
+                    {tool.description}
+                  </p>
+                  <div className="mt-4 flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-900">
+                      {tool.startingPrice === 0
+                        ? "Free"
+                        : `From $${tool.startingPrice}/mo`}
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      {countryFlags[tool.originCountry] || "🌍"}{" "}
+                      {tool.headquarters}
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        );
+      })}
 
       {/* Cross-Country Discovery */}
       <section className="mb-16 rounded-lg bg-purple-50 p-8">

@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { tools, getToolBySlug } from "@/data/tools";
+import { tools, getToolBySlug, getToolsByCategory } from "@/data/tools";
 import { countries } from "@/data/countries";
 
 export async function generateStaticParams() {
@@ -313,6 +313,79 @@ export default async function ToolPage({
             })}
         </div>
       </section>
+
+      {/* FAQ Section */}
+      {(() => {
+        const categoryLabel = tool.category === "ai-writing" ? "writing" : tool.category === "ai-image" ? "image generation" : tool.category === "ai-coding" ? "coding" : tool.category === "ai-voice" ? "voice & audio" : "productivity";
+        const faqItems = [
+          { q: `Is ${tool.name} worth it in 2026?`, a: tool.expertTake?.verdict || `${tool.name} is a competitive ${categoryLabel} tool. Check our Expert Take above for a detailed assessment.` },
+          { q: `Does ${tool.name} have a free plan?`, a: tool.hasFreeplan ? `Yes, ${tool.name} offers a free plan. ${tool.pricing.find(p => p.price === 0)?.features.join(", ") || ""}` : `No, ${tool.name} does not offer a free plan. The lowest tier starts at $${tool.startingPrice}/mo.` },
+          { q: `What are the best alternatives to ${tool.name}?`, a: `The top alternatives in the ${categoryLabel} category include ${getToolsByCategory(tool.category).filter(t => t.slug !== tool.slug).slice(0, 3).map(t => t.name).join(", ")}. Compare them on our category page.` },
+          { q: `Is ${tool.name} available internationally?`, a: `Yes, ${tool.name} is available in ${tool.availableCountries.length} countries including the US, UK, Canada, Australia, and more. Pricing is in USD but accessible globally.` },
+        ];
+        return (
+          <section className="mb-10">
+            <h2 className="mb-4 text-2xl font-bold text-gray-900">
+              Frequently Asked Questions
+            </h2>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "FAQPage",
+                  mainEntity: faqItems.map((item) => ({
+                    "@type": "Question",
+                    name: item.q,
+                    acceptedAnswer: { "@type": "Answer", text: item.a },
+                  })),
+                }),
+              }}
+            />
+            <div className="space-y-4">
+              {faqItems.map((item) => (
+                <details key={item.q} className="group rounded-lg border border-purple-200">
+                  <summary className="cursor-pointer px-4 py-3 text-sm font-medium text-gray-900 hover:bg-purple-50">
+                    {item.q}
+                  </summary>
+                  <p className="px-4 pb-3 text-sm text-gray-600">{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        );
+      })()}
+
+      {/* Related Tools */}
+      {(() => {
+        const relatedTools = getToolsByCategory(tool.category).filter(t => t.slug !== tool.slug);
+        if (relatedTools.length === 0) return null;
+        return (
+          <section className="mb-10">
+            <h2 className="mb-4 text-2xl font-bold text-gray-900">
+              Similar Tools
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {relatedTools.map((t) => (
+                <Link
+                  key={t.slug}
+                  href={`/tools/${t.slug}`}
+                  className="flex items-start gap-4 rounded-lg border border-purple-200 p-4 transition-shadow hover:border-purple-400"
+                >
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900">{t.name}</h3>
+                    <p className="mt-1 text-xs text-gray-500">{t.tagline}</p>
+                    <p className="mt-2 text-sm font-medium text-gray-900">
+                      {t.startingPrice === 0 ? "Free" : `From $${t.startingPrice}/mo`}
+                    </p>
+                  </div>
+                  <span className="text-sm text-purple-600">Compare →</span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        );
+      })()}
 
       {/* Affiliate CTA */}
       <section className="rounded-lg bg-purple-50 p-6 text-center">

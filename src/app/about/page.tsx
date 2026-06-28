@@ -103,23 +103,70 @@ export default function AboutPage() {
         <ol className="mt-4 list-decimal space-y-3 pl-5 text-gray-500">
           <li>
             <strong>Data Collection:</strong> We gather pricing, features, and
-            availability data directly from official sources and APIs.
+            availability data directly from official sources and APIs. Every
+            data point is verified against the tool&apos;s pricing page — not
+            third-party aggregators.
           </li>
           <li>
             <strong>Cross-Country Analysis:</strong> We track adoption patterns
-            across 8 countries to identify regional favorites and emerging
-            alternatives.
+            across 8 English-speaking markets (US, UK, Canada, Australia,
+            India, Singapore, Ireland, New Zealand) to identify regional
+            favorites and emerging alternatives.
           </li>
           <li>
             <strong>Expert Review:</strong> Each tool receives a professional
             assessment considering use case fit, value for money, and
-            competitive positioning.
+            competitive positioning. Reviews include specific strengths,
+            weaknesses, and a verdict with concrete recommendations.
           </li>
           <li>
             <strong>Continuous Updates:</strong> Data is refreshed regularly to
-            ensure accuracy. Every page shows its last updated date.
+            ensure accuracy. Every page shows its last updated date. Pricing
+            changes are tracked and reflected within 7 days.
+          </li>
+          <li>
+            <strong>Independence:</strong> Affiliate partnerships never
+            influence our rankings or recommendations. Tools without affiliate
+            programs (like Midjourney and Cursor) receive the same thorough
+            evaluation as those with programs.
           </li>
         </ol>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="text-2xl font-bold text-gray-900">
+          Evaluation Criteria
+        </h2>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-lg border border-purple-200 p-4">
+            <h3 className="font-semibold text-gray-900">Pricing Transparency</h3>
+            <p className="mt-1 text-sm text-gray-500">
+              We report both monthly and annual pricing, hidden fees, and
+              credit/usage limits that affect real-world costs.
+            </p>
+          </div>
+          <div className="rounded-lg border border-purple-200 p-4">
+            <h3 className="font-semibold text-gray-900">Feature Verification</h3>
+            <p className="mt-1 text-sm text-gray-500">
+              Features listed are confirmed through official documentation and
+              hands-on testing, not marketing claims.
+            </p>
+          </div>
+          <div className="rounded-lg border border-purple-200 p-4">
+            <h3 className="font-semibold text-gray-900">Use Case Matching</h3>
+            <p className="mt-1 text-sm text-gray-500">
+              We identify who each tool is best for and who should look
+              elsewhere — no tool is perfect for everyone.
+            </p>
+          </div>
+          <div className="rounded-lg border border-purple-200 p-4">
+            <h3 className="font-semibold text-gray-900">Market Context</h3>
+            <p className="mt-1 text-sm text-gray-500">
+              Popularity rankings reflect real adoption patterns in each
+              country, not just global search volume.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section className="mt-10">
