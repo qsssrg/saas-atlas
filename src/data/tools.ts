@@ -821,7 +821,7 @@ export const tools: Tool[] = [
     category: 'ai-voice',
     description: 'Industry-leading AI voice synthesis platform with ultra-realistic text-to-speech, voice cloning, dubbing, and conversational AI across 30+ languages.',
     tagline: 'Most realistic AI voice synthesis on the market',
-    website: 'https://elevenlabs.io',
+    website: 'https://try.elevenlabs.io/3xtly2868kc8',
     founded: 2022,
     headquarters: 'New York, NY',
     originCountry: 'US',
