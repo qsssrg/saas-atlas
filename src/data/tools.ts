@@ -201,7 +201,7 @@ export const tools: Tool[] = [
     description:
       'AI writing and SEO platform with Chatsonic AI chat, article generation, and brand voice features for content marketers.',
     tagline: 'AI search visibility platform',
-    website: 'https://writesonic.com',
+    website: 'https://writesonic.com?fp_ref=rintaro55',
     founded: 2021,
     headquarters: 'San Francisco, CA',
     originCountry: 'US',
