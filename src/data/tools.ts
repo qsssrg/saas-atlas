@@ -1027,7 +1027,7 @@ export const tools: Tool[] = [
     category: 'ai-productivity',
     description: 'AI meeting assistant that automatically joins Zoom, Google Meet, and Teams calls to record, transcribe, and generate summaries and action items.',
     tagline: 'AI notetaker for every meeting',
-    website: 'https://fireflies.ai',
+    website: 'https://fireflies.ai/?fpr=rintaro87',
     founded: 2016,
     headquarters: 'Pleasanton, CA',
     originCountry: 'US',
