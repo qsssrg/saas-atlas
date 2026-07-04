@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import Link from "next/link";
+import { Geist, Geist_Mono, Source_Serif_4 } from "next/font/google";
 import Script from "next/script";
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,6 +13,13 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const sourceSerif = Source_Serif_4({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -53,77 +61,6 @@ export const metadata: Metadata = {
   },
 };
 
-function Header() {
-  return (
-    <header className="border-b border-purple-200 bg-purple-50">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-2xl">🌍</span>
-          <span className="text-xl font-bold text-gray-900">
-            SaaS Atlas
-          </span>
-        </Link>
-        <nav className="hidden items-center gap-6 md:flex">
-          <Link
-            href="/categories/ai-writing"
-            className="text-sm text-gray-500 hover:text-purple-700"
-          >
-            AI Writing
-          </Link>
-          <Link
-            href="/categories/ai-image"
-            className="text-sm text-gray-500 hover:text-purple-700"
-          >
-            AI Image
-          </Link>
-          <Link
-            href="/categories/ai-coding"
-            className="text-sm text-gray-500 hover:text-purple-700"
-          >
-            AI Coding
-          </Link>
-          <Link
-            href="/categories/ai-voice"
-            className="text-sm text-gray-500 hover:text-purple-700"
-          >
-            AI Voice
-          </Link>
-          <Link
-            href="/categories/ai-productivity"
-            className="text-sm text-gray-500 hover:text-purple-700"
-          >
-            AI Productivity
-          </Link>
-          <Link
-            href="/about"
-            className="text-sm text-gray-500 hover:text-purple-700"
-          >
-            About
-          </Link>
-        </nav>
-      </div>
-    </header>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="border-t border-purple-200 bg-gray-50">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="text-sm text-gray-500">
-            © {new Date().getFullYear()} SaaS Atlas. Expert-curated AI tool
-            comparisons across borders.
-          </p>
-          <p className="text-xs text-gray-600">
-            Some links may earn us a commission at no extra cost to you.
-          </p>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -132,7 +69,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${sourceSerif.variable} h-full antialiased`}
     >
       <head>
         <Script
@@ -148,10 +85,10 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className="flex min-h-full flex-col bg-white">
-        <Header />
+      <body className="flex min-h-full flex-col">
+        <SiteHeader />
         <main className="flex-1">{children}</main>
-        <Footer />
+        <SiteFooter />
       </body>
     </html>
   );

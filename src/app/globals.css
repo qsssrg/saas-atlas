@@ -1,19 +1,359 @@
 @import "tailwindcss";
 
+/* =============================================================================
+   SaaS Atlas — cartographic design system
+   Tokens follow the redesign spec. Dark mode auto-follows prefers-color-scheme.
+   ========================================================================== */
+
 :root {
-  --background: #faf9fc;
-  --foreground: #1a1a2e;
+  /* Light theme tokens */
+  --paper: #f3f3f7;
+  --paper-raised: #fbfbfd;
+  --ink: #1b1830;
+  --ink-soft: #4b4763;
+  --ink-faint: #77738c;
+  --line: #cfcddc;
+  --line-soft: #e0dfe9;
+  --accent: #6d28d9;
+  --accent-ink: #ffffff;
+  --accent-soft: #ede7f8;
+  --contour: #b4aecf;
+  --sea: #e9e8f1;
+  --good: #1e7a55;
+
+  --shadow-card: 0 1px 2px rgba(27, 24, 48, 0.06), 0 8px 24px rgba(27, 24, 48, 0.07);
+
+  --radius-button: 6px;
+  --radius-card: 8px;
+  --radius-tool: 10px;
+
+  /* Legacy vars kept for any existing references */
+  --background: var(--paper);
+  --foreground: var(--ink);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #131120;
+    --paper-raised: #1c1930;
+    --ink: #eae8f2;
+    --ink-soft: #b4b0c8;
+    --ink-faint: #837f9a;
+    --line: #37334e;
+    --line-soft: #2a2740;
+    --accent: #a78bfa;
+    --accent-ink: #17102a;
+    --accent-soft: #2a2044;
+    --contour: #3d3860;
+    --sea: #1a1730;
+    --good: #4cc793;
+
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-contour: var(--contour);
+  --color-sea: var(--sea);
+  --color-good: var(--good);
+
+  --color-background: var(--paper);
+  --color-foreground: var(--ink);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  /* Serif display: injected by next/font as --font-serif, with a system fallback. */
+  --font-display: var(--font-serif), "Palatino Linotype", Palatino, "Book Antiqua",
+    Georgia, serif;
 }
 
+/* ---------------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------------- */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+.font-mono-t {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/* Layout helpers */
+.container-atlas {
+  width: 100%;
+  max-width: 1100px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+.section {
+  padding-block: 72px;
+}
+@media (max-width: 860px) {
+  .section {
+    padding-block: 56px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Typography helpers
+   ------------------------------------------------------------------------- */
+.display-h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(38px, 6.4vw, 62px);
+  line-height: 1.15;
+  text-wrap: balance;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.display-h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+.display-h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(26px, 4vw, 36px);
+  line-height: 1.2;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+/* Eyebrow: mono uppercase accent label + trailing 42px line */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.eyebrow::after {
+  content: "";
+  display: inline-block;
+  width: 42px;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.5;
+}
+.eyebrow-plain {
+  display: inline-block;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.mono-meta {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------------------
+   Buttons
+   ------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding-inline: 20px;
+  border-radius: var(--radius-button);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.12s ease, border-color 0.12s ease,
+    transform 0.12s ease;
+}
+.btn-sm {
+  min-height: 38px;
+  padding-inline: 14px;
+  font-size: 13px;
+}
+.btn-accent {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 1px solid var(--accent);
+}
+.btn-accent:hover {
+  filter: brightness(1.08);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ---------------------------------------------------------------------------
+   Cards
+   ------------------------------------------------------------------------- */
+.card {
+  background: var(--paper-raised);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-card);
+  transition: border-color 0.12s ease, transform 0.12s ease;
+}
+.card-hover:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.tool-card {
+  border-radius: var(--radius-tool);
+  box-shadow: var(--shadow-card);
+}
+
+.pill-free {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--good);
+  color: var(--good);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.tag-mono {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* Expert Take box */
+.expert-take {
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  padding: 8px 12px;
+}
+.expert-take .label {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 2px;
+}
+.expert-take .body {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* Icon box (category cards) */
+.icon-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: var(--sea);
+  border-radius: 6px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+/* Stat number */
+.stat-num {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 26px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+/* Dashed divider */
+.divider-dashed {
+  border-top: 1px dashed var(--line);
+}
+
+/* ---------------------------------------------------------------------------
+   FAQ (details/summary)
+   ------------------------------------------------------------------------- */
+.faq details {
+  border-bottom: 1px solid var(--line-soft);
+}
+.faq summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 4px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq summary::after {
+  content: "+";
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 18px;
+  color: var(--accent);
+  line-height: 1;
+}
+.faq details[open] summary::after {
+  content: "\2212"; /* minus */
+}
+.faq .faq-answer {
+  padding: 0 4px 20px;
+  color: var(--ink-soft);
+  font-size: 15px;
+  max-width: 640px;
+}
+
+/* ---------------------------------------------------------------------------
+   Accessibility
+   ------------------------------------------------------------------------- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
