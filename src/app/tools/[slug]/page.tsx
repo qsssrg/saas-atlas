@@ -1,10 +1,11 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { tools, getToolBySlug, getToolsByCategory } from "@/data/tools";
+import { tools, getToolBySlug, getToolsByCategory, hasAffiliate } from "@/data/tools";
 import { getReviewBySlug } from "@/data/reviews";
 import { countries } from "@/data/countries";
 import ToolReview from "@/components/ToolReview";
+import TrackedLink from "@/components/TrackedLink";
 
 export async function generateStaticParams() {
   return tools.map((tool) => ({ slug: tool.slug }));
@@ -157,14 +158,18 @@ export default async function ToolPage({
             <h1 className="text-3xl font-bold text-gray-900">{tool.name}</h1>
             <p className="mt-1 text-lg text-gray-500">{tool.tagline}</p>
           </div>
-          <a
+          <TrackedLink
             href={tool.website}
+            toolSlug={tool.slug}
+            toolName={tool.name}
+            hasAffiliate={hasAffiliate(tool)}
+            linkType="header"
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-purple-700"
           >
             Visit {tool.name} →
-          </a>
+          </TrackedLink>
         </div>
         <p className="mt-4 text-gray-500">{tool.description}</p>
         <div className="mt-3 flex flex-wrap gap-2">
@@ -437,14 +442,18 @@ export default async function ToolPage({
             ? `Start with ${tool.name}'s free plan — no credit card required.`
             : `Start your free trial of ${tool.name} today.`}
         </p>
-        <a
+        <TrackedLink
           href={tool.website}
+          toolSlug={tool.slug}
+          toolName={tool.name}
+          hasAffiliate={hasAffiliate(tool)}
+          linkType="cta"
           target="_blank"
           rel="noopener noreferrer nofollow"
           className="mt-4 inline-block rounded-lg bg-purple-600 px-6 py-3 text-sm font-medium text-gray-900 hover:bg-purple-700"
         >
           Get Started with {tool.name} →
-        </a>
+        </TrackedLink>
       </section>
     </div>
   );

@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import type { ReviewRank, Tool, ToolReview as ToolReviewData } from "@/types";
 import { REVIEW_AXES } from "@/data/reviews";
+import { hasAffiliate } from "@/data/tools";
+import TrackedLink from "@/components/TrackedLink";
 
 /* ---------------------------------------------------------------------------
    ToolReview — scored review panel (2026-07-05 evaluation-axis profile).
@@ -212,14 +214,18 @@ export default function ToolReview({
         <p className="mx-auto mt-2 max-w-[52ch] text-[14.5px] text-[var(--ink-soft)]">
           {review.cta.body}
         </p>
-        <a
+        <TrackedLink
           href={ctaUrl}
+          toolSlug={tool.slug}
+          toolName={tool.name}
+          hasAffiliate={hasAffiliate(tool)}
+          linkType="review_cta"
           target="_blank"
           rel="noopener noreferrer nofollow sponsored"
           className="btn btn-accent mt-5 inline-flex"
         >
           Start {tool.name} — monthly plan →
-        </a>
+        </TrackedLink>
         <p className="font-mono-t mt-3 text-[12px] text-[var(--ink-faint)]">
           Reviewed {review.reviewedOn} · scored on a fixed rubric ·
           affiliate link disclosed

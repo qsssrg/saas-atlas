@@ -1,8 +1,9 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { tools, getToolBySlug } from "@/data/tools";
+import { tools, getToolBySlug, hasAffiliate } from "@/data/tools";
 import { Tool } from "@/types";
+import TrackedLink from "@/components/TrackedLink";
 
 // Generate all pairwise comparisons within same category
 export async function generateStaticParams() {
@@ -221,8 +222,12 @@ export default async function ComparePage({
 
       {/* CTAs */}
       <section className="grid gap-4 sm:grid-cols-2">
-        <a
+        <TrackedLink
           href={toolA.website}
+          toolSlug={toolA.slug}
+          toolName={toolA.name}
+          hasAffiliate={hasAffiliate(toolA)}
+          linkType="compare"
           target="_blank"
           rel="noopener noreferrer nofollow"
           className="rounded-lg border-2 border-purple-600 p-6 text-center transition-colors hover:bg-purple-50"
@@ -233,9 +238,13 @@ export default async function ComparePage({
           <p className="mt-1 text-sm text-gray-500">
             {toolA.hasFreeplan ? "Start free" : "Start free trial"} →
           </p>
-        </a>
-        <a
+        </TrackedLink>
+        <TrackedLink
           href={toolB.website}
+          toolSlug={toolB.slug}
+          toolName={toolB.name}
+          hasAffiliate={hasAffiliate(toolB)}
+          linkType="compare"
           target="_blank"
           rel="noopener noreferrer nofollow"
           className="rounded-lg border-2 border-purple-600 p-6 text-center transition-colors hover:bg-purple-50"
@@ -246,7 +255,7 @@ export default async function ComparePage({
           <p className="mt-1 text-sm text-gray-500">
             {toolB.hasFreeplan ? "Start free" : "Start free trial"} →
           </p>
-        </a>
+        </TrackedLink>
       </section>
 
       {/* Related comparisons */}

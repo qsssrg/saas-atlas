@@ -1342,3 +1342,21 @@ export function getToolsByCategory(
 export function getAllCategories(): string[] {
   return [...new Set(tools.map((t) => t.category))];
 }
+
+/**
+ * Whether a tool has a monetisable affiliate program configured.
+ *
+ * Single source of truth for the `has_affiliate` GA4 dimension. A tool counts
+ * as affiliate-enabled only when it has a real program (not the `None`
+ * placeholder) AND a non-empty signup URL — i.e. a click can actually earn a
+ * commission. Tools whose program is closed/absent (program `None`, empty
+ * signupUrl) return false, so outbound clicks to them are measured as
+ * non-monetised traffic.
+ */
+export function hasAffiliate(tool: Tool): boolean {
+  const a = tool.affiliate;
+  if (!a) return false;
+  const program = a.program?.trim().toLowerCase() ?? "";
+  const signupUrl = a.signupUrl?.trim() ?? "";
+  return program !== "" && program !== "none" && signupUrl !== "";
+}

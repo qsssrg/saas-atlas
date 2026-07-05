@@ -1,8 +1,9 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { tools, getToolBySlug, getToolsByCategory } from "@/data/tools";
+import { tools, getToolBySlug, getToolsByCategory, hasAffiliate } from "@/data/tools";
 import { countries, getCountryByCode } from "@/data/countries";
+import TrackedLink from "@/components/TrackedLink";
 
 // pSEO: Generate all tool × country combinations
 export async function generateStaticParams() {
@@ -200,14 +201,18 @@ export default async function ToolCountryPage({
             ? `Start free — no credit card required. Works worldwide including ${country.name}.`
             : `Start your free trial. Available in ${country.name} and ${tool.availableCountries.length - 1} other countries.`}
         </p>
-        <a
+        <TrackedLink
           href={tool.website}
+          toolSlug={tool.slug}
+          toolName={tool.name}
+          hasAffiliate={hasAffiliate(tool)}
+          linkType="cta"
           target="_blank"
           rel="noopener noreferrer nofollow"
           className="mt-4 inline-block rounded-lg bg-purple-600 px-6 py-3 text-sm font-medium text-gray-900 hover:bg-purple-700"
         >
           Get Started with {tool.name} →
-        </a>
+        </TrackedLink>
       </section>
     </div>
   );

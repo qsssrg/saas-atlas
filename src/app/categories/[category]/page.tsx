@@ -1,9 +1,10 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { tools, getToolsByCategory } from "@/data/tools";
+import { tools, getToolsByCategory, hasAffiliate } from "@/data/tools";
 import { categories, getCategoryBySlug } from "@/data/categories";
 import { countries } from "@/data/countries";
+import TrackedLink from "@/components/TrackedLink";
 
 export async function generateStaticParams() {
   return categories.map((c) => ({ category: c.slug }));
@@ -121,14 +122,18 @@ export default async function CategoryPage({
                       {tool.bestFor[0]}
                     </td>
                     <td className="pl-4 py-4">
-                      <a
+                      <TrackedLink
                         href={tool.website}
+                        toolSlug={tool.slug}
+                        toolName={tool.name}
+                        hasAffiliate={hasAffiliate(tool)}
+                        linkType="card"
                         target="_blank"
                         rel="noopener noreferrer nofollow"
                         className="rounded bg-purple-600 px-3 py-1 text-xs font-medium text-gray-900 hover:bg-purple-700"
                       >
                         Visit →
-                      </a>
+                      </TrackedLink>
                     </td>
                   </tr>
                 ))}
