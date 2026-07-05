@@ -2,7 +2,9 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { tools, getToolBySlug, getToolsByCategory } from "@/data/tools";
+import { getReviewBySlug } from "@/data/reviews";
 import { countries } from "@/data/countries";
+import ToolReview from "@/components/ToolReview";
 
 export async function generateStaticParams() {
   return tools.map((tool) => ({ slug: tool.slug }));
@@ -49,6 +51,17 @@ export default async function ToolPage({
   const tool = getToolBySlug(slug);
   if (!tool) notFound();
 
+  const review = getReviewBySlug(slug);
+
+  // Map the S/A/B/C/D letter rank to a 1-5 star value for schema.org.
+  const rankToRating: Record<string, string> = {
+    S: "5.0",
+    A: "4.5",
+    B: "4.0",
+    C: "3.0",
+    D: "2.0",
+  };
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -64,23 +77,47 @@ export default async function ToolPage({
       priceCurrency: "USD",
       priceValidUntil: "2026-12-31",
     })),
-    aggregateRating: tool.expertTake
+    aggregateRating: review
       ? {
           "@type": "AggregateRating",
-          ratingValue: tool.expertTake.pros.length > tool.expertTake.cons.length ? "4.5" : "4.0",
+          ratingValue: rankToRating[review.rank] ?? "4.0",
           bestRating: "5",
           worstRating: "1",
           ratingCount: "1",
         }
-      : undefined,
-    review: tool.expertTake
+      : tool.expertTake
+        ? {
+            "@type": "AggregateRating",
+            ratingValue:
+              tool.expertTake.pros.length > tool.expertTake.cons.length
+                ? "4.5"
+                : "4.0",
+            bestRating: "5",
+            worstRating: "1",
+            ratingCount: "1",
+          }
+        : undefined,
+    review: review
       ? {
           "@type": "Review",
           author: { "@type": "Organization", name: "SaaS Atlas" },
-          reviewBody: tool.expertTake.verdict,
-          datePublished: tool.expertTake.lastReviewed,
+          reviewBody: review.recommendation,
+          datePublished: review.reviewedOn,
+          reviewRating: {
+            "@type": "Rating",
+            ratingValue: rankToRating[review.rank] ?? "4.0",
+            bestRating: "5",
+            worstRating: "1",
+          },
         }
-      : undefined,
+      : tool.expertTake
+        ? {
+            "@type": "Review",
+            author: { "@type": "Organization", name: "SaaS Atlas" },
+            reviewBody: tool.expertTake.verdict,
+            datePublished: tool.expertTake.lastReviewed,
+          }
+        : undefined,
   };
 
   return (
@@ -144,6 +181,9 @@ export default async function ToolPage({
           </span>
         </div>
       </header>
+
+      {/* Scored Expert Review (2026-07-05 evaluation-axis profile) */}
+      {review && <ToolReview review={review} tool={tool} />}
 
       {/* Pricing */}
       <section className="mb-10">
@@ -225,8 +265,8 @@ export default async function ToolPage({
         </section>
       </div>
 
-      {/* Expert Take */}
-      {tool.expertTake && (
+      {/* Expert Take — legacy prose block; suppressed when a scored review exists */}
+      {!review && tool.expertTake && (
         <section className="mb-10 rounded-lg border border-purple-200 bg-white p-6">
           <h2 className="mb-4 text-2xl font-bold text-gray-900">
             Expert Take
