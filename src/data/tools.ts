@@ -1231,7 +1231,7 @@ export const tools: Tool[] = [
     category: 'ai-voice',
     description: 'AI text-to-speech and voiceover platform with 1,000+ voices across 140+ languages, plus built-in podcast hosting and embeddable audio players.',
     tagline: 'AI voiceover & TTS in 140+ languages',
-    website: 'https://www.listnr.ai',
+    website: 'https://listnr.ai/?ref=rintaro',
     founded: 2020,
     headquarters: 'Dover, DE',
     originCountry: 'US',
