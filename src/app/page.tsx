@@ -214,14 +214,14 @@ export default function Home() {
               Most “best AI tools” lists are written from one zip code.
             </h2>
             <p className="mt-4 text-[var(--ink-soft)]">
-              The AI tool market moves weekly, and almost every ranking you'll
+              The AI tool market moves weekly, and almost every ranking you&rsquo;ll
               find is compiled in San Francisco, priced in dollars, and blind to
-              what's available — or better — anywhere else.
+              what&rsquo;s available — or better — anywhere else.
             </p>
             <p className="mt-4 text-[var(--ink-soft)]">
               Meanwhile, an Indian writing assistant undercuts the market leader
               by 80%, a Tokyo transcription tool handles 100+ languages the US
-              options don't, and a Romanian meeting notetaker ships features the
+              options don&rsquo;t, and a Romanian meeting notetaker ships features the
               famous names charge enterprise rates for.
             </p>
           </div>
@@ -335,7 +335,7 @@ export default function Home() {
         <div className="container-atlas grid grid-cols-1 items-center gap-10 min-[860px]:grid-cols-[1.2fr_0.8fr]">
           <div>
             <blockquote className="font-display text-[clamp(20px,3vw,26px)] italic leading-[1.35] text-[var(--ink)]">
-              “I'd never heard of half these tools — and the one I picked costs a
+              “I&rsquo;d never heard of half these tools — and the one I picked costs a
               third of what we budgeted for the American brand everyone
               recommends.”
             </blockquote>
@@ -373,14 +373,14 @@ export default function Home() {
             <p className="text-[var(--ink-soft)]">
               Twenty-five years in IT teaches you one thing about software lists:
               the tools that win the rankings are rarely the tools that win the
-              deployments. I've rolled out systems across Asia, Europe, and North
+              deployments. I&rsquo;ve rolled out systems across Asia, Europe, and North
               America, and the best pick was almost never the loudest one — it was
               the one built for the constraint nobody wrote about: the language,
               the regulation, the budget, the market.
             </p>
             <p className="mt-4 text-[var(--ink-soft)]">
               SaaS Atlas is that lesson, published. Every review carries an Expert
-              Take because a feature list can't tell you what three decades of
+              Take because a feature list can&rsquo;t tell you what three decades of
               deployments can: which tool survives contact with a real team, in a
               real country, on a real budget.
             </p>
@@ -416,7 +416,7 @@ export default function Home() {
             Your next AI tool is already on the map.
           </h2>
           <p className="mx-auto mt-3 max-w-[52ch] text-[var(--ink-soft)]">
-            Stop choosing from one country's shortlist. The whole atlas is free.
+            Stop choosing from one country&rsquo;s shortlist. The whole atlas is free.
           </p>
           <Link
             href="/categories/ai-writing"
