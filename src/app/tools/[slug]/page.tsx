@@ -121,11 +121,36 @@ export default async function ToolPage({
         : undefined,
   };
 
+  const categoryName =
+    tool.category === "ai-writing"
+      ? "AI Writing"
+      : tool.category === "ai-image"
+        ? "AI Image"
+        : tool.category === "ai-coding"
+          ? "AI Coding"
+          : tool.category === "ai-voice"
+            ? "AI Voice & Audio"
+            : "AI Productivity";
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://saas-atlas.uk" },
+      { "@type": "ListItem", position: 2, name: categoryName, item: `https://saas-atlas.uk/categories/${tool.category}` },
+      { "@type": "ListItem", position: 3, name: tool.name, item: `https://saas-atlas.uk/tools/${tool.slug}` },
+    ],
+  };
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       {/* Breadcrumb */}
       <nav className="mb-6 text-sm text-gray-500">

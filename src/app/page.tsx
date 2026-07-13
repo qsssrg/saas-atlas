@@ -335,13 +335,11 @@ export default function Home() {
         <div className="container-atlas grid grid-cols-1 items-center gap-10 min-[860px]:grid-cols-[1.2fr_0.8fr]">
           <div>
             <blockquote className="font-display text-[clamp(20px,3vw,26px)] italic leading-[1.35] text-[var(--ink)]">
-              “I&rsquo;d never heard of half these tools — and the one I picked costs a
-              third of what we budgeted for the American brand everyone
-              recommends.”
+              “The tool that wins the ranking is rarely the tool that wins the
+              deployment. This atlas maps the difference.”
             </blockquote>
             <p className="mt-4 text-[14px] text-[var(--ink-faint)]">
-              — Marketing lead evaluating AI writing tools (sample testimonial
-              for preview)
+              — SaaS Atlas editorial principle
             </p>
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -404,6 +402,20 @@ export default function Home() {
             <p className="eyebrow mb-3">Grid G1 · The Legend</p>
             <h2 className="display-h2">Questions, answered plainly</h2>
           </div>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                mainEntity: faqItems.map((item) => ({
+                  "@type": "Question",
+                  name: item.q,
+                  acceptedAnswer: { "@type": "Answer", text: item.a },
+                })),
+              }),
+            }}
+          />
           <Faq items={faqItems} />
         </div>
       </section>

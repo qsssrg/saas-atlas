@@ -42,6 +42,19 @@ export default async function CategoryPage({
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://saas-atlas.uk" },
+              { "@type": "ListItem", position: 2, name: cat.name, item: `https://saas-atlas.uk/categories/${cat.slug}` },
+            ],
+          }),
+        }}
+      />
       <nav className="mb-6 text-sm text-gray-500">
         <Link href="/" className="hover:text-gray-600">Home</Link>
         {" › "}
@@ -194,6 +207,70 @@ export default async function CategoryPage({
               ))}
             </div>
           </section>
+
+          {/* FAQ */}
+          {(() => {
+            const label = cat.name.toLowerCase();
+            const freeTools = categoryTools.filter((t) => t.hasFreeplan);
+            const paidTools = categoryTools.filter((t) => t.startingPrice > 0);
+            const cheapest = paidTools.length
+              ? paidTools.reduce((a, b) => (b.startingPrice < a.startingPrice ? b : a))
+              : null;
+            const topNames = categoryTools.slice(0, 3).map((t) => t.name).join(", ");
+            const faqItems = [
+              {
+                q: `What is the best ${label} tool in 2026?`,
+                a: `The top ${label} picks on SaaS Atlas include ${topNames}. Each is compared on pricing, free plan, origin, and best-fit use case in the table above.`,
+              },
+              {
+                q: `Which ${label} tools have a free plan?`,
+                a: freeTools.length
+                  ? `${freeTools.map((t) => t.name).join(", ")} offer a free plan. See the "Free Plan" column above for the full breakdown.`
+                  : `None of the ${label} tools currently tracked offer a permanent free plan, though several provide free trials.`,
+              },
+              {
+                q: `What is the cheapest ${label} tool?`,
+                a: cheapest
+                  ? `${cheapest.name} has the lowest paid entry point at $${cheapest.startingPrice}/mo among the ${label} tools we compare.`
+                  : `Several ${label} tools start free — check the pricing column for the current lowest tiers.`,
+              },
+              {
+                q: `How many ${label} tools does SaaS Atlas compare?`,
+                a: `We currently compare ${categoryTools.length} ${label} tools across ${countries.length} English-speaking countries, updated regularly from official pricing sources.`,
+              },
+            ];
+            return (
+              <section className="mt-10">
+                <h2 className="mb-4 text-2xl font-bold text-gray-900">
+                  Frequently Asked Questions
+                </h2>
+                <script
+                  type="application/ld+json"
+                  dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                      "@context": "https://schema.org",
+                      "@type": "FAQPage",
+                      mainEntity: faqItems.map((item) => ({
+                        "@type": "Question",
+                        name: item.q,
+                        acceptedAnswer: { "@type": "Answer", text: item.a },
+                      })),
+                    }),
+                  }}
+                />
+                <div className="space-y-4">
+                  {faqItems.map((item) => (
+                    <details key={item.q} className="group rounded-lg border border-purple-200">
+                      <summary className="cursor-pointer px-4 py-3 text-sm font-medium text-gray-900 hover:bg-purple-50">
+                        {item.q}
+                      </summary>
+                      <p className="px-4 pb-3 text-sm text-gray-600">{item.a}</p>
+                    </details>
+                  ))}
+                </div>
+              </section>
+            );
+          })()}
         </>
       )}
     </div>

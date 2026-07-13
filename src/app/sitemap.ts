@@ -5,40 +5,60 @@ import { categories } from '@/data/categories';
 
 const BASE_URL = 'https://saas-atlas.uk';
 
+// Fixed content-update dates for static/editorial pages. Bump these only when
+// the page's actual content changes — never use new Date(), or every deploy
+// marks every page as freshly updated and dilutes the crawl signal.
+const HOME_UPDATED = '2026-07-13';
+const ABOUT_UPDATED = '2026-07-13';
+
+/** Pick the newest lastUpdated among a set of tools; fall back to a base date. */
+function newestUpdate(subset: typeof tools, fallback: string): Date {
+  const iso = subset.reduce<string>(
+    (acc, t) => (t.lastUpdated > acc ? t.lastUpdated : acc),
+    fallback,
+  );
+  return new Date(iso);
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
 
-  // Home
+  // Home — reflects the latest tool data so a genuine data refresh shows.
   entries.push({
     url: BASE_URL,
-    lastModified: new Date(),
+    lastModified: newestUpdate(tools, HOME_UPDATED),
     changeFrequency: 'weekly',
     priority: 1,
   });
 
-  // About
+  // About — editorial page, fixed date bumped on real edits only.
   entries.push({
     url: `${BASE_URL}/about`,
-    lastModified: new Date(),
+    lastModified: new Date(ABOUT_UPDATED),
     changeFrequency: 'monthly',
     priority: 0.7,
   });
 
-  // Category pages
+  // Category pages — newest tool in that category.
   for (const cat of categories) {
+    const catTools = tools.filter((t) => t.category === cat.slug);
     entries.push({
       url: `${BASE_URL}/categories/${cat.slug}`,
-      lastModified: new Date(),
+      lastModified: newestUpdate(catTools, HOME_UPDATED),
       changeFrequency: 'weekly',
       priority: 0.9,
     });
   }
 
-  // Country pages
+  // Country pages — newest tool available in that country.
   for (const country of countries) {
+    const code = country.code.toLowerCase();
+    const countryTools = tools.filter((t) =>
+      t.availableCountries.some((c) => c.toLowerCase() === code),
+    );
     entries.push({
-      url: `${BASE_URL}/countries/${country.code.toLowerCase()}`,
-      lastModified: new Date(),
+      url: `${BASE_URL}/countries/${code}`,
+      lastModified: newestUpdate(countryTools, HOME_UPDATED),
       changeFrequency: 'weekly',
       priority: 0.8,
     });
@@ -46,9 +66,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Tool pages
   for (const tool of tools) {
+    const toolDate = new Date(tool.lastUpdated);
+
     entries.push({
       url: `${BASE_URL}/tools/${tool.slug}`,
-      lastModified: new Date(),
+      lastModified: toolDate,
       changeFrequency: 'weekly',
       priority: 0.9,
     });
@@ -57,14 +79,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     for (const countryCode of tool.availableCountries) {
       entries.push({
         url: `${BASE_URL}/tools/${tool.slug}/${countryCode.toLowerCase()}`,
-        lastModified: new Date(),
+        lastModified: toolDate,
         changeFrequency: 'weekly',
         priority: 0.7,
       });
     }
   }
 
-  // Comparison pages
+  // Comparison pages — newest of the two tools compared.
   const catTools: Record<string, typeof tools> = {};
   for (const tool of tools) {
     if (!catTools[tool.category]) catTools[tool.category] = [];
@@ -76,7 +98,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       for (let j = i + 1; j < ct.length; j++) {
         entries.push({
           url: `${BASE_URL}/compare/${ct[i].slug}-vs-${ct[j].slug}`,
-          lastModified: new Date(),
+          lastModified: newestUpdate([ct[i], ct[j]], HOME_UPDATED),
           changeFrequency: 'monthly',
           priority: 0.8,
         });

@@ -61,6 +61,45 @@ export const metadata: Metadata = {
   },
 };
 
+const ORGANIZATION_ID = "https://saas-atlas.uk/#organization";
+const WEBSITE_ID = "https://saas-atlas.uk/#website";
+const AUTHOR_ID = "https://saas-atlas.uk/about#author";
+
+// Global structured data. Kept minimal and factual: the Organization,
+// the WebSite (with the on-site search box as a SearchAction), and a
+// reference to the author Person defined on /about. alternateName absorbs
+// the common spelling variants of the brand name.
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": ORGANIZATION_ID,
+  name: "SaaS Atlas",
+  alternateName: ["SaaSAtlas", "Saas Atlas"],
+  url: "https://saas-atlas.uk",
+  logo: "https://saas-atlas.uk/globe.svg",
+  description:
+    "Expert-curated AI tool comparisons across 8 English-speaking countries.",
+  founder: { "@id": AUTHOR_ID },
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": WEBSITE_ID,
+  name: "SaaS Atlas",
+  url: "https://saas-atlas.uk",
+  publisher: { "@id": ORGANIZATION_ID },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate:
+        "https://saas-atlas.uk/categories/ai-writing?q={search_term_string}",
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -86,6 +125,14 @@ export default function RootLayout({
         </Script>
       </head>
       <body className="flex min-h-full flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />

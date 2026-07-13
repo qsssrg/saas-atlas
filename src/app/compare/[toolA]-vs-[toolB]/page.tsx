@@ -92,6 +92,19 @@ export default async function ComparePage({
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://saas-atlas.uk" },
+              { "@type": "ListItem", position: 2, name: `${toolA.name} vs ${toolB.name}`, item: `https://saas-atlas.uk/compare/${toolA.slug}-vs-${toolB.slug}` },
+            ],
+          }),
+        }}
+      />
       <nav className="mb-6 text-sm text-gray-500">
         <Link href="/" className="hover:text-gray-600">Home</Link>
         {" › "}
@@ -289,6 +302,70 @@ export default async function ComparePage({
             ])}
         </div>
       </section>
+
+      {/* FAQ */}
+      {(() => {
+        const cheaper =
+          priceWinner === "a" ? toolA : priceWinner === "b" ? toolB : null;
+        const faqItems = [
+          {
+            q: `Is ${toolA.name} or ${toolB.name} cheaper?`,
+            a: cheaper
+              ? `${cheaper.name} is cheaper, starting at $${cheaper.startingPrice}/mo, versus $${(cheaper === toolA ? toolB : toolA).startingPrice}/mo for ${(cheaper === toolA ? toolB : toolA).name}.`
+              : `${toolA.name} and ${toolB.name} start at the same price ($${toolA.startingPrice}/mo).`,
+          },
+          {
+            q: `What is the main difference between ${toolA.name} and ${toolB.name}?`,
+            a: `${toolA.name} is best for ${toolA.bestFor[0]?.toLowerCase()}, while ${toolB.name} is ideal for ${toolB.bestFor[0]?.toLowerCase()}. See the feature table above for a full side-by-side.`,
+          },
+          {
+            q: `Does ${toolA.name} or ${toolB.name} have a free plan?`,
+            a:
+              toolA.hasFreeplan && toolB.hasFreeplan
+                ? `Both ${toolA.name} and ${toolB.name} offer a free plan.`
+                : toolA.hasFreeplan
+                  ? `${toolA.name} offers a free plan; ${toolB.name} does not.`
+                  : toolB.hasFreeplan
+                    ? `${toolB.name} offers a free plan; ${toolA.name} does not.`
+                    : `Neither ${toolA.name} nor ${toolB.name} offers a permanent free plan.`,
+          },
+          {
+            q: `Which is better, ${toolA.name} or ${toolB.name}?`,
+            a: `Neither wins outright — it depends on your use case. Choose ${toolA.name} for ${toolA.bestFor[0]?.toLowerCase()}, or ${toolB.name} for ${toolB.bestFor[0]?.toLowerCase()}. Both are compared in detail above.`,
+          },
+        ];
+        return (
+          <section className="mt-10">
+            <h2 className="mb-4 text-xl font-bold text-gray-900">
+              Frequently Asked Questions
+            </h2>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "FAQPage",
+                  mainEntity: faqItems.map((item) => ({
+                    "@type": "Question",
+                    name: item.q,
+                    acceptedAnswer: { "@type": "Answer", text: item.a },
+                  })),
+                }),
+              }}
+            />
+            <div className="space-y-4">
+              {faqItems.map((item) => (
+                <details key={item.q} className="group rounded-lg border border-purple-200">
+                  <summary className="cursor-pointer px-4 py-3 text-sm font-medium text-gray-900 hover:bg-purple-50">
+                    {item.q}
+                  </summary>
+                  <p className="px-4 pb-3 text-sm text-gray-600">{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        );
+      })()}
     </div>
   );
 }

@@ -7,9 +7,34 @@ export const metadata: Metadata = {
     "SaaS Atlas provides expert-curated AI tool comparisons across 8 countries. Founded by an IT industry veteran with 25 years of experience spanning Asia, Europe, and North America.",
 };
 
+// Author E-E-A-T schema. @id matches the Organization.founder reference in
+// the root layout so the two link into one entity graph.
+const authorJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://saas-atlas.uk/about#author",
+  name: "Rintaro Sonoda",
+  url: "https://saas-atlas.uk/about",
+  jobTitle: "Founder & Editor, SaaS Atlas",
+  description:
+    "IT industry professional with 25 years of hands-on experience deploying enterprise software across Asia, Europe, and North America.",
+  knowsAbout: [
+    "Enterprise IT",
+    "SaaS",
+    "AI tools",
+    "Software evaluation",
+    "Digital transformation",
+  ],
+  worksFor: { "@id": "https://saas-atlas.uk/#organization" },
+};
+
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(authorJsonLd) }}
+      />
       <h1 className="text-3xl font-bold text-gray-900">About SaaS Atlas</h1>
 
       <section className="mt-8">
