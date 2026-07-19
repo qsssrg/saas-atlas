@@ -5,9 +5,21 @@ import { tools, getToolBySlug, hasAffiliate } from "@/data/tools";
 import { Tool } from "@/types";
 import TrackedLink from "@/components/TrackedLink";
 
+/**
+ * Compare route. The URL is /compare/<slugA>-vs-<slugB>, captured as a SINGLE
+ * dynamic segment `[comparison]` and split on the "-vs-" delimiter.
+ *
+ * NB: we deliberately do NOT use a two-param segment folder ("[toolA]-vs-[toolB]").
+ * That shape builds fine but throws at serve time in this Next.js version
+ * ("InvariantError: Could not resolve param value for segment"), 500-ing every
+ * comparison page. A single param + manual split is the robust equivalent, and
+ * keeps the exact same URLs. Splitting on "-vs-" is safe because tool slugs
+ * (copy-ai, dall-e, github-copilot, …) never contain the literal "-vs-".
+ */
+
 // Generate all pairwise comparisons within same category
 export async function generateStaticParams() {
-  const params: { "toolA": string; "toolB": string }[] = [];
+  const params: { comparison: string }[] = [];
   const categories = [...new Set(tools.map((t) => t.category))];
 
   for (const cat of categories) {
@@ -15,8 +27,7 @@ export async function generateStaticParams() {
     for (let i = 0; i < catTools.length; i++) {
       for (let j = i + 1; j < catTools.length; j++) {
         params.push({
-          "toolA": catTools[i].slug,
-          "toolB": catTools[j].slug,
+          comparison: `${catTools[i].slug}-vs-${catTools[j].slug}`,
         });
       }
     }
@@ -27,9 +38,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ "toolA": string; "toolB": string }>;
+  params: Promise<{ comparison: string }>;
 }): Promise<Metadata> {
-  const { toolA: slugA, toolB: slugB } = await params;
+  const { comparison } = await params;
+  const [slugA, slugB] = comparison.split("-vs-");
   const toolA = getToolBySlug(slugA);
   const toolB = getToolBySlug(slugB);
   if (!toolA || !toolB) return { title: "Comparison Not Found" };
@@ -78,9 +90,10 @@ function ComparisonRow({
 export default async function ComparePage({
   params,
 }: {
-  params: Promise<{ "toolA": string; "toolB": string }>;
+  params: Promise<{ comparison: string }>;
 }) {
-  const { toolA: slugA, toolB: slugB } = await params;
+  const { comparison } = await params;
+  const [slugA, slugB] = comparison.split("-vs-");
   const toolA = getToolBySlug(slugA);
   const toolB = getToolBySlug(slugB);
   if (!toolA || !toolB) notFound();
