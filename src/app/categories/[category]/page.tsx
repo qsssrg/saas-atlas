@@ -41,100 +41,96 @@ export default async function CategoryPage({
   const categoryTools = getToolsByCategory(category);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "https://saas-atlas.uk" },
-              { "@type": "ListItem", position: 2, name: cat.name, item: `https://saas-atlas.uk/categories/${cat.slug}` },
-            ],
-          }),
-        }}
-      />
-      <nav className="mb-6 text-sm text-gray-500">
-        <Link href="/" className="hover:text-gray-600">Home</Link>
-        {" › "}
-        <span className="text-gray-900">{cat.name}</span>
-      </nav>
+    <div className="section">
+      <div className="container-atlas">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: "https://saas-atlas.uk" },
+                { "@type": "ListItem", position: 2, name: cat.name, item: `https://saas-atlas.uk/categories/${cat.slug}` },
+              ],
+            }),
+          }}
+        />
+        <nav className="font-mono-t mb-8 text-[12px] text-[var(--ink-faint)]">
+          <Link href="/" className="hover:text-[var(--accent)]">
+            Home
+          </Link>
+          <span className="mx-2 opacity-50">/</span>
+          <span className="text-[var(--ink-soft)]">{cat.name}</span>
+        </nav>
 
-      <header className="mb-10">
-        <h1 className="text-3xl font-bold text-gray-900">
-          {cat.icon} Best {cat.name} 2026
-        </h1>
-        <p className="mt-2 text-lg text-gray-500">{cat.description}</p>
-      </header>
-
-      {categoryTools.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-purple-200 p-12 text-center">
-          <p className="text-lg text-gray-500">
-            Tools for this category are coming soon.
+        <header className="mb-12">
+          <p className="eyebrow mb-3">{cat.icon} Category</p>
+          <h1 className="display-h1">
+            Best <em>{cat.name}</em> 2026
+          </h1>
+          <p className="mt-4 max-w-[640px] text-[var(--ink-soft)]">
+            {cat.description}
           </p>
-        </div>
-      ) : (
+        </header>
+
+        {categoryTools.length === 0 ? (
+          <div className="card border-dashed p-12 text-center">
+            <p className="text-lg text-[var(--ink-soft)]">
+              Tools for this category are coming soon.
+            </p>
+          </div>
+        ) : (
         <>
           {/* Comparison table */}
-          <section className="mb-10 overflow-x-auto">
+          <section className="card mb-12 overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="border-b border-purple-200 text-left">
-                  <th className="py-3 pr-4 text-sm font-semibold text-gray-900">
-                    Tool
-                  </th>
-                  <th className="px-4 py-3 text-sm font-semibold text-gray-900">
-                    Starting Price
-                  </th>
-                  <th className="px-4 py-3 text-sm font-semibold text-gray-900">
-                    Free Plan
-                  </th>
-                  <th className="px-4 py-3 text-sm font-semibold text-gray-900">
-                    Origin
-                  </th>
-                  <th className="px-4 py-3 text-sm font-semibold text-gray-900">
-                    Best For
-                  </th>
-                  <th className="pl-4 py-3 text-sm font-semibold text-gray-900">
-                    Actions
-                  </th>
+                <tr className="border-b border-[var(--line-soft)] text-left">
+                  <th className="tag-mono px-5 py-3.5">Tool</th>
+                  <th className="tag-mono px-4 py-3.5">Starting Price</th>
+                  <th className="tag-mono px-4 py-3.5">Free Plan</th>
+                  <th className="tag-mono px-4 py-3.5">Origin</th>
+                  <th className="tag-mono px-4 py-3.5">Best For</th>
+                  <th className="tag-mono px-5 py-3.5">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {categoryTools.map((tool) => (
                   <tr
                     key={tool.slug}
-                    className="border-b border-purple-100 hover:bg-purple-50"
+                    className="border-b border-[var(--line-soft)] last:border-0 transition-colors hover:bg-[var(--accent-soft)]"
                   >
-                    <td className="py-4 pr-4">
+                    <td className="px-5 py-4">
                       <Link
                         href={`/tools/${tool.slug}`}
-                        className="font-medium text-gray-900 hover:text-purple-700"
+                        className="font-medium text-[var(--ink)] hover:text-[var(--accent)]"
                       >
                         {tool.name}
                       </Link>
-                      <p className="text-xs text-gray-500">{tool.tagline}</p>
+                      <p className="text-xs text-[var(--ink-faint)]">
+                        {tool.tagline}
+                      </p>
                     </td>
-                    <td className="px-4 py-4 text-sm text-gray-900">
+                    <td className="mono-meta px-4 py-4 text-sm text-[var(--ink)]">
                       {tool.startingPrice === 0
                         ? "Free"
                         : `$${tool.startingPrice}/mo`}
                     </td>
                     <td className="px-4 py-4 text-sm">
                       {tool.hasFreeplan ? (
-                        <span className="text-green-700">✓ Yes</span>
+                        <span className="text-[var(--good)]">✓ Yes</span>
                       ) : (
-                        <span className="text-gray-500">✗ No</span>
+                        <span className="text-[var(--ink-faint)]">✗ No</span>
                       )}
                     </td>
-                    <td className="px-4 py-4 text-sm text-gray-500">
+                    <td className="px-4 py-4 text-sm text-[var(--ink-soft)]">
                       {tool.headquarters}
                     </td>
-                    <td className="px-4 py-4 text-sm text-gray-500">
+                    <td className="px-4 py-4 text-sm text-[var(--ink-soft)]">
                       {tool.bestFor[0]}
                     </td>
-                    <td className="pl-4 py-4">
+                    <td className="px-5 py-4">
                       <TrackedLink
                         href={tool.website}
                         toolSlug={tool.slug}
@@ -143,7 +139,7 @@ export default async function CategoryPage({
                         linkType="card"
                         target="_blank"
                         rel="noopener noreferrer nofollow"
-                        className="rounded bg-purple-600 px-3 py-1 text-xs font-medium text-gray-900 hover:bg-purple-700"
+                        className="btn btn-sm btn-accent"
                       >
                         Visit →
                       </TrackedLink>
@@ -155,28 +151,29 @@ export default async function CategoryPage({
           </section>
 
           {/* Tool cards */}
-          <section className="mb-10">
-            <h2 className="mb-6 text-2xl font-bold text-gray-900">
-              Detailed Reviews
-            </h2>
-            <div className="grid gap-6 sm:grid-cols-2">
+          <section className="mb-12">
+            <div className="mb-6">
+              <p className="eyebrow mb-3">Detailed Reviews</p>
+              <h2 className="display-h2">Every tool, compared</h2>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
               {categoryTools.map((tool) => (
                 <Link
                   key={tool.slug}
                   href={`/tools/${tool.slug}`}
-                  className="rounded-lg border border-purple-200 p-6 transition-shadow hover:border-purple-400"
+                  className="card card-hover p-6"
                 >
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-lg font-semibold text-[var(--ink)]">
                     {tool.name}
                   </h3>
-                  <p className="mt-1 text-sm text-gray-500">
+                  <p className="mt-1 text-sm text-[var(--ink-soft)]">
                     {tool.description}
                   </p>
-                  <div className="mt-4 flex flex-wrap gap-1">
+                  <div className="mt-4 flex flex-wrap gap-1.5">
                     {tool.features.slice(0, 4).map((f) => (
                       <span
                         key={f}
-                        className="rounded-full bg-purple-50 px-2 py-0.5 text-xs text-gray-500"
+                        className="tag-mono rounded-full border border-[var(--line-soft)] px-2 py-0.5"
                       >
                         {f}
                       </span>
@@ -189,18 +186,21 @@ export default async function CategoryPage({
 
           {/* Browse by country */}
           <section>
-            <h2 className="mb-4 text-2xl font-bold text-gray-900">
-              🌍 Browse {cat.name} by Country
-            </h2>
+            <div className="mb-6">
+              <p className="eyebrow mb-3">🌍 Cross-Country</p>
+              <h2 className="display-h2">
+                Browse {cat.name} by country
+              </h2>
+            </div>
             <div className="grid gap-3 sm:grid-cols-4">
               {countries.map((c) => (
                 <Link
                   key={c.code}
                   href={`/categories/${category}/${c.code.toLowerCase()}`}
-                  className="rounded-lg border border-purple-200 p-3 text-center transition-shadow hover:border-purple-400"
+                  className="card card-hover p-4 text-center"
                 >
                   <span className="text-xl">{c.flag}</span>
-                  <p className="mt-1 text-sm font-medium text-gray-900">
+                  <p className="mt-1 text-sm font-medium text-[var(--ink)]">
                     {cat.name} in {c.name}
                   </p>
                 </Link>
@@ -240,10 +240,11 @@ export default async function CategoryPage({
               },
             ];
             return (
-              <section className="mt-10">
-                <h2 className="mb-4 text-2xl font-bold text-gray-900">
-                  Frequently Asked Questions
-                </h2>
+              <section className="mt-14">
+                <div className="mb-6">
+                  <p className="eyebrow mb-3">FAQ</p>
+                  <h2 className="display-h2">Frequently asked questions</h2>
+                </div>
                 <script
                   type="application/ld+json"
                   dangerouslySetInnerHTML={{
@@ -258,21 +259,24 @@ export default async function CategoryPage({
                     }),
                   }}
                 />
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {faqItems.map((item) => (
-                    <details key={item.q} className="group rounded-lg border border-purple-200">
-                      <summary className="cursor-pointer px-4 py-3 text-sm font-medium text-gray-900 hover:bg-purple-50">
+                    <details key={item.q} className="card group">
+                      <summary className="cursor-pointer px-5 py-4 text-sm font-medium text-[var(--ink)] hover:text-[var(--accent)]">
                         {item.q}
                       </summary>
-                      <p className="px-4 pb-3 text-sm text-gray-600">{item.a}</p>
+                      <p className="px-5 pb-4 text-sm text-[var(--ink-soft)]">
+                        {item.a}
+                      </p>
                     </details>
                   ))}
                 </div>
               </section>
             );
           })()}
-        </>
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

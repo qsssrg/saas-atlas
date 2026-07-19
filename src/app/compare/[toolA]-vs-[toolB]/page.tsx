@@ -57,15 +57,17 @@ function ComparisonRow({
   highlight?: "a" | "b" | "tie";
 }) {
   return (
-    <tr className="border-b border-purple-100">
-      <td className="py-3 pr-4 text-sm font-medium text-gray-900">{label}</td>
+    <tr className="border-b border-[var(--line-soft)] last:border-0">
+      <td className="px-5 py-3 text-sm font-medium text-[var(--ink)]">
+        {label}
+      </td>
       <td
-        className={`px-4 py-3 text-sm ${highlight === "a" ? "font-semibold text-green-700" : "text-gray-500"}`}
+        className={`px-4 py-3 text-sm ${highlight === "a" ? "font-semibold text-[var(--good)]" : "text-[var(--ink-soft)]"}`}
       >
         {valueA}
       </td>
       <td
-        className={`pl-4 py-3 text-sm ${highlight === "b" ? "font-semibold text-green-700" : "text-gray-500"}`}
+        className={`px-5 py-3 text-sm ${highlight === "b" ? "font-semibold text-[var(--good)]" : "text-[var(--ink-soft)]"}`}
       >
         {valueB}
       </td>
@@ -91,7 +93,8 @@ export default async function ComparePage({
         : "tie";
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="section">
+      <div className="mx-auto w-full max-w-[860px] px-5">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -105,19 +108,22 @@ export default async function ComparePage({
           }),
         }}
       />
-      <nav className="mb-6 text-sm text-gray-500">
-        <Link href="/" className="hover:text-gray-600">Home</Link>
-        {" › "}
-        <span className="text-gray-900">
+      <nav className="font-mono-t mb-8 text-[12px] text-[var(--ink-faint)]">
+        <Link href="/" className="hover:text-[var(--accent)]">
+          Home
+        </Link>
+        <span className="mx-2 opacity-50">/</span>
+        <span className="text-[var(--ink-soft)]">
           {toolA.name} vs {toolB.name}
         </span>
       </nav>
 
-      <header className="mb-8 text-center">
-        <h1 className="text-3xl font-bold text-gray-900">
-          {toolA.name} vs {toolB.name}
+      <header className="mb-10 text-center">
+        <p className="eyebrow-plain mb-3">Head to head</p>
+        <h1 className="display-h1">
+          {toolA.name} <em>vs</em> {toolB.name}
         </h1>
-        <p className="mt-2 text-lg text-gray-500">
+        <p className="mx-auto mt-4 max-w-[640px] text-[var(--ink-soft)]">
           Side-by-side comparison of two leading{" "}
           {toolA.category === "ai-writing"
             ? "AI writing"
@@ -129,12 +135,12 @@ export default async function ComparePage({
       </header>
 
       {/* Quick verdict */}
-      <section className="mb-10 rounded-lg bg-purple-50 p-6">
-        <h2 className="text-lg font-bold text-gray-900">Quick Verdict</h2>
-        <p className="mt-2 text-gray-600">
-          <strong>{toolA.name}</strong> is best for{" "}
+      <section className="card mb-10 p-6" style={{ background: "var(--sea)" }}>
+        <p className="eyebrow mb-2">Quick Verdict</p>
+        <p className="mt-2 text-[var(--ink-soft)]">
+          <strong className="text-[var(--ink)]">{toolA.name}</strong> is best for{" "}
           {toolA.bestFor[0]?.toLowerCase()}, while{" "}
-          <strong>{toolB.name}</strong> is ideal for{" "}
+          <strong className="text-[var(--ink)]">{toolB.name}</strong> is ideal for{" "}
           {toolB.bestFor[0]?.toLowerCase()}.
           {priceWinner === "a"
             ? ` ${toolA.name} is more affordable starting at $${toolA.startingPrice}/mo.`
@@ -145,17 +151,15 @@ export default async function ComparePage({
       </section>
 
       {/* Comparison table */}
-      <section className="mb-10 overflow-x-auto">
+      <section className="card mb-12 overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="border-b-2 border-purple-200">
-              <th className="py-3 pr-4 text-left text-sm font-semibold text-gray-500">
-                Feature
-              </th>
-              <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">
+            <tr className="border-b border-[var(--line-soft)]">
+              <th className="tag-mono px-5 py-3.5 text-left">Feature</th>
+              <th className="px-4 py-3.5 text-left text-sm font-semibold text-[var(--ink)]">
                 {toolA.name}
               </th>
-              <th className="pl-4 py-3 text-left text-sm font-semibold text-gray-900">
+              <th className="px-5 py-3.5 text-left text-sm font-semibold text-[var(--ink)]">
                 {toolB.name}
               </th>
             </tr>
@@ -243,12 +247,12 @@ export default async function ComparePage({
           linkType="compare"
           target="_blank"
           rel="noopener noreferrer nofollow"
-          className="rounded-lg border-2 border-purple-600 p-6 text-center transition-colors hover:bg-purple-50"
+          className="card card-hover p-6 text-center"
         >
-          <h3 className="text-lg font-bold text-purple-600">
+          <h3 className="text-lg font-bold text-[var(--accent)]">
             Try {toolA.name}
           </h3>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-[var(--ink-soft)]">
             {toolA.hasFreeplan ? "Start free" : "Start free trial"} →
           </p>
         </TrackedLink>
@@ -260,22 +264,23 @@ export default async function ComparePage({
           linkType="compare"
           target="_blank"
           rel="noopener noreferrer nofollow"
-          className="rounded-lg border-2 border-purple-600 p-6 text-center transition-colors hover:bg-purple-50"
+          className="card card-hover p-6 text-center"
         >
-          <h3 className="text-lg font-bold text-purple-600">
+          <h3 className="text-lg font-bold text-[var(--accent)]">
             Try {toolB.name}
           </h3>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-[var(--ink-soft)]">
             {toolB.hasFreeplan ? "Start free" : "Start free trial"} →
           </p>
         </TrackedLink>
       </section>
 
       {/* Related comparisons */}
-      <section className="mt-10">
-        <h2 className="mb-4 text-xl font-bold text-gray-900">
-          More Comparisons
-        </h2>
+      <section className="mt-12">
+        <div className="mb-5">
+          <p className="eyebrow mb-3">Keep comparing</p>
+          <h2 className="display-h2">More comparisons</h2>
+        </div>
         <div className="flex flex-wrap gap-2">
           {tools
             .filter(
@@ -288,14 +293,14 @@ export default async function ComparePage({
               <Link
                 key={`${toolA.slug}-vs-${t.slug}`}
                 href={`/compare/${toolA.slug}-vs-${t.slug}`}
-                className="rounded-full border border-purple-200 px-3 py-1 text-sm text-gray-500 hover:bg-purple-50"
+                className="tag-mono rounded-full border border-[var(--line-soft)] px-3 py-1.5 text-[var(--ink-soft)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
               >
                 {toolA.name} vs {t.name}
               </Link>,
               <Link
                 key={`${toolB.slug}-vs-${t.slug}`}
                 href={`/compare/${toolB.slug}-vs-${t.slug}`}
-                className="rounded-full border border-purple-200 px-3 py-1 text-sm text-gray-500 hover:bg-purple-50"
+                className="tag-mono rounded-full border border-[var(--line-soft)] px-3 py-1.5 text-[var(--ink-soft)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
               >
                 {toolB.name} vs {t.name}
               </Link>,
@@ -335,10 +340,11 @@ export default async function ComparePage({
           },
         ];
         return (
-          <section className="mt-10">
-            <h2 className="mb-4 text-xl font-bold text-gray-900">
-              Frequently Asked Questions
-            </h2>
+          <section className="mt-12">
+            <div className="mb-5">
+              <p className="eyebrow mb-3">FAQ</p>
+              <h2 className="display-h2">Frequently asked questions</h2>
+            </div>
             <script
               type="application/ld+json"
               dangerouslySetInnerHTML={{
@@ -353,19 +359,22 @@ export default async function ComparePage({
                 }),
               }}
             />
-            <div className="space-y-4">
+            <div className="space-y-3">
               {faqItems.map((item) => (
-                <details key={item.q} className="group rounded-lg border border-purple-200">
-                  <summary className="cursor-pointer px-4 py-3 text-sm font-medium text-gray-900 hover:bg-purple-50">
+                <details key={item.q} className="card group">
+                  <summary className="cursor-pointer px-5 py-4 text-sm font-medium text-[var(--ink)] hover:text-[var(--accent)]">
                     {item.q}
                   </summary>
-                  <p className="px-4 pb-3 text-sm text-gray-600">{item.a}</p>
+                  <p className="px-5 pb-4 text-sm text-[var(--ink-soft)]">
+                    {item.a}
+                  </p>
                 </details>
               ))}
             </div>
           </section>
         );
       })()}
+      </div>
     </div>
   );
 }

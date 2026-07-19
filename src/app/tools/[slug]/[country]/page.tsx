@@ -59,32 +59,41 @@ export default async function ToolCountryPage({
   const otherCountries = countries.filter((c) => c.code !== country.code);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="section">
+      <div className="mx-auto w-full max-w-[860px] px-5">
       {/* Breadcrumb */}
-      <nav className="mb-6 text-sm text-gray-500">
-        <Link href="/" className="hover:text-gray-600">Home</Link>
-        {" › "}
-        <Link href={`/tools/${tool.slug}`} className="hover:text-gray-600">
+      <nav className="font-mono-t mb-8 text-[12px] text-[var(--ink-faint)]">
+        <Link href="/" className="hover:text-[var(--accent)]">
+          Home
+        </Link>
+        <span className="mx-2 opacity-50">/</span>
+        <Link
+          href={`/tools/${tool.slug}`}
+          className="hover:text-[var(--accent)]"
+        >
           {tool.name}
         </Link>
-        {" › "}
-        <span className="text-gray-900">
+        <span className="mx-2 opacity-50">/</span>
+        <span className="text-[var(--ink-soft)]">
           {country.flag} {country.name}
         </span>
       </nav>
 
       {/* Header */}
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">
-          {tool.name} in {country.name} {country.flag}
+      <header className="mb-10">
+        <p className="eyebrow mb-3">
+          {country.code} · {tool.name}
+        </p>
+        <h1 className="display-h1">
+          {tool.name} in <em>{country.name}</em> {country.flag}
         </h1>
-        <p className="mt-2 text-lg text-gray-500">
+        <p className="mt-4 max-w-[640px] text-[var(--ink-soft)]">
           Everything you need to know about using {tool.name} in{" "}
           {country.name} — pricing, availability, local alternatives, and expert
           analysis.
         </p>
         {popularity && (
-          <div className="mt-3 inline-block rounded-full bg-purple-100 px-3 py-1 text-sm font-medium text-purple-600">
+          <div className="mono-meta mt-4 inline-block rounded-full bg-[var(--accent-soft)] px-3 py-1 text-sm font-medium text-[var(--accent)]">
             #{popularity.rank} most popular{" "}
             {tool.category === "ai-writing"
               ? "AI writing tool"
@@ -97,22 +106,26 @@ export default async function ToolCountryPage({
       </header>
 
       {/* Pricing in local context */}
-      <section className="mb-10">
-        <h2 className="mb-4 text-2xl font-bold text-gray-900">
-          Pricing for {country.name} Users
-        </h2>
-        <div className="rounded-lg border border-purple-200 p-6">
+      <section className="mb-12">
+        <div className="mb-5">
+          <p className="eyebrow mb-3">Pricing</p>
+          <h2 className="display-h2">Pricing for {country.name} users</h2>
+        </div>
+        <div className="card p-6">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {tool.pricing.map((tier) => (
-              <div key={tier.name} className="rounded-lg bg-purple-50 p-4">
-                <h3 className="font-semibold text-gray-900">{tier.name}</h3>
-                <p className="mt-1 text-2xl font-bold text-gray-900">
+              <div
+                key={tier.name}
+                className="rounded-[var(--radius-card)] border border-[var(--line-soft)] p-4"
+              >
+                <h3 className="font-semibold text-[var(--ink)]">{tier.name}</h3>
+                <p className="mono-meta mt-1 text-2xl font-bold text-[var(--ink)]">
                   {tier.price === 0 ? (
                     "Free"
                   ) : (
                     <>
                       ${tier.price}
-                      <span className="text-sm font-normal text-gray-500">
+                      <span className="text-sm font-normal text-[var(--ink-faint)]">
                         /mo USD
                       </span>
                     </>
@@ -120,7 +133,7 @@ export default async function ToolCountryPage({
                 </p>
                 <ul className="mt-3 space-y-1">
                   {tier.features.map((f) => (
-                    <li key={f} className="text-sm text-gray-500">
+                    <li key={f} className="text-sm text-[var(--ink-soft)]">
                       ✓ {f}
                     </li>
                   ))}
@@ -128,7 +141,7 @@ export default async function ToolCountryPage({
               </div>
             ))}
           </div>
-          <p className="mt-4 text-sm text-gray-500">
+          <p className="mt-4 text-sm text-[var(--ink-faint)]">
             All prices in USD. Payment methods accepted in {country.name}{" "}
             typically include Visa, Mastercard, and PayPal.
           </p>
@@ -136,10 +149,13 @@ export default async function ToolCountryPage({
       </section>
 
       {/* Alternatives in this country */}
-      <section className="mb-10">
-        <h2 className="mb-4 text-2xl font-bold text-gray-900">
-          Alternatives to {tool.name} in {country.name}
-        </h2>
+      <section className="mb-12">
+        <div className="mb-5">
+          <p className="eyebrow mb-3">Alternatives</p>
+          <h2 className="display-h2">
+            Alternatives to {tool.name} in {country.name}
+          </h2>
+        </div>
         <div className="grid gap-3 sm:grid-cols-2">
           {categoryTools.map((alt) => {
             const altPopularity = alt.popularIn.find(
@@ -149,18 +165,22 @@ export default async function ToolCountryPage({
               <Link
                 key={alt.slug}
                 href={`/tools/${alt.slug}/${countryParam}`}
-                className="rounded-lg border border-purple-200 p-4 transition-shadow hover:border-purple-400"
+                className="card card-hover p-5"
               >
-                <div className="flex items-start justify-between">
-                  <h3 className="font-semibold text-gray-900">{alt.name}</h3>
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="font-semibold text-[var(--ink)]">
+                    {alt.name}
+                  </h3>
                   {altPopularity && (
-                    <span className="text-xs text-purple-600">
+                    <span className="mono-meta shrink-0 text-xs text-[var(--accent)]">
                       #{altPopularity.rank}
                     </span>
                   )}
                 </div>
-                <p className="mt-1 text-sm text-gray-500">{alt.tagline}</p>
-                <p className="mt-2 text-sm font-medium text-gray-900">
+                <p className="mt-1 text-sm text-[var(--ink-soft)]">
+                  {alt.tagline}
+                </p>
+                <p className="mono-meta mt-2 text-sm font-medium text-[var(--ink)]">
                   {alt.startingPrice === 0
                     ? "Free"
                     : `From $${alt.startingPrice}/mo`}
@@ -172,10 +192,11 @@ export default async function ToolCountryPage({
       </section>
 
       {/* Cross-country links */}
-      <section className="mb-10">
-        <h2 className="mb-4 text-2xl font-bold text-gray-900">
-          🌍 {tool.name} in Other Countries
-        </h2>
+      <section className="mb-12">
+        <div className="mb-5">
+          <p className="eyebrow mb-3">🌍 Cross-Country</p>
+          <h2 className="display-h2">{tool.name} in other countries</h2>
+        </div>
         <div className="flex flex-wrap gap-2">
           {otherCountries
             .filter((c) => tool.availableCountries.includes(c.code))
@@ -183,7 +204,7 @@ export default async function ToolCountryPage({
               <Link
                 key={c.code}
                 href={`/tools/${tool.slug}/${c.code.toLowerCase()}`}
-                className="rounded-full border border-purple-200 px-3 py-1 text-sm text-gray-500 hover:bg-purple-50"
+                className="tag-mono rounded-full border border-[var(--line-soft)] px-3 py-1.5 text-[var(--ink-soft)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
               >
                 {c.flag} {c.name}
               </Link>
@@ -192,11 +213,11 @@ export default async function ToolCountryPage({
       </section>
 
       {/* CTA */}
-      <section className="rounded-lg bg-purple-50 p-6 text-center">
-        <h2 className="text-xl font-bold text-gray-900">
+      <section className="card p-8 text-center" style={{ background: "var(--sea)" }}>
+        <h2 className="display-h2">
           Try {tool.name} from {country.name}
         </h2>
-        <p className="mt-2 text-gray-500">
+        <p className="mt-2 text-[var(--ink-soft)]">
           {tool.hasFreeplan
             ? `Start free — no credit card required. Works worldwide including ${country.name}.`
             : `Start your free trial. Available in ${country.name} and ${tool.availableCountries.length - 1} other countries.`}
@@ -209,11 +230,12 @@ export default async function ToolCountryPage({
           linkType="cta"
           target="_blank"
           rel="noopener noreferrer nofollow"
-          className="mt-4 inline-block rounded-lg bg-purple-600 px-6 py-3 text-sm font-medium text-gray-900 hover:bg-purple-700"
+          className="btn btn-accent mt-5 inline-flex"
         >
           Get Started with {tool.name} →
         </TrackedLink>
       </section>
+      </div>
     </div>
   );
 }

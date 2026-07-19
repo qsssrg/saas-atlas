@@ -64,6 +64,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   }
 
+  // Category × Country pages — the cross-country pSEO grid. Emitted only for
+  // combinations where at least one tool in the category is available in the
+  // country (mirrors the route's generateStaticParams).
+  for (const cat of categories) {
+    const catTools = tools.filter((t) => t.category === cat.slug);
+    for (const country of countries) {
+      const code = country.code.toLowerCase();
+      const available = catTools.filter((t) =>
+        t.availableCountries.some((c) => c.toLowerCase() === code),
+      );
+      if (available.length === 0) continue;
+      entries.push({
+        url: `${BASE_URL}/categories/${cat.slug}/${code}`,
+        lastModified: newestUpdate(available, HOME_UPDATED),
+        changeFrequency: 'weekly',
+        priority: 0.75,
+      });
+    }
+  }
+
   // Tool pages
   for (const tool of tools) {
     const toolDate = new Date(tool.lastUpdated);

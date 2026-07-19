@@ -143,7 +143,8 @@ export default async function ToolPage({
   };
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="section">
+      <div className="mx-auto w-full max-w-[860px] px-5">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -153,14 +154,14 @@ export default async function ToolPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       {/* Breadcrumb */}
-      <nav className="mb-6 text-sm text-gray-500">
-        <Link href="/" className="hover:text-gray-600">
+      <nav className="font-mono-t mb-8 text-[12px] text-[var(--ink-faint)]">
+        <Link href="/" className="hover:text-[var(--accent)]">
           Home
         </Link>
-        {" › "}
+        <span className="mx-2 opacity-50">/</span>
         <Link
           href={`/categories/${tool.category}`}
-          className="hover:text-gray-600"
+          className="hover:text-[var(--accent)]"
         >
           {tool.category === "ai-writing"
             ? "AI Writing"
@@ -172,16 +173,16 @@ export default async function ToolPage({
                   ? "AI Voice & Audio"
                   : "AI Productivity"}
         </Link>
-        {" › "}
-        <span className="text-gray-900">{tool.name}</span>
+        <span className="mx-2 opacity-50">/</span>
+        <span className="text-[var(--ink-soft)]">{tool.name}</span>
       </nav>
 
       {/* Header */}
-      <header className="mb-8">
-        <div className="flex items-start justify-between">
+      <header className="mb-10">
+        <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">{tool.name}</h1>
-            <p className="mt-1 text-lg text-gray-500">{tool.tagline}</p>
+            <h1 className="display-h1">{tool.name}</h1>
+            <p className="mt-1 text-lg text-[var(--ink-soft)]">{tool.tagline}</p>
           </div>
           <TrackedLink
             href={tool.website}
@@ -191,22 +192,22 @@ export default async function ToolPage({
             linkType="header"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-lg bg-purple-600 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-purple-700"
+            className="btn btn-accent"
           >
             Visit {tool.name} →
           </TrackedLink>
         </div>
-        <p className="mt-4 text-gray-500">{tool.description}</p>
-        <div className="mt-3 flex flex-wrap gap-2">
+        <p className="mt-4 max-w-[640px] text-[var(--ink-soft)]">
+          {tool.description}
+        </p>
+        <div className="mt-4 flex flex-wrap gap-2">
           {tool.hasFreeplan && (
-            <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
-              Free plan available
-            </span>
+            <span className="pill-free">Free plan available</span>
           )}
-          <span className="rounded-full bg-purple-50 px-3 py-1 text-xs text-gray-500">
+          <span className="tag-mono rounded-full border border-[var(--line-soft)] px-3 py-1">
             Founded {tool.founded}
           </span>
-          <span className="rounded-full bg-purple-50 px-3 py-1 text-xs text-gray-500">
+          <span className="tag-mono rounded-full border border-[var(--line-soft)] px-3 py-1">
             📍 {tool.headquarters}
           </span>
         </div>
@@ -216,34 +217,37 @@ export default async function ToolPage({
       {review && <ToolReview review={review} tool={tool} />}
 
       {/* Pricing */}
-      <section className="mb-10">
-        <h2 className="mb-4 text-2xl font-bold text-gray-900">Pricing</h2>
+      <section className="mb-12">
+        <div className="mb-5">
+          <p className="eyebrow mb-3">Pricing</p>
+          <h2 className="display-h2">Plans &amp; pricing</h2>
+        </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {tool.pricing.map((tier) => (
-            <div
-              key={tier.name}
-              className="rounded-lg border border-purple-200 p-6"
-            >
-              <h3 className="font-semibold text-gray-900">{tier.name}</h3>
-              <p className="mt-2 text-3xl font-bold text-gray-900">
+            <div key={tier.name} className="card p-6">
+              <h3 className="font-semibold text-[var(--ink)]">{tier.name}</h3>
+              <p className="mono-meta mt-2 text-3xl font-bold text-[var(--ink)]">
                 {tier.price === 0 ? (
                   "Free"
                 ) : (
                   <>
                     ${tier.price}
-                    <span className="text-base font-normal text-gray-500">
+                    <span className="text-base font-normal text-[var(--ink-faint)]">
                       /mo
                     </span>
                   </>
                 )}
               </p>
               {tier.billingCycle === "yearly" && tier.price > 0 && (
-                <p className="text-xs text-gray-500">billed annually</p>
+                <p className="text-xs text-[var(--ink-faint)]">billed annually</p>
               )}
               <ul className="mt-4 space-y-2">
                 {tier.features.map((f) => (
-                  <li key={f} className="flex items-start text-sm text-gray-500">
-                    <span className="mr-2 text-green-700">✓</span>
+                  <li
+                    key={f}
+                    className="flex items-start text-sm text-[var(--ink-soft)]"
+                  >
+                    <span className="mr-2 text-[var(--good)]">✓</span>
                     {f}
                   </li>
                 ))}
@@ -251,18 +255,24 @@ export default async function ToolPage({
             </div>
           ))}
         </div>
-        <p className="mt-3 text-xs text-gray-500">
+        <p className="font-mono-t mt-3 text-[12px] text-[var(--ink-faint)]">
           Last updated: {tool.lastUpdated}
         </p>
       </section>
 
       {/* Features */}
-      <section className="mb-10">
-        <h2 className="mb-4 text-2xl font-bold text-gray-900">Key Features</h2>
+      <section className="mb-12">
+        <div className="mb-5">
+          <p className="eyebrow mb-3">Capabilities</p>
+          <h2 className="display-h2">Key features</h2>
+        </div>
         <div className="grid gap-2 sm:grid-cols-2">
           {tool.features.map((f) => (
-            <div key={f} className="flex items-center gap-2 text-gray-600">
-              <span className="text-blue-500">●</span>
+            <div
+              key={f}
+              className="flex items-center gap-2 text-[var(--ink-soft)]"
+            >
+              <span className="text-[var(--accent)]">●</span>
               {f}
             </div>
           ))}
@@ -270,23 +280,31 @@ export default async function ToolPage({
       </section>
 
       {/* Best For / Limitations */}
-      <div className="mb-10 grid gap-6 sm:grid-cols-2">
-        <section>
-          <h2 className="mb-3 text-xl font-bold text-green-700">Best For</h2>
+      <div className="mb-12 grid gap-4 sm:grid-cols-2">
+        <section className="card p-6">
+          <h2 className="mb-3 text-lg font-bold text-[var(--good)]">Best For</h2>
           <ul className="space-y-2">
             {tool.bestFor.map((b) => (
-              <li key={b} className="flex items-start text-sm text-gray-600">
+              <li
+                key={b}
+                className="flex items-start text-sm text-[var(--ink-soft)]"
+              >
                 <span className="mr-2">👍</span>
                 {b}
               </li>
             ))}
           </ul>
         </section>
-        <section>
-          <h2 className="mb-3 text-xl font-bold text-red-700">Limitations</h2>
+        <section className="card p-6">
+          <h2 className="mb-3 text-lg font-bold text-[var(--bad)]">
+            Limitations
+          </h2>
           <ul className="space-y-2">
             {tool.limitations.map((l) => (
-              <li key={l} className="flex items-start text-sm text-gray-600">
+              <li
+                key={l}
+                className="flex items-start text-sm text-[var(--ink-soft)]"
+              >
                 <span className="mr-2">⚠️</span>
                 {l}
               </li>
@@ -297,54 +315,53 @@ export default async function ToolPage({
 
       {/* Expert Take — legacy prose block; suppressed when a scored review exists */}
       {!review && tool.expertTake && (
-        <section className="mb-10 rounded-lg border border-purple-200 bg-white p-6">
-          <h2 className="mb-4 text-2xl font-bold text-gray-900">
-            Expert Take
-          </h2>
-          <p className="mb-4 text-gray-600">{tool.expertTake.summary}</p>
+        <section className="card mb-12 p-6 sm:p-8">
+          <p className="eyebrow mb-3">Expert Take</p>
+          <h2 className="display-h2 mb-4">The verdict</h2>
+          <p className="mb-4 text-[var(--ink-soft)]">
+            {tool.expertTake.summary}
+          </p>
           <div className="mb-4 grid gap-4 sm:grid-cols-2">
             <div>
-              <h3 className="mb-2 text-sm font-semibold text-green-700">
+              <h3 className="mb-2 text-sm font-semibold text-[var(--good)]">
                 Strengths
               </h3>
               <ul className="space-y-1">
                 {tool.expertTake.pros.map((p) => (
                   <li
                     key={p}
-                    className="flex items-start text-sm text-gray-600"
+                    className="flex items-start text-sm text-[var(--ink-soft)]"
                   >
-                    <span className="mr-2 text-green-600">+</span>
+                    <span className="mr-2 text-[var(--good)]">+</span>
                     {p}
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <h3 className="mb-2 text-sm font-semibold text-red-700">
+              <h3 className="mb-2 text-sm font-semibold text-[var(--bad)]">
                 Weaknesses
               </h3>
               <ul className="space-y-1">
                 {tool.expertTake.cons.map((c) => (
                   <li
                     key={c}
-                    className="flex items-start text-sm text-gray-600"
+                    className="flex items-start text-sm text-[var(--ink-soft)]"
                   >
-                    <span className="mr-2 text-red-500">-</span>
+                    <span className="mr-2 text-[var(--bad)]">-</span>
                     {c}
                   </li>
                 ))}
               </ul>
             </div>
           </div>
-          <div className="rounded-md bg-purple-50 p-4">
-            <p className="text-sm font-medium text-gray-900">
-              Verdict
-            </p>
-            <p className="mt-1 text-sm text-gray-600">
+          <div className="expert-take">
+            <span className="label">Verdict</span>
+            <p className="body text-sm text-[var(--ink-soft)]">
               {tool.expertTake.verdict}
             </p>
           </div>
-          <p className="mt-3 text-xs italic text-gray-400">
+          <p className="font-mono-t mt-3 text-[12px] italic text-[var(--ink-faint)]">
             {tool.expertTake.authorNote} — Last reviewed:{" "}
             {tool.expertTake.lastReviewed}
           </p>
@@ -352,10 +369,13 @@ export default async function ToolPage({
       )}
 
       {/* Cross-Country Availability */}
-      <section className="mb-10">
-        <h2 className="mb-4 text-2xl font-bold text-gray-900">
-          🌍 Available in {tool.availableCountries.length} Countries
-        </h2>
+      <section className="mb-12">
+        <div className="mb-5">
+          <p className="eyebrow mb-3">🌍 Availability</p>
+          <h2 className="display-h2">
+            Available in {tool.availableCountries.length} countries
+          </h2>
+        </div>
         <div className="grid gap-3 sm:grid-cols-4">
           {countries
             .filter((c) => tool.availableCountries.includes(c.code))
@@ -367,14 +387,14 @@ export default async function ToolPage({
                 <Link
                   key={country.code}
                   href={`/tools/${tool.slug}/${country.code.toLowerCase()}`}
-                  className="rounded-lg border border-purple-200 p-3 text-center transition-shadow hover:border-purple-400"
+                  className="card card-hover p-4 text-center"
                 >
                   <span className="text-xl">{country.flag}</span>
-                  <p className="mt-1 text-sm font-medium text-gray-900">
+                  <p className="mt-1 text-sm font-medium text-[var(--ink)]">
                     {country.name}
                   </p>
                   {popularity && (
-                    <p className="text-xs text-purple-600">
+                    <p className="mono-meta text-xs text-[var(--accent)]">
                       #{popularity.rank} in category
                     </p>
                   )}
@@ -394,10 +414,11 @@ export default async function ToolPage({
           { q: `Is ${tool.name} available internationally?`, a: `Yes, ${tool.name} is available in ${tool.availableCountries.length} countries including the US, UK, Canada, Australia, and more. Pricing is in USD but accessible globally.` },
         ];
         return (
-          <section className="mb-10">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900">
-              Frequently Asked Questions
-            </h2>
+          <section className="mb-12">
+            <div className="mb-5">
+              <p className="eyebrow mb-3">FAQ</p>
+              <h2 className="display-h2">Frequently asked questions</h2>
+            </div>
             <script
               type="application/ld+json"
               dangerouslySetInnerHTML={{
@@ -412,13 +433,15 @@ export default async function ToolPage({
                 }),
               }}
             />
-            <div className="space-y-4">
+            <div className="space-y-3">
               {faqItems.map((item) => (
-                <details key={item.q} className="group rounded-lg border border-purple-200">
-                  <summary className="cursor-pointer px-4 py-3 text-sm font-medium text-gray-900 hover:bg-purple-50">
+                <details key={item.q} className="card group">
+                  <summary className="cursor-pointer px-5 py-4 text-sm font-medium text-[var(--ink)] hover:text-[var(--accent)]">
                     {item.q}
                   </summary>
-                  <p className="px-4 pb-3 text-sm text-gray-600">{item.a}</p>
+                  <p className="px-5 pb-4 text-sm text-[var(--ink-soft)]">
+                    {item.a}
+                  </p>
                 </details>
               ))}
             </div>
@@ -431,25 +454,32 @@ export default async function ToolPage({
         const relatedTools = getToolsByCategory(tool.category).filter(t => t.slug !== tool.slug);
         if (relatedTools.length === 0) return null;
         return (
-          <section className="mb-10">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900">
-              Similar Tools
-            </h2>
+          <section className="mb-12">
+            <div className="mb-5">
+              <p className="eyebrow mb-3">Alternatives</p>
+              <h2 className="display-h2">Similar tools</h2>
+            </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {relatedTools.map((t) => (
                 <Link
                   key={t.slug}
                   href={`/tools/${t.slug}`}
-                  className="flex items-start gap-4 rounded-lg border border-purple-200 p-4 transition-shadow hover:border-purple-400"
+                  className="card card-hover flex items-start gap-4 p-5"
                 >
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900">{t.name}</h3>
-                    <p className="mt-1 text-xs text-gray-500">{t.tagline}</p>
-                    <p className="mt-2 text-sm font-medium text-gray-900">
-                      {t.startingPrice === 0 ? "Free" : `From $${t.startingPrice}/mo`}
+                    <h3 className="font-semibold text-[var(--ink)]">{t.name}</h3>
+                    <p className="mt-1 text-xs text-[var(--ink-faint)]">
+                      {t.tagline}
+                    </p>
+                    <p className="mono-meta mt-2 text-sm font-medium text-[var(--ink)]">
+                      {t.startingPrice === 0
+                        ? "Free"
+                        : `From $${t.startingPrice}/mo`}
                     </p>
                   </div>
-                  <span className="text-sm text-purple-600">Compare →</span>
+                  <span className="text-sm font-medium text-[var(--accent)]">
+                    Compare →
+                  </span>
                 </Link>
               ))}
             </div>
@@ -458,11 +488,9 @@ export default async function ToolPage({
       })()}
 
       {/* Affiliate CTA */}
-      <section className="rounded-lg bg-purple-50 p-6 text-center">
-        <h2 className="text-xl font-bold text-gray-900">
-          Try {tool.name} Today
-        </h2>
-        <p className="mt-2 text-gray-500">
+      <section className="card p-8 text-center" style={{ background: "var(--sea)" }}>
+        <h2 className="display-h2">Try {tool.name} today</h2>
+        <p className="mt-2 text-[var(--ink-soft)]">
           {tool.hasFreeplan
             ? `Start with ${tool.name}'s free plan — no credit card required.`
             : `Start your free trial of ${tool.name} today.`}
@@ -475,11 +503,12 @@ export default async function ToolPage({
           linkType="cta"
           target="_blank"
           rel="noopener noreferrer nofollow"
-          className="mt-4 inline-block rounded-lg bg-purple-600 px-6 py-3 text-sm font-medium text-gray-900 hover:bg-purple-700"
+          className="btn btn-accent mt-5 inline-flex"
         >
           Get Started with {tool.name} →
         </TrackedLink>
       </section>
+      </div>
     </div>
   );
 }

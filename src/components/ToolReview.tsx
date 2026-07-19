@@ -111,9 +111,13 @@ export default function ToolReview({
   review: ToolReviewData;
   tool: Tool;
 }) {
-  // CTA points at the monthly plan (no annual lock-in). Fall back to the
-  // tool's own site if no explicit signup URL is configured.
-  const ctaUrl = tool.affiliate?.signupUrl || tool.website;
+  // CTA points at the tool's own site via `website`, which is where the
+  // owner's tracked affiliate link lives (e.g. ?via=/?ref=/branded redirect).
+  // NB: do NOT use affiliate.signupUrl here — that field holds the affiliate
+  // *program application* page (e.g. jasper.ai/partners, listnr.tolt.io), which
+  // is owner-facing, not a customer destination. Sending buyers there breaks
+  // both UX and commission tracking.
+  const ctaUrl = tool.website;
 
   return (
     <section className="card tool-card mb-10 overflow-hidden">

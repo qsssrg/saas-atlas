@@ -60,98 +60,115 @@ export default async function CountryPage({
   const otherCountries = countries.filter((c) => c.code !== country.code);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <nav className="mb-6 text-sm text-gray-500">
-        <Link href="/" className="hover:text-gray-600">Home</Link>
-        {" › "}
-        <span className="text-gray-900">
-          {country.flag} {country.name}
-        </span>
-      </nav>
+    <div className="section">
+      <div className="container-atlas">
+        {/* Breadcrumb */}
+        <nav className="font-mono-t mb-8 text-[12px] text-[var(--ink-faint)]">
+          <Link href="/" className="hover:text-[var(--accent)]">
+            Home
+          </Link>
+          <span className="mx-2 opacity-50">/</span>
+          <span className="text-[var(--ink-soft)]">
+            {country.flag} {country.name}
+          </span>
+        </nav>
 
-      <header className="mb-10">
-        <h1 className="text-3xl font-bold text-gray-900">
-          {country.flag} Best AI Tools in {country.name}
-        </h1>
-        <p className="mt-2 text-lg text-gray-500">
-          Compare the most popular AI SaaS tools available in {country.name}.
-          Ranked by popularity with pricing, features, and expert analysis.
-        </p>
-        <div className="mt-4 flex flex-wrap gap-3">
-          <span className="rounded-full bg-purple-50 px-3 py-1 text-sm text-gray-500">
-            Region: {country.region}
-          </span>
-          <span className="rounded-full bg-purple-50 px-3 py-1 text-sm text-gray-500">
-            Currency: {country.currency} ({country.currencySymbol})
-          </span>
-          {country.saasMarketSize && (
-            <span className="rounded-full bg-purple-100 px-3 py-1 text-sm text-purple-600">
-              SaaS Market: {country.saasMarketSize}
+        {/* Header */}
+        <header className="mb-12">
+          <p className="eyebrow mb-3">
+            Grid · {country.code} · Territory
+          </p>
+          <h1 className="display-h1">
+            Best AI tools in <em>{country.name}</em> {country.flag}
+          </h1>
+          <p className="mt-4 max-w-[640px] text-[var(--ink-soft)]">
+            Compare the most popular AI SaaS tools available in {country.name}.
+            Ranked by popularity with pricing, features, and expert analysis.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-2">
+            <span className="tag-mono rounded-full border border-[var(--line-soft)] px-3 py-1">
+              Region · {country.region}
             </span>
-          )}
-        </div>
-      </header>
+            <span className="tag-mono rounded-full border border-[var(--line-soft)] px-3 py-1">
+              Currency · {country.currency} ({country.currencySymbol})
+            </span>
+            {country.saasMarketSize && (
+              <span className="tag-mono rounded-full border border-[var(--accent)] px-3 py-1 text-[var(--accent)]">
+                SaaS Market · {country.saasMarketSize}
+              </span>
+            )}
+          </div>
+        </header>
 
-      {/* Tools by category */}
-      {toolsByCategory.map(({ category: cat, tools: catTools }) => (
-        <section key={cat.slug} className="mb-10">
-          <h2 className="mb-4 text-2xl font-bold text-gray-900">
-            {cat.icon} {cat.name} in {country.name}
-          </h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {catTools.map((tool) => {
-              const popularity = tool.popularIn.find(
-                (p) => p.country === country.code
-              );
-              return (
-                <Link
-                  key={tool.slug}
-                  href={`/tools/${tool.slug}/${countryParam}`}
-                  className="rounded-lg border border-purple-200 p-5 transition-shadow hover:border-purple-400"
-                >
-                  <div className="flex items-start justify-between">
-                    <h3 className="font-semibold text-gray-900">{tool.name}</h3>
-                    {popularity && (
-                      <span className="rounded-full bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-600">
-                        #{popularity.rank}
+        {/* Tools by category */}
+        {toolsByCategory.map(({ category: cat, tools: catTools }) => (
+          <section key={cat.slug} className="mb-12">
+            <div className="mb-5">
+              <p className="eyebrow mb-3">{cat.icon} {cat.name}</p>
+              <h2 className="display-h2">
+                {cat.name} in {country.name}
+              </h2>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {catTools.map((tool) => {
+                const popularity = tool.popularIn.find(
+                  (p) => p.country === country.code
+                );
+                return (
+                  <Link
+                    key={tool.slug}
+                    href={`/tools/${tool.slug}/${countryParam}`}
+                    className="card card-hover flex flex-col p-5"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="font-semibold text-[var(--ink)]">
+                        {tool.name}
+                      </h3>
+                      {popularity && (
+                        <span className="mono-meta shrink-0 rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs font-semibold text-[var(--accent)]">
+                          #{popularity.rank}
+                        </span>
+                      )}
+                    </div>
+                    <p className="mt-1 text-sm text-[var(--ink-soft)]">
+                      {tool.tagline}
+                    </p>
+                    <p className="mono-meta mt-3 text-sm font-medium text-[var(--ink)]">
+                      {tool.startingPrice === 0
+                        ? "Free"
+                        : `From $${tool.startingPrice}/mo`}
+                    </p>
+                    {tool.hasFreeplan && (
+                      <span className="pill-free mt-3 self-start">
+                        Free plan
                       </span>
                     )}
-                  </div>
-                  <p className="mt-1 text-sm text-gray-500">{tool.tagline}</p>
-                  <p className="mt-3 text-sm font-medium text-gray-900">
-                    {tool.startingPrice === 0
-                      ? "Free"
-                      : `From $${tool.startingPrice}/mo`}
-                  </p>
-                  {tool.hasFreeplan && (
-                    <span className="mt-2 inline-block rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-700">
-                      Free plan
-                    </span>
-                  )}
-                </Link>
-              );
-            })}
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        ))}
+
+        {/* Other countries */}
+        <section>
+          <div className="mb-5">
+            <p className="eyebrow mb-3">🌍 Cross-Country</p>
+            <h2 className="display-h2">Compare with other countries</h2>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {otherCountries.map((c) => (
+              <Link
+                key={c.code}
+                href={`/countries/${c.code.toLowerCase()}`}
+                className="tag-mono rounded-full border border-[var(--line-soft)] px-3 py-1.5 text-[var(--ink-soft)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+              >
+                {c.flag} {c.name}
+              </Link>
+            ))}
           </div>
         </section>
-      ))}
-
-      {/* Other countries */}
-      <section>
-        <h2 className="mb-4 text-2xl font-bold text-gray-900">
-          🌍 Compare with Other Countries
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          {otherCountries.map((c) => (
-            <Link
-              key={c.code}
-              href={`/countries/${c.code.toLowerCase()}`}
-              className="rounded-full border border-purple-200 px-3 py-1 text-sm text-gray-500 hover:bg-purple-50"
-            >
-              {c.flag} {c.name}
-            </Link>
-          ))}
-        </div>
-      </section>
+      </div>
     </div>
   );
 }
