@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Source_Serif_4 } from "next/font/google";
 import Script from "next/script";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import FinderBanner from "@/components/FinderBanner";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -134,6 +135,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
         <SiteHeader />
+        <FinderBanner />
         <main className="flex-1">{children}</main>
         <SiteFooter />
       </body>
