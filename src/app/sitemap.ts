@@ -10,6 +10,7 @@ const BASE_URL = 'https://www.saas-atlas.uk';
 // marks every page as freshly updated and dilutes the crawl signal.
 const HOME_UPDATED = '2026-07-13';
 const ABOUT_UPDATED = '2026-07-13';
+const FINDER_UPDATED = '2026-07-24';
 
 /** Pick the newest lastUpdated among a set of tools; fall back to a base date. */
 function newestUpdate(subset: typeof tools, fallback: string): Date {
@@ -37,6 +38,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(ABOUT_UPDATED),
     changeFrequency: 'monthly',
     priority: 0.7,
+  });
+
+  // Finder — interactive tool-recommendation quiz.
+  entries.push({
+    url: `${BASE_URL}/finder`,
+    lastModified: new Date(FINDER_UPDATED),
+    changeFrequency: 'monthly',
+    priority: 0.8,
   });
 
   // Category pages — newest tool in that category.

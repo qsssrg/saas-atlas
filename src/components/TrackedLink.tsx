@@ -29,7 +29,8 @@ export type OutboundLinkType =
   | "cta" // bottom-of-page "Get Started" CTA (tool + tool×country pages)
   | "card" // tool-table row "Visit" link (category pages)
   | "compare" // "Try {tool}" card on a comparison page
-  | "review_cta"; // scored-review panel CTA (may point at the affiliate URL)
+  | "review_cta" // scored-review panel CTA (may point at the affiliate URL)
+  | "finder"; // /finder quiz result CTA
 
 declare global {
   interface Window {

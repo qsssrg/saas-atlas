@@ -6,6 +6,7 @@ const NAV = [
   { label: "AI Coding", href: "/categories/ai-coding" },
   { label: "AI Voice", href: "/categories/ai-voice" },
   { label: "AI Productivity", href: "/categories/ai-productivity" },
+  { label: "Finder", href: "/finder" },
   { label: "About", href: "/about" },
 ];
 
@@ -67,7 +68,7 @@ export default function SiteHeader() {
           ))}
         </nav>
 
-        <Link href="#featured" className="btn btn-accent btn-sm">
+        <Link href="/finder" className="btn btn-accent btn-sm">
           Find your tool
         </Link>
       </div>
