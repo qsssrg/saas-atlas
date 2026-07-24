@@ -40,3 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 package-lock.json
+
+# blog pipeline review-stage drafts (never committed; published copies live in src/content/blog)
+/data/review/
+scripts/__pycache__/
