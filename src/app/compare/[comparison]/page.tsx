@@ -51,9 +51,9 @@ export async function generateMetadata({
   return {
     title,
     description,
-    openGraph: { title, description, type: "article", url: `https://saas-atlas.uk/compare/${slugA}-vs-${slugB}` },
+    openGraph: { title, description, type: "article", url: `https://www.saas-atlas.uk/compare/${slugA}-vs-${slugB}` },
     twitter: { card: "summary_large_image", title, description },
-    alternates: { canonical: `https://saas-atlas.uk/compare/${slugA}-vs-${slugB}` },
+    alternates: { canonical: `https://www.saas-atlas.uk/compare/${slugA}-vs-${slugB}` },
   };
 }
 
@@ -115,8 +115,8 @@ export default async function ComparePage({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "https://saas-atlas.uk" },
-              { "@type": "ListItem", position: 2, name: `${toolA.name} vs ${toolB.name}`, item: `https://saas-atlas.uk/compare/${toolA.slug}-vs-${toolB.slug}` },
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://www.saas-atlas.uk" },
+              { "@type": "ListItem", position: 2, name: `${toolA.name} vs ${toolB.name}`, item: `https://www.saas-atlas.uk/compare/${toolA.slug}-vs-${toolB.slug}` },
             ],
           }),
         }}

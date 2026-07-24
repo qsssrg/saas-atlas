@@ -30,7 +30,7 @@ export async function generateMetadata({
       title,
       description,
       type: "article",
-      url: `https://saas-atlas.uk/tools/${tool.slug}`,
+      url: `https://www.saas-atlas.uk/tools/${tool.slug}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -38,7 +38,7 @@ export async function generateMetadata({
       description,
     },
     alternates: {
-      canonical: `https://saas-atlas.uk/tools/${tool.slug}`,
+      canonical: `https://www.saas-atlas.uk/tools/${tool.slug}`,
     },
   };
 }
@@ -136,9 +136,9 @@ export default async function ToolPage({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://saas-atlas.uk" },
-      { "@type": "ListItem", position: 2, name: categoryName, item: `https://saas-atlas.uk/categories/${tool.category}` },
-      { "@type": "ListItem", position: 3, name: tool.name, item: `https://saas-atlas.uk/tools/${tool.slug}` },
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.saas-atlas.uk" },
+      { "@type": "ListItem", position: 2, name: categoryName, item: `https://www.saas-atlas.uk/categories/${tool.category}` },
+      { "@type": "ListItem", position: 3, name: tool.name, item: `https://www.saas-atlas.uk/tools/${tool.slug}` },
     ],
   };
 

@@ -46,7 +46,7 @@ export async function generateMetadata({
 
   const title = `Best ${cat.name} in ${country.name} 2026 — Compare Pricing & Alternatives`;
   const description = `The top ${cat.name.toLowerCase()} available in ${country.name} ${country.flag}, ranked by local popularity where tracked. Compare USD pricing, free-plan availability, and expert analysis of local alternatives — billable with ${country.currency} payment methods.`;
-  const url = `https://saas-atlas.uk/categories/${cat.slug}/${countryParam.toLowerCase()}`;
+  const url = `https://www.saas-atlas.uk/categories/${cat.slug}/${countryParam.toLowerCase()}`;
   return {
     title,
     description,
@@ -114,9 +114,9 @@ export default async function CategoryCountryPage({
               "@context": "https://schema.org",
               "@type": "BreadcrumbList",
               itemListElement: [
-                { "@type": "ListItem", position: 1, name: "Home", item: "https://saas-atlas.uk" },
-                { "@type": "ListItem", position: 2, name: cat.name, item: `https://saas-atlas.uk/categories/${cat.slug}` },
-                { "@type": "ListItem", position: 3, name: `${cat.name} in ${country.name}`, item: `https://saas-atlas.uk/categories/${cat.slug}/${countryParam.toLowerCase()}` },
+                { "@type": "ListItem", position: 1, name: "Home", item: "https://www.saas-atlas.uk" },
+                { "@type": "ListItem", position: 2, name: cat.name, item: `https://www.saas-atlas.uk/categories/${cat.slug}` },
+                { "@type": "ListItem", position: 3, name: `${cat.name} in ${country.name}`, item: `https://www.saas-atlas.uk/categories/${cat.slug}/${countryParam.toLowerCase()}` },
               ],
             }),
           }}

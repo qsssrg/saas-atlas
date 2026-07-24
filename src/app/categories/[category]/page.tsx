@@ -23,9 +23,9 @@ export async function generateMetadata({
   return {
     title,
     description: cat.description,
-    openGraph: { title, description: cat.description, type: "website", url: `https://saas-atlas.uk/categories/${cat.slug}` },
+    openGraph: { title, description: cat.description, type: "website", url: `https://www.saas-atlas.uk/categories/${cat.slug}` },
     twitter: { card: "summary_large_image", title, description: cat.description },
-    alternates: { canonical: `https://saas-atlas.uk/categories/${cat.slug}` },
+    alternates: { canonical: `https://www.saas-atlas.uk/categories/${cat.slug}` },
   };
 }
 
@@ -50,8 +50,8 @@ export default async function CategoryPage({
               "@context": "https://schema.org",
               "@type": "BreadcrumbList",
               itemListElement: [
-                { "@type": "ListItem", position: 1, name: "Home", item: "https://saas-atlas.uk" },
-                { "@type": "ListItem", position: 2, name: cat.name, item: `https://saas-atlas.uk/categories/${cat.slug}` },
+                { "@type": "ListItem", position: 1, name: "Home", item: "https://www.saas-atlas.uk" },
+                { "@type": "ListItem", position: 2, name: cat.name, item: `https://www.saas-atlas.uk/categories/${cat.slug}` },
               ],
             }),
           }}

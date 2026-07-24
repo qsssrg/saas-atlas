@@ -36,9 +36,9 @@ export async function generateMetadata({
   return {
     title,
     description,
-    openGraph: { title, description, type: "article", url: `https://saas-atlas.uk/tools/${tool.slug}/${countryParam.toLowerCase()}` },
+    openGraph: { title, description, type: "article", url: `https://www.saas-atlas.uk/tools/${tool.slug}/${countryParam.toLowerCase()}` },
     twitter: { card: "summary_large_image", title, description },
-    alternates: { canonical: `https://saas-atlas.uk/tools/${tool.slug}/${countryParam.toLowerCase()}` },
+    alternates: { canonical: `https://www.saas-atlas.uk/tools/${tool.slug}/${countryParam.toLowerCase()}` },
   };
 }
 

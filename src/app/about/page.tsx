@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 const authorJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  "@id": "https://saas-atlas.uk/about#author",
+  "@id": "https://www.saas-atlas.uk/about#author",
   name: "Rintaro Sonoda",
-  url: "https://saas-atlas.uk/about",
+  url: "https://www.saas-atlas.uk/about",
   jobTitle: "Founder & Editor, SaaS Atlas",
   description:
     "IT industry professional with 25 years of hands-on experience deploying enterprise software across Asia, Europe, and North America.",
@@ -25,7 +25,7 @@ const authorJsonLd = {
     "Software evaluation",
     "Digital transformation",
   ],
-  worksFor: { "@id": "https://saas-atlas.uk/#organization" },
+  worksFor: { "@id": "https://www.saas-atlas.uk/#organization" },
 };
 
 export default function AboutPage() {

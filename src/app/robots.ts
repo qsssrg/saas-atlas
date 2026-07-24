@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://saas-atlas.uk/sitemap.xml',
+    sitemap: 'https://www.saas-atlas.uk/sitemap.xml',
   };
 }

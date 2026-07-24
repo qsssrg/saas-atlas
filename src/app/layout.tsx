@@ -23,7 +23,7 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://saas-atlas.uk"),
+  metadataBase: new URL("https://www.saas-atlas.uk"),
   title: {
     default: "SaaS Atlas — Discover AI Tools Across Borders",
     template: "%s | SaaS Atlas",
@@ -54,16 +54,16 @@ export const metadata: Metadata = {
       "Compare AI writing, image, coding, voice, and productivity tools across 8 countries.",
   },
   alternates: {
-    canonical: "https://saas-atlas.uk",
+    canonical: "https://www.saas-atlas.uk",
   },
   verification: {
     google: "DhOiHoHfkxGS3VH0A-zucEkrMprEhmqvhBR75CEXJ7M",
   },
 };
 
-const ORGANIZATION_ID = "https://saas-atlas.uk/#organization";
-const WEBSITE_ID = "https://saas-atlas.uk/#website";
-const AUTHOR_ID = "https://saas-atlas.uk/about#author";
+const ORGANIZATION_ID = "https://www.saas-atlas.uk/#organization";
+const WEBSITE_ID = "https://www.saas-atlas.uk/#website";
+const AUTHOR_ID = "https://www.saas-atlas.uk/about#author";
 
 // Global structured data. Kept minimal and factual: the Organization,
 // the WebSite (with the on-site search box as a SearchAction), and a
@@ -75,8 +75,8 @@ const organizationJsonLd = {
   "@id": ORGANIZATION_ID,
   name: "SaaS Atlas",
   alternateName: ["SaaSAtlas", "Saas Atlas"],
-  url: "https://saas-atlas.uk",
-  logo: "https://saas-atlas.uk/globe.svg",
+  url: "https://www.saas-atlas.uk",
+  logo: "https://www.saas-atlas.uk/globe.svg",
   description:
     "Expert-curated AI tool comparisons across 8 English-speaking countries.",
   founder: { "@id": AUTHOR_ID },
@@ -87,14 +87,14 @@ const websiteJsonLd = {
   "@type": "WebSite",
   "@id": WEBSITE_ID,
   name: "SaaS Atlas",
-  url: "https://saas-atlas.uk",
+  url: "https://www.saas-atlas.uk",
   publisher: { "@id": ORGANIZATION_ID },
   potentialAction: {
     "@type": "SearchAction",
     target: {
       "@type": "EntryPoint",
       urlTemplate:
-        "https://saas-atlas.uk/categories/ai-writing?q={search_term_string}",
+        "https://www.saas-atlas.uk/categories/ai-writing?q={search_term_string}",
     },
     "query-input": "required name=search_term_string",
   },

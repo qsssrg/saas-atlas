@@ -3,7 +3,7 @@ import { tools } from '@/data/tools';
 import { countries } from '@/data/countries';
 import { categories } from '@/data/categories';
 
-const BASE_URL = 'https://saas-atlas.uk';
+const BASE_URL = 'https://www.saas-atlas.uk';
 
 // Fixed content-update dates for static/editorial pages. Bump these only when
 // the page's actual content changes — never use new Date(), or every deploy
