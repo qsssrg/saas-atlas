@@ -7,6 +7,7 @@ const NAV = [
   { label: "AI Voice", href: "/categories/ai-voice" },
   { label: "AI Productivity", href: "/categories/ai-productivity" },
   { label: "Finder", href: "/finder" },
+  { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
 ];
 

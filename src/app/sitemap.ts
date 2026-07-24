@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { tools } from '@/data/tools';
 import { countries } from '@/data/countries';
 import { categories } from '@/data/categories';
+import { getAllPosts } from '@/lib/blog';
 
 const BASE_URL = 'https://www.saas-atlas.uk';
 
@@ -47,6 +48,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'monthly',
     priority: 0.8,
   });
+
+  // Blog — index + each post.
+  const posts = getAllPosts();
+  entries.push({
+    url: `${BASE_URL}/blog`,
+    lastModified: posts.length ? new Date(posts[0].date) : new Date(FINDER_UPDATED),
+    changeFrequency: 'weekly',
+    priority: 0.7,
+  });
+  for (const post of posts) {
+    entries.push({
+      url: `${BASE_URL}/blog/${post.slug}`,
+      lastModified: new Date(post.date),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    });
+  }
 
   // Category pages — newest tool in that category.
   for (const cat of categories) {
