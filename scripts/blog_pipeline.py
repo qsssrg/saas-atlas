@@ -163,13 +163,12 @@ def main():
     # 5) 人間承認ゲート
     md = gen.to_markdown(article, topic)
     if REQUIRE_APPROVAL:
-        p = save("pending", topic["slug"], md)
+        save("pending", topic["slug"], md)
         slack(
             f":memo: *ブログ承認依頼* — {article['title']}\n"
             f"品質 content={review['content_score']}/seo={review['seo_score']}・事実確認OK・重複なし（{len(pool)}ツール素材）\n"
-            f"承認: `cd ~/saas-atlas && python3 scripts/blog_approve.py {topic['slug']}`\n"
-            f"却下: `rm {p}`\n"
-            f"ドラフト: `{p}`"
+            f"slug: `{topic['slug']}`\n"
+            f"承認する場合は saas-atlas ワーカーに「{topic['slug']} を公開して」と、却下する場合は「{topic['slug']} を却下して」と依頼してください。全文を確認したい場合は「{topic['slug']} の全文見せて」でどうぞ。"
         )
         log(f"承認待ち → {p}")
     else:
