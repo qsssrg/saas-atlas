@@ -4,6 +4,7 @@ import Script from "next/script";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import FinderBanner from "@/components/FinderBanner";
+import AtlasBackdrop from "@/components/AtlasBackdrop";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -134,6 +135,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
+        <AtlasBackdrop />
         <SiteHeader />
         <FinderBanner />
         <main className="flex-1">{children}</main>

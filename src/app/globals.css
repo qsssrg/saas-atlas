@@ -76,12 +76,47 @@
 /* ---------------------------------------------------------------------------
    Base
    ------------------------------------------------------------------------- */
-body {
+html {
+  /* Paper base lives on <html> so the fixed backdrop (z-index:-1) can show
+     through a transparent <body>. */
   background: var(--paper);
+}
+
+body {
+  background: transparent;
   color: var(--ink);
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   font-size: 16px;
   line-height: 1.6;
+}
+
+/* ---------------------------------------------------------------------------
+   Site-wide cartographic backdrop (see AtlasBackdrop.tsx)
+   Fixed behind all content: a faint survey grid + flowing contour lines.
+   Kept deliberately faint so text/tables on solid cards stay readable.
+   ------------------------------------------------------------------------- */
+.atlas-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  background-image:
+    linear-gradient(rgba(27, 24, 48, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(27, 24, 48, 0.02) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+.atlas-backdrop svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.atlas-backdrop path {
+  fill: none;
+  stroke: var(--contour);
+  stroke-width: 1.1;
+  opacity: 0.4;
 }
 
 .font-display {
