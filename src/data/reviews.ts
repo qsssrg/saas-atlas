@@ -34,6 +34,19 @@ export const REVIEW_AXES: ReviewAxis[] = [
  * Scale out to the remaining 14 tools by adding entries with the same shape.
  */
 export const reviews: Record<string, ToolReview> = {
+  "descript": {
+    slug: "descript",
+    rank: "A",
+    scores: { featureDepth: 8, valueForCost: 7, hallucinationResistance: 7, pricingClarity: 6 },
+    lead: "Descript reworks the basic unit of editing: instead of a timeline, audio and video get edited as a text transcript. Around that core sit AI transcription, Overdub voice cloning for correcting mistakes by retyping them, filler-word removal, screen recording, AI avatars, dubbing across 30+ languages, and Studio Sound noise reduction (per official listing). The depth is in how many post-production steps — cleanup, correction, structure — collapse into text editing rather than manual scrubbing.",
+    strengths: ["Text-based editing is a genuinely faster way to trim and rearrange spoken content than a timeline editor, which is the core claim and it holds up.", "Overdub lets a mistake get fixed by typing the correction rather than re-recording, which is a real production-time saver once a voice profile is trained.", "Filler-word removal and Studio Sound noise reduction handle two of the most repetitive manual cleanup tasks automatically.", "The feature span — transcription, cloning, avatars, dubbing, screen recording — covers most of a podcast or course-video pipeline from one tool."],
+    notForEveryone: ["If a fixed monthly workload is the norm, note that media-hour caps apply on every tier, so heavier producers will want to map their real volume against the limits first.", "If a completely clean take matters, be aware filler-word detection occasionally strips an intentional pause along with the filler.", "If AI avatars are the reason for signing up, know that feature sits on the higher Business tier rather than Hobbyist or Creator."],
+    pricingNote: "Per official listing, the free plan gives 60 minutes of media/month with 100 one-time AI credits and 720p export, Hobbyist is $24/mo (10 media hours/month, 400 AI credits/month, 1080p, 100GB storage), and Creator is $35/mo (30 media hours/month, 800 AI credits/month, 4K export, 1TB storage, 20+ AI tools). Pricing is reasonably transparent — all tiers are billed monthly with published caps — though the AI-credit layer on top of the media-hour cap is a second dimension worth tracking against actual usage. On value-for-cost, Creator earns its price once the AI toolset (Overdub, dubbing, avatars) is actually part of the workflow; using it purely as a transcript-based trim tool leaves much of that value unclaimed. Exact credit costs per AI feature are on Descript's own pricing page.",
+    recommendation: "Start on the free plan and edit one real recording end to end with the text-based workflow — that is where the core value proposition either lands or it does not, and it costs nothing to find out. If the media-hour cap is the binding constraint, move to Hobbyist ($24/mo, per official listing) month-to-month before assuming Creator is needed; only step up once Overdub, dubbing, or avatars are genuinely in regular use. If the AI-credit consumption on the higher tools starts running ahead of the base hours, that is the signal to watch before committing further, and there is no need to move to any annual arrangement to make this call.",
+    cta: { heading: "Try Descript", body: "Start on the free plan and edit a real recording with the text-based workflow first — move to the monthly Hobbyist or Creator tier only once the media-hour cap or the AI feature set is genuinely the limiting factor." },
+    reviewedOn: "2026-07-31",
+  },
+
   "elevenlabs": {
     slug: "elevenlabs",
     rank: "A",
