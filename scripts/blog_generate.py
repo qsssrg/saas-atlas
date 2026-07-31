@@ -96,7 +96,17 @@ def monetizable_categories(tools, min_tools=3):
     カテゴリ名を直書きせず毎回データから判定する。アフィリ申請が通って
     tools.ts に追跡URLが入れば、その時点で自動的に対象へ戻る（手で直す必要がない）。
     """
-    tracked_re = re.compile(r"(\?|&)(ref|fp_ref|via|aff|partner|utm_source|a_aid|irclickid|clickid)=")
+    # 追跡リンクの見分け方。クエリ型だけでなく**パス型**もある:
+    #   クエリ型 … ?via= / ?ref= / ?fpr= / ?fp_ref= / ?a_aid= など
+    #   パス型   … https://tldv.cello.so/XXXX, https://try.elevenlabs.io/XXXX
+    # 2026-08-01: 最初 fpr= とパス型を入れ忘れ、追跡済みを 5/30 と誤って数えた
+    # （実際は 8/30）。見落とすと「稼げないカテゴリ」と誤判定しかねないので、
+    # ASPの中継ドメインも合わせて見る。
+    tracked_re = re.compile(
+        r"(\?|&)(ref|fpr|fp_ref|via|aff|affiliate|partner|utm_source|a_aid|irclickid|clickid|tap_a|rfsn)="
+        r"|(?:cello\.so|\.pxf\.io|tolt\.io|tapfiliate\.com|partnerstack\.com|impact\.com)/"
+        r"|https?://try\.[^/]+/\w+"
+    )
     agg = {}
     for t in tools:
         cat = t.get("category")
