@@ -55,6 +55,18 @@ for (const b of blocks) {
       }
       return tiers;
     })(),
+    // website と affiliate.program は「そのツールで報酬が発生しうるか」の判定材料。
+    // 2026-08-01 追加: これが無かったため topic 選定が収益可能性を見られず、
+    // アフィリエイトプログラムが1つも無い ai-coding の記事を量産していた。
+    website: g(/\n\s{4}website:\s*'([^']*)'/),
+    affiliate: {
+      program: (() => {
+        const m = b.match(/\n\s{4}affiliate:\s*\{([\s\S]*?)\}/);
+        if (!m) return "";
+        const p = m[1].match(/program:\s*'([^']*)'/);
+        return p ? p[1] : "";
+      })(),
+    },
     headquarters: g(/headquarters:\s*'([^']*)'/),
     originCountry: g(/originCountry:\s*'([^']*)'/),
   });

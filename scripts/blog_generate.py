@@ -83,8 +83,44 @@ def existing_slugs() -> set:
 
 
 # ── topic 選定 ──────────────────────────────────────────────
+def monetizable_categories(tools, min_tools=3):
+    """紹介報酬が発生しうるツールが min_tools 件以上あるカテゴリだけを返す。
+
+    2026-08-01 追加。棚卸しで判明した事実:
+      ai-voice 8/8・ai-productivity 7/7・ai-writing 5/5 は収益化できるが、
+      **ai-coding は 5ツール全部がアフィリエイトプログラムを持たない（0/5）**、
+      ai-image も 1/5 しかない。にもかかわらず topic 選定が全カテゴリを等しく
+      扱っていたため、公開済み5本のうち4本が ai-coding＝**構造的に1円も生まれない
+      記事を量産していた**。
+
+    カテゴリ名を直書きせず毎回データから判定する。アフィリ申請が通って
+    tools.ts に追跡URLが入れば、その時点で自動的に対象へ戻る（手で直す必要がない）。
+    """
+    tracked_re = re.compile(r"(\?|&)(ref|fp_ref|via|aff|partner|utm_source|a_aid|irclickid|clickid)=")
+    agg = {}
+    for t in tools:
+        cat = t.get("category")
+        if not cat:
+            continue
+        d = agg.setdefault(cat, {"n": 0, "money": 0})
+        d["n"] += 1
+        prog = ((t.get("affiliate") or {}).get("program") or "").strip()
+        has_program = bool(prog) and prog.lower() != "none"
+        if has_program or tracked_re.search(t.get("website") or ""):
+            d["money"] += 1
+    keep = {c for c, d in agg.items() if d["money"] >= min_tools}
+    dropped = {c: d for c, d in agg.items() if c not in keep}
+    if dropped:
+        print("[topic] 収益化できないため候補から除外: "
+              + ", ".join(f"{c}({d['money']}/{d['n']})" for c, d in sorted(dropped.items())))
+    return keep or set(agg)   # 全滅する設定ミス時は従来どおり全カテゴリ
+
+
 def enumerate_topics(tools):
     cats = sorted({t["category"] for t in tools})
+    if os.environ.get("BLOG_ALL_CATEGORIES") != "1":
+        keep = monetizable_categories(tools)
+        cats = [c for c in cats if c in keep]
     topics = []
     for cat in cats:
         for angle, desc in ANGLES:
