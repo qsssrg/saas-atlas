@@ -119,10 +119,26 @@ def facts_for(topic, tools):
     lines = []
     for t in pool:
         price = "free plan" if t["hasFreeplan"] else f"from ${t['startingPrice']}/mo"
+        # limitations も渡す。2026-08-01: 事実源に制約が無かったため、記事が
+        # 「クレジットカード不要」等の裏付けのない主張を書き、ファクトチェックで
+        # 落ちていた。書ける範囲を先に示すほうが手戻りが少ない。
+        lim = t.get("limitations") or []
+        lim_txt = f" Known limitations: {', '.join(lim[:3])}." if lim else ""
+        # 各プランの中身も渡す。無料プランで何ができるかを書く記事が多いのに、
+        # 事実源にプラン内訳が無く、裏付けのない数字が書かれていた（2026-08-01）。
+        tiers = t.get("pricing") or []
+        tier_txt = ""
+        if tiers:
+            parts = []
+            for p in tiers[:4]:
+                label = f"{p['name']} (${p['price']}/mo)" if p.get("price") else f"{p['name']} (free)"
+                feats = ", ".join((p.get("features") or [])[:4])
+                parts.append(f"{label}: {feats}" if feats else label)
+            tier_txt = " Plans — " + " | ".join(parts) + "."
         lines.append(
             f"- {t['name']} (slug: {t['slug']}): {t['tagline']}. Pricing: {price}. "
-            f"Best for: {', '.join(t['bestFor'])}. Key features: {', '.join(t['features'][:5])}. "
-            f"HQ: {t['headquarters']}."
+            f"Best for: {', '.join(t['bestFor'])}. Key features: {', '.join(t['features'][:5])}."
+            f"{tier_txt}{lim_txt} HQ: {t['headquarters']}."
         )
     return "\n".join(lines), pool
 
@@ -147,6 +163,36 @@ STRICT RULES:
 Return ONLY a JSON object (no prose, no code fences) with keys:
   title (string), description (string, <=155 chars, plain), tags (array of 3-5 short strings),
   body (string, the markdown body WITHOUT frontmatter and WITHOUT the H1 title)."""
+
+
+# 文体・構成のバリエーション。記事ごとに1つ選び WRITER_SYSTEM に足して"ワンパターン"を防ぐ
+# (事実制約・/finder CTA・語数などのガードレールは WRITER_SYSTEM 側で維持)。
+STYLE_VARIANTS = [
+    "THIS POST'S VOICE: Experience-led. Open with a concrete scenario or first-hand anecdote, not a generic intro. Land the takeaway partway through.",
+    "THIS POST'S VOICE: Question-led / Q&A. Make the reader's real questions the `##` headings and answer each one directly and briefly.",
+    "THIS POST'S VOICE: News-analysis. Facts → context → why it matters, in a measured, reporter-like tone. Restrained adjectives.",
+    "THIS POST'S VOICE: Comparison / verdict. Lay out the options side by side, weigh trade-offs fairly, then give the reader a clear decision rule.",
+    "THIS POST'S VOICE: Myth-busting / contrarian. Open by challenging a common assumption or hype, then carefully unpack the reality.",
+    "THIS POST'S VOICE: Story / timeline. Follow 'what happened → how it developed → where it stands now' like a short narrative.",
+    "THIS POST'S VOICE: Practical how-to. Lead with steps, checklists and bullets so the reader can act immediately.",
+    "THIS POST'S VOICE: Essay. Build around a single lens or metaphor in a calm, considered register. Don't over-hype.",
+]
+STYLE_STATE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "blog_style_state.json")
+
+
+def pick_style():
+    """前回と違う書き口を順繰りに選ぶ(直近重複を避ける)。"""
+    try:
+        last = int(json.load(open(STYLE_STATE, encoding="utf-8")).get("last", -1))
+    except Exception:
+        last = -1
+    idx = (last + 1) % len(STYLE_VARIANTS)
+    try:
+        os.makedirs(os.path.dirname(STYLE_STATE), exist_ok=True)
+        json.dump({"last": idx}, open(STYLE_STATE, "w", encoding="utf-8"))
+    except Exception:
+        pass
+    return STYLE_VARIANTS[idx]
 
 
 def _claude(messages, system):
@@ -183,10 +229,71 @@ Tools available in this category (facts — use these only):
 {facts}
 
 Write the post now. Remember: JSON only."""
-    return _claude([{"role": "user", "content": user}], WRITER_SYSTEM)
+    style = pick_style()  # 記事ごとに書き口を変える(文体のワンパターン化を防ぐ)
+    print(f"[style] {style[:50]}", flush=True)
+    return _claude([{"role": "user", "content": user}], WRITER_SYSTEM + "\n\n" + style)
 
 
-def revise_claude(article, facts, category, review_fixes=None, factcheck_issues=None):
+# ── ニュース起点執筆（ai-daily選択→記事化フロー用・2026-07-27追加）─────
+# 既存のカタログ駆動(call_claude)は tools 事実源前提。ニュースは tools と繋がらない
+# ことがあるため（ユーザー方針: SaaS比較と繋がらなくても記事化する）、ニュース記載の
+# 事実のみを使う専用モードを設ける。レビュー/ファクトチェック/承認ゲートは既存を流用。
+WRITER_SYSTEM_NEWS = """You are the editor of SaaS Atlas (saas-atlas.uk), an expert AI/tech site.
+A reader-facing news-analysis post in British English, based on the news item provided.
+
+STRICT RULES:
+- Use ONLY facts stated in the provided news item. NEVER invent pricing, features, dates,
+  company names, or figures. If a figure isn't in the news, don't state a number.
+- Explain what happened → why it matters → what it means for people choosing/using SaaS & AI tools.
+  It is fine if the news is not directly about a catalogued tool; do not force tool comparisons.
+- Measured, reporter-like tone. Specific and honest. No hype, no fabricated quotes/stats.
+- Structure: short intro, 2–4 `##` sections, a closing. Markdown only (##, **bold**, - lists,
+  [text](url) links). No MDX/JSX, no images, no HTML.
+- You MAY link the quiz at /finder once if genuinely relevant. End with a light one-line CTA to /finder.
+- Keep it ~500–800 words.
+
+SEO (write for search from the start, without keyword-stuffing):
+- Title: lead with the concrete subject/keyword a reader would search; keep it ~60 chars, specific.
+- Description: a compelling <=155-char meta summary containing the main keyword naturally.
+- Use descriptive, question- or benefit-led `##` headings that match real search intent
+  (e.g. "What changed", "Why it matters for SaaS buyers", "What to do now").
+- Naturally repeat the core term and close variants across intro, one heading, and the body.
+- Prefer concrete nouns and scannable structure (short paragraphs, a bullet list where useful).
+
+Return ONLY a JSON object (no prose, no code fences) with keys:
+  title (string), description (string, <=155 chars, plain), tags (array of 3-5 short strings),
+  body (string, markdown body WITHOUT frontmatter and WITHOUT the H1 title)."""
+
+
+def news_topic(headline: str, url: str = "", category: str = "ai-coding") -> dict:
+    """ニュース見出しから topic dict を合成（既存 to_markdown / パイプラインと互換）。
+    category は既存の有効カテゴリに寄せる（/categories/<cat> の404回避）。"""
+    base = re.sub(r"<[^>]+>", "", headline)          # Slack装飾除去
+    base = re.sub(r"[*_`]", "", base).strip()
+    title = base.split(" — ")[0].split(" - ")[0].strip()[:90] or "AI news"
+    return {
+        "category": category,
+        "angle": "news-analysis",
+        "angle_desc": "explain this AI/tech news for people choosing and using SaaS & AI tools",
+        "title": title,
+        "slug": slugify(f"{title}-{date.today().isoformat()}")[:80],
+        "source_url": url,
+    }
+
+
+def call_claude_news(news_text: str, url: str, topic: dict):
+    """ニュース本文を事実源に英語記事を書く。返り値は call_claude と同じ article dict。"""
+    user = f"""News item (facts — use these only; do not invent anything beyond this):
+{news_text}
+
+Source URL: {url or '(not provided)'}
+Suggested category link: /categories/{topic['category']}
+
+Write the news-analysis post now. Remember: JSON only."""
+    return _claude([{"role": "user", "content": user}], WRITER_SYSTEM_NEWS)
+
+
+def revise_claude(article, facts, category, review_fixes=None, factcheck_issues=None, system=None):
     """Ask the writer to revise the article given review / fact-check feedback."""
     parts = []
     if review_fixes:
@@ -210,7 +317,8 @@ Current article JSON:
 {json.dumps(article, ensure_ascii=False)}
 
 Return the FULL revised article as JSON only (same keys: title, description, tags, body)."""
-    return _claude([{"role": "user", "content": user}], WRITER_SYSTEM)
+    # news 起点では WRITER_SYSTEM_NEWS を渡す（既定 None はカタログ用 WRITER_SYSTEM）
+    return _claude([{"role": "user", "content": user}], system or WRITER_SYSTEM)
 
 
 # ── 出力 ────────────────────────────────────────────────────
