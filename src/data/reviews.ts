@@ -34,6 +34,19 @@ export const REVIEW_AXES: ReviewAxis[] = [
  * Scale out to the remaining 14 tools by adding entries with the same shape.
  */
 export const reviews: Record<string, ToolReview> = {
+  "gamma": {
+    slug: "gamma",
+    rank: "A",
+    scores: { featureDepth: 8, valueForCost: 7, hallucinationResistance: 6, pricingClarity: 6 },
+    lead: "Gamma turns a prompt into a finished, designed artifact — a deck, a document, or a web page — with smart slide layouts, built-in AI image generation, one-click web publishing, custom branding and themes, per-viewer engagement analytics, custom-domain hosting, and API access (per official listing). The depth here is speed-to-finished-output: a single text prompt covers structure, copy, and imagery at once, where most tools handle those three steps separately.",
+    strengths: ["Prompt-to-presentation genuinely compresses a task that normally spans several tools (outline, slides, imagery) into one pass.", "Built-in AI image generation means visuals do not require a separate design tool or stock-photo search.", "One-click web publishing turns a deck into a shareable, hosted page instantly, which most presentation tools do not offer natively.", "Per-viewer analytics and API access on the Pro tier extend the tool past a one-off deck into something that can be tracked and automated."],
+    notForEveryone: ["If ongoing free use is the plan, note the free tier's 400 AI credits are one-time, not renewing — once spent, continued use requires a paid plan.", "If pixel-perfect layout control is the priority, be aware the design system trades some manual control for speed and consistency.", "If a flat, predictable monthly cost matters most, know AI credit consumption varies with content complexity rather than a fixed per-deck rate."],
+    pricingNote: "Per official listing, the free plan gives 400 one-time AI credits with unlimited decks (Gamma-branded), Plus is $9/mo billed yearly (1,000 AI credits/month, no branding, advanced AI image models, custom fonts), and Pro is $18/mo billed yearly (4,000 AI credits/month, API access, custom domains, per-viewer analytics). The tiers themselves are fairly readable, though the AI-credit meter is the one soft spot — it is worth confirming how far 1,000 or 4,000 credits actually stretch for a real workload before assuming the headline price covers ongoing use. On value-for-cost, Plus is inexpensive for what it removes (branding, better images), and Pro earns its price mainly once the API or analytics are actually in use.",
+    recommendation: "Start on the free tier and spend the one-time credits on a real presentation or document — that alone answers whether the prompt-to-output speed is worth building a habit around. If it is, move to Plus billed monthly first (even though the headline rate reflects annual billing, confirm the monthly-equivalent option before committing to a year) and watch how the recurring AI credits track your actual output pace. Reserve Pro for the point where custom domains, API access, or per-viewer analytics are genuinely needed; for a team that wants tighter brand-template control instead of generative speed, Beautiful.ai is the closer fit.",
+    cta: { heading: "Try Gamma", body: "Use the one-time free credits on a real deck first, then move to the monthly-equivalent Plus plan once the workflow is proven — no need to commit to annual billing before that." },
+    reviewedOn: "2026-08-01",
+  },
+
   "descript": {
     slug: "descript",
     rank: "A",
