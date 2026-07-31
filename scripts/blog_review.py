@@ -31,9 +31,17 @@ Axis A — CONTENT (content_score): Is it genuinely useful, specific, honest, an
   contradictions, weak intro/closing. Reward: concrete guidance, fair trade-offs, a decisive
   "who should pick what".
 
-Axis B — SEO (seo_score): title/meta quality, keyword intent match, heading structure (##),
-  internal links present (/tools/<slug>, /categories/<cat>, /finder), scannability, length
-  (~600-1000 words is good). Penalise keyword stuffing and missing internal links.
+Axis B — SEO (seo_score): judge ONLY what cannot be counted mechanically — does the title/meta
+  match what a searcher actually wants, is the promise in the title delivered in the body, is the
+  recommendation easy to find while skimming, is there keyword stuffing or thin repetition.
+  Counts (word count, number of internal links, number of '##' headings, title/meta length) are
+  measured in code and given to you below as MEASURED FACTS — treat them as already verified and
+  never ask for more of something whose measured number already meets its minimum.
+
+FORMAT NEUTRALITY (important): this site deliberately rotates the voice of its posts — Q&A,
+essay, story/timeline, myth-busting, practical how-to, experience-led are all sanctioned formats.
+Do NOT lower either score because a post is not a conventional listicle or how-to. Judge whether
+the chosen format is executed well, not whether you would have chosen it.
 
 Return ONLY this JSON (no prose, no fences):
 {
@@ -75,7 +83,16 @@ def call_openai(system, user, model=REVIEW_MODEL):
 
 
 def review(md_full):
-    user = f"Review this draft (frontmatter + markdown body):\n\n{md_full}\n\nReturn JSON only."
+    # 数えられる基準は blog_seo_facts が実測し、その結果を渡す。
+    # これを渡さないと「内部リンクをもっと」のような**すでに満たしている指摘**が
+    # 毎回返り、改稿しても直せず永久に落ち続ける（2026-08-01 の調査で実証）。
+    try:
+        import blog_seo_facts as bsf
+        facts_note = bsf.facts_note(bsf.measure(md_full))
+    except Exception:
+        facts_note = ""
+    user = (f"Review this draft (frontmatter + markdown body):\n\n{md_full}\n\n"
+            f"{facts_note}\n\nReturn JSON only.")
     raw = call_openai(REVIEW_SYSTEM, user).strip()
     if raw.startswith("```"):
         raw = re.sub(r"^```[a-z]*\n?|\n?```$", "", raw).strip()

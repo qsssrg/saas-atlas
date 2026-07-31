@@ -26,6 +26,7 @@ sys.path.insert(0, os.path.expanduser("~/claudecode"))
 import blog_generate as gen          # noqa: E402
 import blog_review as rev            # noqa: E402
 import blog_factcheck as fc          # noqa: E402
+import blog_seo_facts as seo_facts   # noqa: E402  機械で測れるSEO要件（ハードゲート）
 
 REVIEW_DIR = os.path.join(BASE, "data", "review")
 BLOG_DIR = os.path.join(BASE, "src", "content", "blog")
@@ -100,41 +101,93 @@ def similar_to_existing(title, tags):
 
 
 def main():
-    tools = gen.load_tools()
-    topic = gen.pick_topic(tools)
-    if not topic:
-        log("候補トピックなし（全て公開済み？）")
-        return
-    log(f"Topic: {topic['title']} (slug {topic['slug']})")
-    facts, pool = gen.facts_for(topic, tools)
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--news", default="", help="ニュース本文（指定時はニュース起点で記事化）")
+    ap.add_argument("--news-file", default=None)
+    ap.add_argument("--url", default="")
+    args, _ = ap.parse_known_args()
+    news = args.news
+    if args.news_file:
+        news = open(os.path.expanduser(args.news_file), encoding="utf-8").read()
 
-    # 1) 執筆
-    log("執筆中(Claude)…")
-    article = gen.call_claude(topic, facts, topic["category"])
+    if news:
+        # ── ニュース起点（ai-daily選択→記事化）──
+        # facts=ニュース本文。tools は使わない（SaaS比較と繋がらなくても記事化する方針）。
+        topic = gen.news_topic(news, args.url)
+        facts, pool = news, []
+        rev_system = gen.WRITER_SYSTEM_NEWS  # 改稿もニュース用システムで（/tools/捏造を防ぐ）
+        seo_th = float(os.environ.get("BLOG_NEWS_SEO_THRESHOLD", "7.5"))  # news記事はSEO閾値を緩める
+        log(f"News topic: {topic['title']} (slug {topic['slug']})")
+        log("執筆中(Claude・news-analysis)…")
+        article = gen.call_claude_news(news, args.url, topic)
+    else:
+        # ── 常緑カタログ駆動（従来）──
+        tools = gen.load_tools()
+        topic = gen.pick_topic(tools)
+        if not topic:
+            log("候補トピックなし（全て公開済み？）")
+            return
+        log(f"Topic: {topic['title']} (slug {topic['slug']})")
+        facts, pool = gen.facts_for(topic, tools)
+        rev_system = None  # カタログ用（既定 WRITER_SYSTEM）
+        seo_th = SEO_TH    # カタログ記事は従来閾値
+        log("執筆中(Claude)…")
+        article = gen.call_claude(topic, facts, topic["category"])
 
-    # 2) 2軸レビュー → 閾値まで改稿
-    best = None
+    # 2) 品質ゲート（2026-08-01 全面見直し）
+    #
+    # 旧: LLMの content_score/seo_score が閾値(8.0/8.0)を超えるまで最大3周改稿し、
+    #     超えなければ escalated に捨てる。
+    # 実測で判明した問題:
+    #   ・content は観測全件が 8.0、seo は 7.0 か 9.0 の二値＝**判別力がない**
+    #   ・落ちた原稿と通った記事で、リンク数・語数・見出し数が同一
+    #   ・公開済み記事を再採点すると 7.0 で落ちる（＝合否が再現しない）
+    #   ・毎回「内部リンクをもっと」と定型で言われ、既に11本あるので**改稿で直せない**
+    #   ・当たりを決めていたのは**文体**（how-to/体験型=9.0、Q&A/エッセイ/物語=7.0）
+    #     ＝「文体に幅を持たせる」方針とゲートが正面衝突していた
+    # 新方針:
+    #   ハードゲート = 機械で測れるSEO要件（blog_seo_facts）。落ちたら具体値を出して改稿。
+    #   LLMレビュー  = 助言。must_fix を1回の改稿に使い、スコアは記録するが**合否に使わない**。
+    #   本当の品質担保は この後の 専任ファクトチェック（誤情報を止める）と 人間承認 が担う。
+    review = None
+    mech_bad = []
     for r in range(1, MAX_ROUNDS + 1):
         md = gen.to_markdown(article, topic)
-        review = rev.review(md)
-        cs, ss = review["content_score"], review["seo_score"]
-        log(f"round {r}: content={cs} seo={ss}")
-        if best is None or (cs + ss) > best[0]:
-            best = (cs + ss, article, review)
-        if cs >= CONTENT_TH and ss >= SEO_TH:
+        mech = seo_facts.measure(md)
+        mech_bad = seo_facts.check(mech)
+        if review is None:                      # LLMレビューは1回だけ（助言用）
+            review = rev.review(md)
+            log(f"round {r}: content={review['content_score']} seo={review['seo_score']} "
+                f"(参考値・合否には使わない) / 機械チェック未達={len(mech_bad)}件")
+        else:
+            log(f"round {r}: 機械チェック未達={len(mech_bad)}件")
+        if not mech_bad:
             break
+        for b in mech_bad:
+            log(f"    - {b}")
         if r < MAX_ROUNDS:
-            log("  改稿(review fixes)…")
-            article = gen.revise_claude(article, facts, topic["category"],
-                                        review_fixes=review.get("must_fix"))
-    _, article, review = best
-    if not (review["content_score"] >= CONTENT_TH and review["seo_score"] >= SEO_TH):
+            log("  改稿（機械チェックの実測値＋レビュー助言）…")
+            article = gen.revise_claude(
+                article, facts, topic["category"],
+                review_fixes=(review.get("must_fix") or []) + mech_bad, system=rev_system)
+
+    quality_note = ""  # 承認依頼に付ける品質注記
+    if mech_bad:
+        # 機械で測れる要件を満たせなかった＝直し方が明確なのに直らない。ここは止める。
         p = save("escalated", topic["slug"], gen.to_markdown(article, topic))
-        slack(f":warning: *ブログ生成: 品質未達で保留* — {topic['title']}\n"
-              f"content={review['content_score']} seo={review['seo_score']}（閾値 {CONTENT_TH}/{SEO_TH}）\n"
-              f"ドラフト: `{p}`")
-        log("品質未達 → escalated 保存・通知")
+        slack(f":warning: *ブログ生成: SEO要件を満たせず保留* — {topic['title']}\n"
+              + "\n".join(f"・{b}" for b in mech_bad)
+              + f"\nドラフト: `{p}`")
+        log("機械チェック未達 → escalated 保存・通知")
         return
+    if review["content_score"] < CONTENT_TH or review["seo_score"] < seo_th:
+        # 参考値が低いだけでは捨てない（再現しない指標で記事を殺さない）。
+        # 人間が最終判断できるよう、承認依頼に注記として添える。
+        quality_note = (f"参考スコア content={review['content_score']} / seo={review['seo_score']}"
+                        f"（この指標は再現性が低いため合否には使っていません）。"
+                        f"レビュー指摘: " + " / ".join(review.get("must_fix") or [])[:200])
+        log(f"参考スコアは閾値未満だが機械チェック合格 → 承認ゲートへ（{quality_note[:60]}…）")
 
     # 3) 専任ファクトチェック（high残存は1回改稿→再検証）
     log("ファクトチェック(gpt-4o)…")
@@ -142,7 +195,7 @@ def main():
     highs = [i for i in result.get("issues", []) if i.get("severity") == "high"]
     if highs:
         log(f"  high {len(highs)}件 → 1回改稿")
-        article = gen.revise_claude(article, facts, topic["category"], factcheck_issues=highs)
+        article = gen.revise_claude(article, facts, topic["category"], factcheck_issues=highs, system=rev_system)
         result = fc.factcheck(article["body"], facts)
         highs = [i for i in result.get("issues", []) if i.get("severity") == "high"]
     if highs:
@@ -163,14 +216,28 @@ def main():
     # 5) 人間承認ゲート
     md = gen.to_markdown(article, topic)
     if REQUIRE_APPROVAL:
-        save("pending", topic["slug"], md)
-        slack(
-            f":memo: *ブログ承認依頼* — {article['title']}\n"
-            f"品質 content={review['content_score']}/seo={review['seo_score']}・事実確認OK・重複なし（{len(pool)}ツール素材）\n"
-            f"slug: `{topic['slug']}`\n"
-            f"承認する場合は saas-atlas ワーカーに「{topic['slug']} を公開して」と、却下する場合は「{topic['slug']} を却下して」と依頼してください。全文を確認したい場合は「{topic['slug']} の全文見せて」でどうぞ。"
-        )
-        log(f"承認待ち → {p}")
+        p = save("pending", topic["slug"], md)
+        src_note = "ニュース起点" if news else f"{len(pool)}ツール素材"
+        summary = (f"品質 content={review['content_score']}/seo={review['seo_score']}"
+                   f"・事実確認OK・重複なし（{src_note}）")
+        if quality_note:
+            summary = quality_note + "\n" + summary
+        appr_ts = None
+        try:
+            import appr_req_common
+            appr_ts = appr_req_common.submit_request(
+                project="saas-atlas", workdir=BASE, slug=topic["slug"],
+                title=article["title"], summary=summary, pending_md=p)
+        except Exception as e:
+            log(f"[appr-req] 承認依頼の投稿に失敗、従来通知にフォールバック: {e}")
+        if not appr_ts:
+            # #appr-req 未解決(未作成/未招待)や失敗時のフォールバック
+            slack(
+                f":memo: *ブログ承認依頼* — {article['title']}\n{summary}\n"
+                f"slug: `{topic['slug']}`\n"
+                f"承認する場合は saas-atlas ワーカーに「{topic['slug']} を公開して」と、却下する場合は「{topic['slug']} を却下して」と依頼してください。"
+            )
+        log(f"承認待ち → {p} (appr_ts={appr_ts})")
     else:
         save("pending", topic["slug"], md)
         log("承認不要モード（未対応の自動公開は blog_approve に委譲）")
