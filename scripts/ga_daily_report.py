@@ -42,6 +42,21 @@ CLICK_EVENTS = ["click", "outbound_click"]
 
 
 # ────────────────────────── GA4 ──────────────────────────
+def _dated_url(base_url: str, date_str: str) -> str:
+    """レポートURLに対象日を付ける（キャッシュ回避・2026-08-01）。
+
+    毎日同じURLをSlackに送っていたため、スマホで開くと**前日のレポートが
+    キャッシュから表示され**、「古い日付の分が届いた」と誤認させていた。
+    ?d= は表示に影響しないので、日付が変われば必ず新しいURLになる。
+    """
+    import re as _re
+    m = _re.search(r"(\d{4})-(\d{2})-(\d{2})", str(date_str or ""))
+    if not m:
+        return base_url
+    sep = "&" if "?" in base_url else "?"
+    return f"{base_url}{sep}d={m.group(2)}{m.group(3)}"
+
+
 def get_client():
     from google.analytics.data_v1beta import BetaAnalyticsDataClient
     if not os.path.exists(CREDENTIALS_PATH):
@@ -310,7 +325,7 @@ def slack_summary(ydate, yday, week, wclicks, commits):
             f"・直近1週間: ユーザー{m(ws,'activeUsers')} / セッション{m(ws,'sessions')} / PV{m(ws,'screenPageViews')}\n"
             f"・クリック(7日): click {c7.get('click',0)} / outbound_click {c7.get('outbound_click',0)}\n"
             f"・直近24hのサイト更新: {upd}\n"
-            f"<{REPORT_URL}|▶ レポート全文（前日/週次/クリック/更新）>")
+            f"<{_dated_url(REPORT_URL, ydate)}|▶ レポート全文（前日/週次/クリック/更新）>")
 
 
 def slack_fulltext(ydate, wk_start, wk_end, yday, week, wclicks, commits):
