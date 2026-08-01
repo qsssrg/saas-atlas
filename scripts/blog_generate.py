@@ -83,6 +83,19 @@ def existing_slugs() -> set:
 
 
 # ── topic 選定 ──────────────────────────────────────────────
+# 追跡リンク（＝報酬が発生しうるリンク）の見分け方。クエリ型だけでなく**パス型**もある:
+#   クエリ型 … ?via= / ?ref= / ?fpr= / ?fp_ref= / ?a_aid= など
+#   パス型   … https://tldv.cello.so/XXXX, https://try.elevenlabs.io/XXXX
+# 2026-08-01: 最初 fpr= とパス型を入れ忘れ、追跡済みを 5/30 と誤って数えた（実際は 8/30）。
+# 見落とすと「稼げないカテゴリ」と誤判定しかねないので、ASPの中継ドメインも合わせて見る。
+# ※ここを**唯一の定義**とする。weekly_review.py など他スクリプトはこの定数を import する
+#   （コピーすると片方だけ直して網羅率が静かに古い基準のままになるため）。
+TRACKED_RE = re.compile(
+    r"(\?|&)(ref|fpr|fp_ref|via|aff|affiliate|partner|utm_source|a_aid|irclickid|clickid|tap_a|rfsn)="
+    r"|(?:cello\.so|\.pxf\.io|tolt\.io|tapfiliate\.com|partnerstack\.com|impact\.com)/"
+    r"|https?://try\.[^/]+/\w+")
+
+
 def monetizable_categories(tools, min_tools=3):
     """紹介報酬が発生しうるツールが min_tools 件以上あるカテゴリだけを返す。
 
@@ -96,17 +109,6 @@ def monetizable_categories(tools, min_tools=3):
     カテゴリ名を直書きせず毎回データから判定する。アフィリ申請が通って
     tools.ts に追跡URLが入れば、その時点で自動的に対象へ戻る（手で直す必要がない）。
     """
-    # 追跡リンクの見分け方。クエリ型だけでなく**パス型**もある:
-    #   クエリ型 … ?via= / ?ref= / ?fpr= / ?fp_ref= / ?a_aid= など
-    #   パス型   … https://tldv.cello.so/XXXX, https://try.elevenlabs.io/XXXX
-    # 2026-08-01: 最初 fpr= とパス型を入れ忘れ、追跡済みを 5/30 と誤って数えた
-    # （実際は 8/30）。見落とすと「稼げないカテゴリ」と誤判定しかねないので、
-    # ASPの中継ドメインも合わせて見る。
-    tracked_re = re.compile(
-        r"(\?|&)(ref|fpr|fp_ref|via|aff|affiliate|partner|utm_source|a_aid|irclickid|clickid|tap_a|rfsn)="
-        r"|(?:cello\.so|\.pxf\.io|tolt\.io|tapfiliate\.com|partnerstack\.com|impact\.com)/"
-        r"|https?://try\.[^/]+/\w+"
-    )
     agg = {}
     for t in tools:
         cat = t.get("category")
@@ -116,7 +118,7 @@ def monetizable_categories(tools, min_tools=3):
         d["n"] += 1
         prog = ((t.get("affiliate") or {}).get("program") or "").strip()
         has_program = bool(prog) and prog.lower() != "none"
-        if has_program or tracked_re.search(t.get("website") or ""):
+        if has_program or TRACKED_RE.search(t.get("website") or ""):
             d["money"] += 1
     keep = {c for c, d in agg.items() if d["money"] >= min_tools}
     dropped = {c: d for c, d in agg.items() if c not in keep}
