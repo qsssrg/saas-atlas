@@ -34,6 +34,19 @@ export const REVIEW_AXES: ReviewAxis[] = [
  * Scale out to the remaining 14 tools by adding entries with the same shape.
  */
 export const reviews: Record<string, ToolReview> = {
+  "fireflies-ai": {
+    slug: "fireflies-ai",
+    rank: "A",
+    scores: { featureDepth: 8, valueForCost: 7, hallucinationResistance: 7, pricingClarity: 6 },
+    lead: "Fireflies.ai is the most established name in this list (founded 2016) and it shows in the feature depth: automatic recording across Zoom/Meet/Teams, transcription in 100+ languages, AI summaries, action-item detection, conversation intelligence (talk-time, sentiment, key topics), CRM integrations with Salesforce and HubSpot, a searchable meeting archive, and team analytics (per official listing). The depth goes past passive transcription into meeting analytics that tie directly into a sales or CS workflow.",
+    strengths: ["Native Salesforce and HubSpot integrations push meeting insights straight into deal records, which turns a transcript into something a sales team actually acts on.", "Conversation intelligence surfaces talk-time ratios, sentiment, and topic breakdowns — a level of analysis most meeting-notetakers do not attempt.", "The free plan includes unlimited transcription, which is unusually generous for the category and lets the core accuracy be judged at no cost.", "Maturity shows: the product has had years to refine action-item detection and summary accuracy against real meeting data."],
+    notForEveryone: ["If ongoing storage matters more than a one-time allowance, note the free plan's 400 minutes is total storage, not a monthly refresh — it fills up and stays full.", "If a heavy meeting schedule is the norm, be aware the AI-credit allowance on paid plans is comparatively modest.", "If month-to-month billing is preferred, know the advertised per-seat prices reflect annual billing."],
+    pricingNote: "Per official listing, the free plan includes 400 minutes total storage and 20 AI credits with unlimited transcription, Pro is $10/mo billed yearly (8,000 minutes/seat, video recording, AI Skills, action items), and Business is $19/mo billed yearly (unlimited storage, conversation intelligence, team analytics, multi-language mode). Value-for-cost is strong, particularly on Business where conversation intelligence and CRM integration genuinely replace a separate sales-analytics purchase; the pricing-clarity caution is that the attractive per-seat numbers are annual, and the free tier's \"400 minutes total\" framing is easy to misread as monthly.",
+    recommendation: "Start free and let the unlimited transcription and basic summaries run against a few real meetings — that answers the accuracy question before any commitment. Once the 400-minute storage ceiling is reached, or once CRM-tied insights are the actual goal, Business is where the value clearly concentrates; confirm whether a monthly-billed rate is available before committing to the annual figure. For lighter meeting volume where sales analytics are not the point, MeetGeek is the more budget-friendly alternative with clearer monthly pricing.",
+    cta: { heading: "Try Fireflies.ai", body: "Start free and run it on real meetings first — move to Business once CRM-tied conversation intelligence is the actual need, and confirm monthly-vs-annual billing before committing." },
+    reviewedOn: "2026-08-02",
+  },
+
   "gamma": {
     slug: "gamma",
     rank: "A",
