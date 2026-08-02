@@ -34,6 +34,19 @@ export const REVIEW_AXES: ReviewAxis[] = [
  * Scale out to the remaining 14 tools by adding entries with the same shape.
  */
 export const reviews: Record<string, ToolReview> = {
+  "meetgeek": {
+    slug: "meetgeek",
+    rank: "A",
+    scores: { featureDepth: 7, valueForCost: 8, hallucinationResistance: 6, pricingClarity: 8 },
+    lead: "MeetGeek's depth is in accessibility rather than sophistication: automatic recording in 100+ languages, AI meeting summaries, action-item extraction, an AI Chat for querying past meetings, custom templates, HD video recording, team spaces, and integrations with 2,000+ apps via Zapier (per official listing) — all offered with genuinely usable monthly pricing rather than the annual-only structure common in this category. Being based in Bucharest with EU data processing also makes it a distinct fit for GDPR-conscious organizations.",
+    strengths: ["Every paid tier is billed monthly (per official listing), which is meaningfully more transparent than most meeting-AI competitors that only publish annual headline prices.", "The free plan includes unlimited AI summaries, a feature several rivals reserve for paid tiers.", "GDPR-friendly EU data processing is a genuine differentiator for European or privacy-conscious buyers, not a marketing footnote.", "2,000+ app integrations via Zapier mean the output can reach almost any existing workflow without custom engineering."],
+    notForEveryone: ["If long meeting retention matters, note the free plan's stored recordings expire after 3 months even though transcription itself resets monthly.", "If your calls regularly run long, be aware there is a 2-hour meeting cap on the Free and Pro plans.", "If conversation analytics depth is the deciding factor, know the intelligence layer is lighter than Fireflies.ai's."],
+    pricingNote: "Per official listing, Basic (free) gives 3 hours of transcription/month with 3 months of storage, Pro is $9.99/mo (20 hours/month, 1-year storage, Slack/Notion/CRM integrations, AI Chat), and Business is $17/mo (unlimited transcription and storage, HD video, team spaces, meeting analytics) — all billed monthly with no annual-only trap. That monthly-first structure is the strongest pricing-clarity result in this batch of drafts, and on value-for-cost, Business at $17/mo for unlimited transcription and storage is genuinely competitive against pricier, annual-billed rivals.",
+    recommendation: "Start on the free Basic tier and use the 3 hours/month against real meetings to judge summary and action-item accuracy — the unlimited-summaries feature makes this a meaningful trial, not a stripped demo. If the volume or storage window is limiting, Pro at $9.99/mo is a low-risk monthly step up, and Business at $17/mo is worth it the moment transcription hours are the binding constraint. If deeper conversation analytics (talk-time, sentiment) become the priority, Fireflies.ai is the tool to compare against — at a higher, annual-billed price.",
+    cta: { heading: "Try MeetGeek", body: "Start free and test the summaries and action items on real meetings — every paid tier is billed monthly, so stepping up to Pro or Business is a low-risk move whenever the free limits are the actual constraint." },
+    reviewedOn: "2026-08-03",
+  },
+
   "fireflies-ai": {
     slug: "fireflies-ai",
     rank: "A",
