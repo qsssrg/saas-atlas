@@ -125,15 +125,7 @@ def build_report(striking, cannibal, start, end, tot_clicks, tot_impr, top):
         if d["kind"] == "blog":
             return "📝blog" if d["strengthenable"] else "📝blog(md無)"
         return "🗂pSEO" if d["kind"] == "pseo" else "・"
-    # 何のレポートで次に何が起きるかを**冒頭**に置く（末尾だと読まれず、
-    # 「実施済みの報告」と読み違えられていた・2026-08-03 指摘）
-    lines = [f"📈 SaaS Atlas GSC伸びしろレポート（{start}〜{end}）",
-             "これは**未着手の候補**です。ここから強化原稿の案を作り、"
-             "#appr-req に承認依頼としてお送りします（承認で本番反映）。",
-             "💬 **このスレッドに返信いただければ、そのままDiscordに引き継いで続けます**"
-             "（狙いたいKW・除外したいページ・優先順位など、自由に書いてください）。",
-             "──────────",
-             f"全体: {int(tot_clicks)}クリック / {int(tot_impr)}表示",
+    lines = [f"📈 SaaS Atlas GSC伸びしろレポート 明細（{start}〜{end}）",
              "",
              f"■ striking-distance（上位化でクリック増が狙えるKW）上位{top}:"]
     if striking:
@@ -155,7 +147,32 @@ def build_report(striking, cannibal, start, end, tot_clicks, tot_impr, top):
     return "\n".join(lines)
 
 
-def slack_post(report):
+def build_summary(striking, cannibal, start, end, tot_clicks, tot_impr):
+    """チャンネル本文用の短い要約（明細はスレッドへ・2026-08-03 ユーザー指示）。
+
+    長文を流すと読まれないので、判断に要る数行だけをここに載せる。
+    """
+    head = [f"📈 SaaS Atlas GSC伸びしろレポート（{start}〜{end}）",
+            f"全体: {int(tot_clicks)}クリック / {int(tot_impr)}表示 ／ "
+            f"伸びしろKW {len(striking)}件・食い合い {len(cannibal)}件",
+            ""]
+    if striking[:3]:
+        head.append("上位3件:")
+        for d in striking[:3]:
+            head.append(f"・「{_mq(d['query'])}」pos{d['position']} 表示{d['impressions']} "
+                        f"→ +{d['potential_clicks']}期待")
+    else:
+        head.append("今回は閾値を超える伸びしろKWがありませんでした。")
+    head += ["",
+             "これは**未着手の候補**です。ここから強化原稿の案を作り、"
+             "#appr-req に承認依頼としてお送りします（承認で本番反映）。",
+             "💬 **このスレッドに返信いただければ、そのままDiscordに引き継いで続けます**"
+             "（狙いたいKW・除外したいページ・優先順位など、自由に書いてください）。",
+             "↓ 明細はスレッドに続けます"]
+    return "\n".join(head)
+
+
+def slack_post(report, thread_ts=None):
     import subprocess
     import urllib.request
     try:
@@ -165,8 +182,11 @@ def slack_post(report):
     except subprocess.CalledProcessError:
         print("[slack] token取得失敗、通知スキップ")
         return
-    payload = json.dumps({"channel": "#reports", "text": "<@U03CLR674N9>\n" + report,
-                          "unfurl_links": False}).encode("utf-8")
+    body = {"channel": "#reports", "unfurl_links": False,
+            "text": (report if thread_ts else "<@U03CLR674N9>\n" + report)}
+    if thread_ts:
+        body["thread_ts"] = thread_ts
+    payload = json.dumps(body).encode("utf-8")
     req = urllib.request.Request("https://slack.com/api/chat.postMessage", data=payload,
                                  headers={"Authorization": f"Bearer {token}",
                                           "Content-Type": "application/json; charset=utf-8"})
@@ -174,6 +194,8 @@ def slack_post(report):
         with urllib.request.urlopen(req, timeout=20) as r:
             res = json.loads(r.read().decode("utf-8"))
             print(f"[slack] #reports: {res.get('ok')}")
+        if thread_ts:
+            return res   # スレッド返信はここまで（親のみ中継に登録する）
         # スレッド返信をDiscordへ引き継ぐため投稿先を中継に登録する。
         # 失敗してもレポート自体は成立するので警告だけ出して続行。
         if res.get("ok"):
@@ -186,8 +208,10 @@ def slack_post(report):
                                              "SaaS Atlas GSC伸びしろレポート")
             except Exception as e:
                 print(f"[slack] スレッド中継の登録に失敗（レポートは投稿済み）: {e}")
+        return res
     except Exception as e:
         print(f"[slack] 通知失敗: {e}")
+    return None
 
 
 def main():
@@ -217,12 +241,18 @@ def main():
                "striking_distance": striking, "cannibalization": cannibal},
               open(OUT_JSON, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
 
+    summary = build_summary(striking, cannibal, start, end, tot_clicks, tot_impr)
     report = build_report(striking, cannibal, start, end, tot_clicks, tot_impr, args.top)
+    print(summary)
+    print()
     print(report)
     print(f"\n[saved] {OUT_JSON}")
 
     if args.slack:
-        slack_post(report)
+        # 本文は短く、明細はスレッドへ（チャンネルを流し読みできるように）
+        res = slack_post(summary)
+        if res and res.get("ok"):
+            slack_post(report, thread_ts=res.get("ts"))
 
 
 if __name__ == "__main__":
