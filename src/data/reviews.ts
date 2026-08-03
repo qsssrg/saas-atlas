@@ -34,6 +34,19 @@ export const REVIEW_AXES: ReviewAxis[] = [
  * Scale out to the remaining 14 tools by adding entries with the same shape.
  */
 export const reviews: Record<string, ToolReview> = {
+  "notta": {
+    slug: "notta",
+    rank: "A",
+    scores: { featureDepth: 7, valueForCost: 7, hallucinationResistance: 7, pricingClarity: 7 },
+    lead: "Notta is a transcription-first tool rather than a meeting-analytics one, and that focus is its depth: real-time AI transcription across 104 languages, a meeting bot for Zoom/Meet/Teams, audio and video file import, speaker identification, exports to Notion/Word/PDF/SRT, mobile apps for iOS and Android, and bilingual transcription (per official listing). Being headquartered in Tokyo shows in the language coverage — Japanese, Korean, and other APAC languages are handled with a level of care that most US-built competitors do not match.",
+    strengths: ["104-language support with genuinely strong handling of Japanese, Korean, and Chinese is a real structural advantage for APAC-facing or multilingual teams.", "Transcription-first design means less generative synthesis sits between the recording and the output, which is itself a form of accuracy — there is simply less room for an AI-written summary to drift from what was actually said.", "Every paid tier is billed monthly (per official listing), avoiding the annual-only pattern common elsewhere in this category.", "Mobile apps and broad export formats (Notion, Word, PDF, SRT) make the transcript useful well beyond the meeting-notes use case — journalism and research included."],
+    notForEveryone: ["If longer single sessions are the norm, note the free plan caps at 120 minutes/month with a 3-minute-per-conversation limit.", "If meeting intelligence (action items, sentiment, talk-time) is the priority, be aware that layer is lighter here than on Fireflies.ai or Sembly AI.", "If maximum affiliate-style attribution window matters to a reader comparing tools, know the standard recurring commission window is 12 months, shorter than some rivals in this list."],
+    pricingNote: "Per official listing, the free plan gives 120 minutes/month capped at 3 minutes per conversation, Pro is $13.99/mo (1,800 minutes/month, up to 5 hours per recording, summaries and templates, export options), and Business is $27.99/mo (team workspace, more minutes, speaker identification, admin controls) — all billed monthly. That monthly-first structure, combined with clearly stated minute caps, makes Notta one of the more transparent tools in this batch on pricing. Value-for-cost is solid for multilingual or transcription-heavy use, though the 3-minute free-tier cap per conversation is worth flagging clearly since it limits what the free plan can actually validate.",
+    recommendation: "Start on the free plan, but test it specifically with a longer conversation in mind — the 3-minute-per-session cap means a single short call is the most it will show you. If the accuracy across your working languages holds up, Pro at $13.99/mo (per official listing, monthly billing) is a low-risk step for regular use, and Business is worth it once team-wide speaker identification and admin controls matter. For teams that need deeper meeting-intelligence layers (action items, sentiment) rather than best-in-class multilingual transcription, Fireflies.ai or Sembly AI are the closer comparisons.",
+    cta: { heading: "Try Notta", body: "Test a real (longer) conversation to see past the free tier's 3-minute cap, then move to the monthly Pro plan once the multilingual transcription accuracy is proven for your working languages." },
+    reviewedOn: "2026-08-04",
+  },
+
   "meetgeek": {
     slug: "meetgeek",
     rank: "A",
