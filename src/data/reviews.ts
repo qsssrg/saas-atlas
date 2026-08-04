@@ -34,6 +34,19 @@ export const REVIEW_AXES: ReviewAxis[] = [
  * Scale out to the remaining 14 tools by adding entries with the same shape.
  */
 export const reviews: Record<string, ToolReview> = {
+  "podcastle": {
+    slug: "podcastle",
+    rank: "A",
+    scores: { featureDepth: 8, valueForCost: 7, hallucinationResistance: 6, pricingClarity: 8 },
+    lead: "Podcastle is a browser-based, all-in-one studio: recording, remote interview capture with a separate audio track per guest, transcription, text-to-speech AI voices, Revoice voice cloning, one-click \"Magic Dust\" audio enhancement, and video recording and editing (per official listing) all sit in one tool rather than being stitched together from a recorder, an editor, and a transcription service. The depth is in that end-to-end reach for podcast production specifically.",
+    strengths: ["Recording, editing, transcription, and AI voice generation in one browser-based tool removes the multi-app juggling most podcast workflows require.", "Remote interview recording with a separate track per guest is a real production advantage — it means a bad connection on one end does not compromise the whole recording.", "Magic Dust one-click enhancement cleans up amateur recording conditions automatically, which is useful for guest-heavy shows without a dedicated audio engineer.", "Every paid tier is billed monthly, per official listing, keeping the commitment low and the pricing easy to read."],
+    notForEveryone: ["If unlimited recording is expected from day one, note the free plan caps recording hours.", "If the most natural AI voices are the reason for signing up, be aware the best voice options are reserved for paid tiers.", "If a longer recurring affiliate window is what a reader is comparing across tools, know Podcastle's is 12 months — shorter than Fliki's lifetime terms in this same list."],
+    pricingNote: "Per official listing, the free plan offers limited recording hours with basic editing, AI transcription, and watermark-free audio, Storyteller is $11.99/mo (more recording hours, AI voices, video recording, advanced editing), and Pro is $23.99/mo (unlimited recording, 4K video export, team collaboration, priority processing). Monthly billing across every tier and clearly stated tier boundaries make this one of the more transparent tools in this batch, and value-for-cost is strong — Pro at $23.99/mo for unlimited recording and 4K export undercuts several single-purpose competitors combined.",
+    recommendation: "Start on the free plan and run a real remote interview through it to test the separate-track recording and Magic Dust enhancement — that combination is the core value proposition. If the workflow fits a regular show, Storyteller at $11.99/mo (per official listing, monthly billing) is a low-risk next step, and Pro is worth it once recording hours or 4K export become the actual constraint. For a show that mainly needs deep post-episode repurposing (blog posts, social clips) rather than recording itself, Castmagic is the closer comparison.",
+    cta: { heading: "Try Podcastle", body: "Test a real remote interview on the free plan first, then move to the monthly Storyteller plan for regular shows — step up to Pro once recording hours or 4K export are genuinely the limit." },
+    reviewedOn: "2026-08-05",
+  },
+
   "notta": {
     slug: "notta",
     rank: "A",
