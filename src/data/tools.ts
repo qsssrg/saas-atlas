@@ -882,7 +882,7 @@ export const tools: Tool[] = [
       authorNote: 'Based on hands-on testing and analysis of 8+ AI voice tools across 8 markets',
       lastReviewed: '2026-06-26',
     },
-    lastUpdated: '2026-06-26',
+    lastUpdated: '2026-08-06',
   },
   {
     slug: 'descript',

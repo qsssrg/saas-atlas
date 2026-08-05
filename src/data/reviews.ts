@@ -34,6 +34,19 @@ export const REVIEW_AXES: ReviewAxis[] = [
  * Scale out to the remaining 14 tools by adding entries with the same shape.
  */
 export const reviews: Record<string, ToolReview> = {
+  "murf-ai": {
+    slug: "murf-ai",
+    rank: "B",
+    scores: { featureDepth: 7, valueForCost: 6, hallucinationResistance: 7, pricingClarity: 4 },
+    lead: "Murf AI is built for structured, repeatable voice production rather than conversational realism: 200+ voices across 20+ languages, AI video dubbing into 40 languages, granular pitch/pace/intonation controls, a developer API (Falcon model), a voice changer, and team collaboration all sit under one roof (per official listing). The depth here is control — the intonation and pacing dials give a producer a way to direct a voice precisely, which matters more for e-learning modules and training videos than for a single expressive narration.",
+    strengths: ["Fine-grained pitch, pace, and intonation controls let a producer direct exactly how a line lands, rather than accepting whatever the model outputs by default.", "200+ voices across 20+ languages, plus AI video dubbing into 40, cover most enterprise localization needs from one account.", "The Falcon developer API opens a path to scripted, repeatable voiceover generation rather than manual one-off exports.", "Team collaboration features are built in, which fits organizational content production better than a single-user tool."],
+    notForEveryone: ["If you want to evaluate on your own schedule, note that all paid tiers are billed annually (per official listing) — there is no month-to-month path shown in the pricing.", "If conversational naturalness is the priority, be aware the underlying voice model trails ElevenLabs for expressive, informal content.", "If you need real testing before paying, know the free tier caps at 10 minutes with no downloads and no commercial license — that is enough to sample voices, not to validate a workflow."],
+    pricingNote: "Per official listing, the free tier gives 10 minutes of generation with no downloads or commercial license, Creator runs $19/mo billed yearly (24 hours/year generation, commercial license), and Business is $66/mo billed yearly (96 hours/year, priority support, advanced voice controls). The annual-only structure on every paid tier is the main caution on pricing clarity here — it is exactly the kind of commitment worth reading closely before signing, since there is no disclosed way to trial a paid tier for a single month first. On value-for-cost, the price is reasonable for the voice and language breadth on offer, but that judgment is harder to make with confidence than it should be until a real project has run against the annual commitment. Exact generation-hour caps and overage terms are on Murf's own pricing page.",
+    recommendation: "Because there is no monthly option (per official listing), treat the free tier as the real trial: sample the voice quality and pitch/pace controls on a genuine training or e-learning script before any money moves. If the output and controls hold up, the annual Creator plan is a reasonable next step for structured, recurring content — but weigh the year-long commitment against ElevenLabs' monthly-billed tiers, which offer more natural voices at a comparable entry price if flexibility matters more than pitch-level control. Reserve Business for teams that are already producing training content at volume, not as a starting point.",
+    cta: { heading: "Try Murf AI", body: "Sample the voices and pitch/pace controls on the free tier first — there is no monthly paid option here, so confirm the fit on real training or e-learning content before committing to the annual Creator plan." },
+    reviewedOn: "2026-08-06",
+  },
+
   "podcastle": {
     slug: "podcastle",
     rank: "A",
