@@ -34,6 +34,19 @@ export const REVIEW_AXES: ReviewAxis[] = [
  * Scale out to the remaining 14 tools by adding entries with the same shape.
  */
 export const reviews: Record<string, ToolReview> = {
+  "castmagic": {
+    slug: "castmagic",
+    rank: "B",
+    scores: { featureDepth: 7, valueForCost: 5, hallucinationResistance: 6, pricingClarity: 5 },
+    lead: "Castmagic solves a narrow, specific problem thoroughly: turning one piece of long-form audio or video into many finished content formats. Transcription, AI show notes and summaries, blog-post generation, social clips, newsletter drafts, YouTube/TikTok/Instagram import, Zapier integration, and custom AI templates (per official listing) all run off a single source recording. The depth is in the repurposing chain itself — one input produces a stack of outputs — rather than in a broad general-purpose toolset.",
+    strengths: ["One podcast episode can become a blog post, several social clips, a newsletter, and show notes without re-editing the source content each time.", "Import from YouTube, TikTok, and Instagram means existing back-catalog content can be repurposed, not just new recordings.", "Custom AI templates let the specific outputs a workflow needs be defined once and reused, rather than prompting from scratch every time.", "Zapier integration ties the output stack into an existing content or publishing pipeline instead of leaving files to be moved by hand."],
+    notForEveryone: ["If trying before paying is important, note there is no free plan — the entry price starts at $21/mo (per official listing).", "If a single month is how you'd rather commit, be aware the advertised prices are billed yearly across every tier.", "If your show runs long or frequent episodes, know that transcription hours are capped even on the top Business tier."],
+    pricingNote: "Per official listing, Hobby is $21/mo billed yearly (5 hours transcription/month, 5 seats, 10 longform outputs/month), Starter is $79/mo billed yearly (20 hours/month, 10 seats, 2,000+ word outputs), and Business is $790/mo billed yearly (80 hours/month, 20 seats, workspace customization). The lack of a free tier combined with annual-only billing is the pricing-clarity flag worth naming directly — there is no low-risk way to sample the real output quality before committing to a year. On value-for-cost, the math works cleanly for a podcast publishing multiple episodes a month, where the repurposing genuinely saves hours; for occasional or single-episode use, the entry price is high relative to what gets produced.",
+    recommendation: "Because there is no free tier and every plan is billed annually (per official listing), push for a trial or a single-invoice test period before signing a year — this is exactly the kind of upfront commitment worth being cautious about. If a demo run on a real episode shows the repurposed outputs are genuinely usable without heavy editing, Hobby is the reasonable annual entry point for an active but small show. If the volume is closer to one episode a month or less, Descript's lighter repurposing features cover the basics without the annual commitment or the $21+/mo floor.",
+    cta: { heading: "Try Castmagic", body: "There is no free tier and pricing is annual — ask about a trial or short test period and run one real episode through it before committing to a year on the Hobby plan." },
+    reviewedOn: "2026-08-07",
+  },
+
   "murf-ai": {
     slug: "murf-ai",
     rank: "B",
