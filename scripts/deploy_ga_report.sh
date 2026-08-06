@@ -15,14 +15,8 @@ echo "===== $(date '+%Y-%m-%d %H:%M:%S') deploy start =====" >> "$LOG"
 # 1) レポート生成 + Slack
 /usr/local/bin/python3 "$SAAS_DIR/scripts/ga_daily_report.py" >> "$LOG" 2>&1
 
-# 2) GitHub Pages へ反映
-cd "$REPORT_DIR"
-if [ -n "$(git status --porcelain index.html)" ]; then
-  git add index.html
-  git -c user.email=noreply@local -c user.name=saas-atlas commit -q -m "GA daily report $(date '+%Y-%m-%d')" >> "$LOG" 2>&1
-  git push origin main >> "$LOG" 2>&1
-  echo "pushed." >> "$LOG"
-else
-  echo "No changes to deploy." >> "$LOG"
-fi
+# 2) Cloudflare Pages + Access へ反映（2026-08-06 変更）
+# 旧: GitHub Pages。無料プランだと公開リポジトリでしか使えず**サイトも必ず公開**になるため、
+# アクセス解析の数値が誰でも見られる状態だった。Accessなら本人だけがログインして見る。
+/usr/bin/python3 "$HOME/claudecode/cf_publish.py" "$REPORT_DIR" "saas-atlas-ga-report" "SaaS Atlas GAレポート" >> "$LOG" 2>&1
 echo "===== done =====" >> "$LOG"
