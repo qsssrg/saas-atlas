@@ -34,6 +34,19 @@ export const REVIEW_AXES: ReviewAxis[] = [
  * Scale out to the remaining 14 tools by adding entries with the same shape.
  */
 export const reviews: Record<string, ToolReview> = {
+  "sembly-ai": {
+    slug: "sembly-ai",
+    rank: "B",
+    scores: { featureDepth: 7, valueForCost: 7, hallucinationResistance: 6, pricingClarity: 6 },
+    lead: "Sembly AI's distinguishing feature is agentic follow-through: automatic recording across Zoom, Meet, and Teams, transcription in 40+ languages, smart AI meeting notes, and — the differentiator — automated task and action-item detection driven by workflow automation, plus custom vocabulary and Slack/CRM integrations (per official listing). Where most meeting tools stop at a summary, Sembly's depth is in turning that summary into assignable, structured work.",
+    strengths: ["Automated task and action-item drafting moves the output from a passive transcript to something a project manager can actually assign.", "Custom vocabulary support helps the transcription and notes stay accurate for teams with specific product or industry terminology.", "Team workspace features (shared meeting library, meeting analytics, admin controls) support organization-wide adoption rather than individual use only.", "40+ language transcription covers a wide range of multilingual meeting scenarios."],
+    notForEveryone: ["If unlimited use on the entry tier matters, note the free Personal plan caps monthly meeting minutes.", "If deep conversation analytics is the priority, be aware the analytics depth on the top tiers trails Fireflies.ai's.", "If verifying every auto-drafted task before it reaches a project board is not part of your workflow, know that agentic task generation from a transcript can occasionally misattribute or overstate what was actually agreed — a manual glance before assigning is worth building into the routine."],
+    pricingNote: "Per official listing, Personal (free) offers limited meeting minutes with basic integrations, Professional is $10/mo billed yearly (unlimited meetings, AI-generated tasks and action items, custom vocabulary, Slack/CRM integrations), and Team is $20/mo billed yearly (team workspace, shared library, analytics, admin controls). Those are inexpensive prices for unlimited meeting coverage, which is a strong value-for-cost result — the caution is the annual-only billing structure on both paid tiers, which is worth confirming against a monthly alternative before signing a year up front.",
+    recommendation: "Start on the free Personal plan and specifically test the auto-drafted tasks against what was actually said in a real meeting — that is the feature worth validating before trusting it in production. If the task automation holds up and the meeting volume exceeds the free cap, Professional at $10/mo (billed yearly, per official listing) is inexpensive enough that the annual commitment is a modest risk; confirm whether a monthly-billed option exists first if annual terms are a concern. For teams that want deeper conversation analytics over task automation, Fireflies.ai is the closer comparison, at a higher price point.",
+    cta: { heading: "Try Sembly AI", body: "Start free and check the auto-drafted tasks against a real meeting before trusting them — move to the annual Professional plan once the task automation is proven, and confirm monthly billing availability first if that matters to you." },
+    reviewedOn: "2026-08-08",
+  },
+
   "castmagic": {
     slug: "castmagic",
     rank: "B",
