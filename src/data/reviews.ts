@@ -34,6 +34,19 @@ export const REVIEW_AXES: ReviewAxis[] = [
  * Scale out to the remaining 14 tools by adding entries with the same shape.
  */
 export const reviews: Record<string, ToolReview> = {
+  "tldv": {
+    slug: "tldv",
+    rank: "B",
+    scores: { featureDepth: 7, valueForCost: 7, hallucinationResistance: 6, pricingClarity: 6 },
+    lead: "tl;dv leads with an unusually open free tier: unlimited recordings and transcripts, AI notes, and support across Zoom, Meet, and Teams in 30+ languages, with no meeting-count restriction disclosed on that plan (per official listing). Above it sit unlimited AI notes with CRM integrations and custom templates, then multi-meeting AI insights, playbooks and coaching, and advanced integrations on Business. The depth is layered — most of the everyday value sits low in the tiers, and the analytical depth (multi-meeting patterns) is reserved for the top.",
+    strengths: ["Unlimited recordings and transcripts on the free plan is genuinely generous for a category where most competitors cap minutes even before payment.", "Multi-meeting AI insights surface patterns across many calls rather than treating each meeting as an isolated event.", "CRM integrations with Salesforce and HubSpot on Pro tie meeting content into existing sales workflows.", "Clip and reel sharing make it easy to circulate a specific meeting moment without sending a full recording."],
+    notForEveryone: ["If the deepest analytical features are the reason for signing up, note multi-meeting insights and coaching sit on the Business tier, not Pro.", "If a bot-free capture method matters to you, be aware tl;dv joins meetings as a visible bot rather than capturing audio natively.", "If month-to-month billing is preferred, know the advertised Pro and Business prices reflect annual billing."],
+    pricingNote: "Per official listing, the free plan includes unlimited recordings and transcripts with AI notes, Pro is $18/mo billed yearly (unlimited AI notes, CRM integrations, custom templates, recording downloads), and Business is $59/mo billed yearly (multi-meeting AI insights, playbooks and coaching, advanced integrations, admin and security). Value-for-cost is strong given how much sits on the free tier alone; the pricing-clarity caution is the same annual-billing pattern seen across most of this category, plus a separate ambassador/affiliate track that is worth keeping distinct from the product pricing itself when reading tl;dv's materials.",
+    recommendation: "Start on the free plan — given the unlimited recording and transcript allowance, this alone may cover light-to-moderate meeting volume indefinitely. Move to Pro ($18/mo, per official listing, billed yearly) once CRM integration or custom templates become the actual need, and confirm whether a monthly-billed alternative exists before committing to the year. Reserve Business for the point where multi-meeting pattern analysis or coaching features are genuinely being used; for simpler transcription-first needs, Notta's monthly billing may be the more flexible comparison.",
+    cta: { heading: "Try tl;dv", body: "Start on the genuinely unlimited free plan — move to the annual Pro tier only once CRM integration or templates are actually needed, and check for a monthly-billed option first." },
+    reviewedOn: "2026-08-09",
+  },
+
   "sembly-ai": {
     slug: "sembly-ai",
     rank: "B",
