@@ -34,6 +34,19 @@ export const REVIEW_AXES: ReviewAxis[] = [
  * Scale out to the remaining 14 tools by adding entries with the same shape.
  */
 export const reviews: Record<string, ToolReview> = {
+  "beautiful-ai": {
+    slug: "beautiful-ai",
+    rank: "B",
+    scores: { featureDepth: 7, valueForCost: 6, hallucinationResistance: 7, pricingClarity: 5 },
+    lead: "Beautiful.ai takes a design-system approach rather than a generative one: 300+ Smart Slide layouts auto-adjust as content is added, backed by unlimited AI generation, PowerPoint import/export, real-time team collaboration, brand guardrails, viewer engagement analytics, 100+ language support, and a stock media library (per official listing). The depth here is consistency at scale — every slide a team produces inherits the same design rules automatically, which is a different kind of value than generating a deck from nothing.",
+    strengths: ["Smart Slides enforce layout consistency automatically, which effectively removes the \"ugly slide\" failure mode that plagues manual deck-building.", "Brand guardrails keep an entire team's output on-brand without a designer reviewing every deck.", "PowerPoint import/export means existing decks and workflows are not stranded when adopting the tool.", "Because content is guided into fixed, structured layouts rather than freely generated, there is less room for the deck itself to drift from the source material — a real advantage for teams worried about AI-invented framing creeping into client-facing decks."],
+    notForEveryone: ["If a free trial period matters before paying anything, note there is no free plan — only a 14-day trial (per official listing), which is short for a team-wide evaluation.", "If open-ended generative content creation is the goal, be aware the AI here designs within templates rather than writing broad new content from a prompt the way Gamma does.", "If transparent enterprise pricing matters, know the Team-tier-and-up pricing for larger organizations requires contacting sales directly."],
+    pricingNote: "Per official listing, Pro is $12/mo billed yearly (unlimited AI generation, 300+ Smart Slides, custom branding, PowerPoint export, viewer analytics) and Team is $40/mo billed yearly (real-time collaboration, template library, locked slides, live data linking, 2-20 seats), with no free tier. On value-for-cost, Pro at $12/mo is inexpensive for a tool that structurally prevents inconsistent, off-brand output — that consistency is the actual product being bought. The pricing-clarity caution is the 14-day-trial-only entry and the sales-gated enterprise tier above Team, both of which push toward a commitment before the full picture is visible.",
+    recommendation: "Use the 14-day trial deliberately — build at least one real deck end-to-end and test the brand guardrails with a colleague before it expires, since that is the only no-cost window available. If the design-system approach fits, Pro at $12/mo (per official listing, though confirm whether a true monthly-billed rate exists alongside the annual headline figure) is a low-cost way to keep using it without a team commitment yet. Move to Team only once several people are actually collaborating on decks; for one-off exploratory content or heavier generative writing, Gamma is the more flexible alternative.",
+    cta: { heading: "Try Beautiful.ai", body: "Build one real deck during the 14-day trial and test the brand guardrails — move to the monthly-equivalent Pro plan once the design-system fit is proven, before considering Team." },
+    reviewedOn: "2026-08-10",
+  },
+
   "tldv": {
     slug: "tldv",
     rank: "B",

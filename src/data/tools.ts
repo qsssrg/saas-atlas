@@ -1019,7 +1019,7 @@ export const tools: Tool[] = [
       authorNote: 'Based on hands-on testing and analysis of 8+ AI productivity tools across 8 markets',
       lastReviewed: '2026-06-26',
     },
-    lastUpdated: '2026-06-26',
+    lastUpdated: '2026-08-10',
   },
   {
     slug: 'fireflies-ai',
