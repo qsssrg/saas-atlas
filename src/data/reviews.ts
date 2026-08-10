@@ -34,6 +34,19 @@ export const REVIEW_AXES: ReviewAxis[] = [
  * Scale out to the remaining 14 tools by adding entries with the same shape.
  */
 export const reviews: Record<string, ToolReview> = {
+  "fliki": {
+    slug: "fliki",
+    rank: "B",
+    scores: { featureDepth: 8, valueForCost: 6, hallucinationResistance: 6, pricingClarity: 7 },
+    lead: "Fliki merges two categories that most tools keep separate: text-to-speech and text-to-video. Around 2,000+ voices across 80+ languages sit alongside a script-to-video engine, voice cloning, a stock media library, subtitle generation, and dedicated export paths for podcasts, audiobooks, and blog-to-video content (per official listing). The depth is in that combination — a single script becomes narrated video without a second tool for editing or voiceover.",
+    strengths: ["2,000+ voices across 80+ languages is one of the broadest voice libraries in this list, covering nearly any target-language need.", "Combining text-to-speech and text-to-video removes the step of exporting narration into a separate video editor.", "Blog-to-video and script-to-video workflows are built for faceless-content creators specifically, rather than adapted from a general voice tool.", "Every paid tier is billed monthly (per official listing), which keeps the commitment low relative to annual-only competitors."],
+    notForEveryone: ["If free-tier testing needs to cover real output length, note the free plan caps at 500 words/month — enough to sample voices, not to produce a finished piece.", "If the most natural-sounding voices are the goal, be aware the premium voice tier sits behind the $88/mo Premium plan.", "If tight video-editing control matters, know the built-in editor is lighter than a dedicated video tool — it is built for speed, not fine composition."],
+    pricingNote: "Per official listing, the free plan gives 500 words/month with basic voices and 720p export, Standard is $28/mo (2,000+ voices, 80+ languages, unlimited standard-voice use, 1080p export, limited voice cloning), and Premium is $88/mo (ultra-realistic premium voices, higher limits, priority rendering, advanced cloning). Monthly billing across all tiers is a genuine pricing-clarity plus; the caution on value-for-cost is that the most natural voices and full cloning capability are reserved for the $88/mo tier, so the entry-level Standard plan does not show the tool at its best.",
+    recommendation: "Start on the free plan to judge voice variety and the script-to-video mechanics on a short piece, keeping in mind the 500-word cap limits what can actually be produced. If the workflow fits, Standard at $28/mo (per official listing, billed monthly) is the reasonable next step for regular content; only move to Premium once the standard voices are clearly the bottleneck on a real project, since that is where the price jumps sharply. For voice quality alone without the video layer, ElevenLabs is worth comparing at a similar or lower entry price.",
+    cta: { heading: "Try Fliki", body: "Test the script-to-video workflow on the free plan first, then move to the monthly Standard plan for regular use — reserve Premium for when the standard voices are the clear bottleneck." },
+    reviewedOn: "2026-08-11",
+  },
+
   "beautiful-ai": {
     slug: "beautiful-ai",
     rank: "B",
