@@ -34,6 +34,19 @@ export const REVIEW_AXES: ReviewAxis[] = [
  * Scale out to the remaining 14 tools by adding entries with the same shape.
  */
 export const reviews: Record<string, ToolReview> = {
+  "listnr": {
+    slug: "listnr",
+    rank: "B",
+    scores: { featureDepth: 6, valueForCost: 7, hallucinationResistance: 7, pricingClarity: 7 },
+    lead: "Listnr AI pairs a large voice library — 1,000+ voices across 140+ languages — with a feature most pure TTS tools skip: built-in podcast hosting with RSS and embeddable audio players (per official listing). SSML controls, voice cloning, MP3/WAV export, and API access round it out. The depth is narrower than the biggest names in AI voice, but the podcast-hosting layer is a genuine point of difference rather than a repackaged feature.",
+    strengths: ["140+ language coverage is among the broadest in this list, useful for reaching audiences most competitors' voice libraries do not serve well.", "Built-in podcast hosting and embeds mean a generated voiceover can go straight to a distributable show without a separate hosting subscription.", "Commercial usage rights are included from the entry paid tier rather than gated further up, per official listing.", "Because output is deterministic text-to-speech rather than open-ended generation, there is limited room for the audio to say anything other than what was typed — a meaningful form of reliability for scripted content."],
+    notForEveryone: ["If free-tier testing needs to reflect real project length, note the free plan caps at roughly 1,000 words/month.", "If voice realism at the top of the market is the priority, be aware output trails premium rivals like ElevenLabs on naturalness.", "If the exact affiliate cookie window matters to your evaluation, know it is not publicly disclosed in the source material used for this draft."],
+    pricingNote: "Per official listing, the free plan gives roughly 1,000 words/month with basic voices and limited languages, Individual is $19/mo (unlimited downloads, 1,000+ voices, 140+ languages, commercial rights), and Startup is $39/mo (more characters, voice cloning, podcast hosting, API access). Monthly billing across all tiers keeps this fairly transparent, and value-for-cost is reasonable at the Individual tier for straightforward voiceover work; the podcast-hosting and cloning features that justify Startup are worth confirming are actually needed before stepping up.",
+    recommendation: "Start on the free plan to sample voice quality across languages relevant to your content, keeping the roughly 1,000-word cap in mind. If voiceover quality holds up for the use case, Individual at $19/mo (per official listing) is a low-risk monthly step with commercial rights included. Move to Startup only once podcast hosting or voice cloning are genuinely part of the workflow — otherwise Individual covers most straightforward voiceover needs. For higher-end voice naturalness, ElevenLabs is the closer comparison at a similar entry price.",
+    cta: { heading: "Try Listnr AI", body: "Sample the voice library and languages on the free plan, then move to the monthly Individual plan for commercial use — step up to Startup only once podcast hosting or cloning is actually needed." },
+    reviewedOn: "2026-08-12",
+  },
+
   "fliki": {
     slug: "fliki",
     rank: "B",
