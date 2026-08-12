@@ -34,6 +34,19 @@ export const REVIEW_AXES: ReviewAxis[] = [
  * Scale out to the remaining 14 tools by adding entries with the same shape.
  */
 export const reviews: Record<string, ToolReview> = {
+  "lovo-ai": {
+    slug: "lovo-ai",
+    rank: "B",
+    scores: { featureDepth: 7, valueForCost: 6, hallucinationResistance: 7, pricingClarity: 7 },
+    lead: "LOVO AI's Genny platform pairs a 500+ voice, 100+ language TTS engine with an integrated video and subtitle editor, plus voice cloning, emphasis and emotion controls, and a pronunciation editor (per official listing). The depth is in keeping voiceover and light video production in one place rather than exporting audio into a separate editor — a meaningfully different shape than a pure TTS API.",
+    strengths: ["The Genny editor combines voiceover generation, video assembly, and subtitles in a single workspace, cutting out a tool-switching step most voice platforms leave to the user.", "Emphasis, emotion, and pronunciation controls give direct correction over how specific words or phrases are voiced, rather than accepting a single default reading.", "Commercial usage rights and unlimited downloads are included from the Basic paid tier, per official listing.", "Every paid tier is billed monthly, avoiding the annual-only structure seen elsewhere in this category."],
+    notForEveryone: ["If voice cloning is the deciding feature, note it is reserved for the Pro tier ($48/mo) rather than available on Basic.", "If maximum language coverage is the priority, be aware 100+ languages trails Listnr's 140+ — ahead of Fliki's 80+, but not the widest in this category.", "If instant self-serve affiliate signup matters to your evaluation, know the program requires a light approval step rather than automatic access."],
+    pricingNote: "Per official listing, the free plan offers limited generations with a sample of the voice library and watermarked exports, Basic is $24/mo (unlimited downloads, 500+ voices, 100+ languages, Genny editor, commercial rights), and Pro is $48/mo (voice cloning, higher limits, priority support, API access). Monthly billing throughout is a genuine plus for pricing clarity; on value-for-cost, Basic is reasonable for straightforward voiceover-plus-editing work, and Pro's price roughly doubles Basic specifically to unlock cloning — worth confirming that feature is actually needed before paying for it.",
+    recommendation: "Start on the free plan to test the Genny editor's combined voiceover-and-video workflow, noting exports carry a watermark until upgrading. If the editor genuinely replaces a separate video tool for your use case, Basic at $24/mo (per official listing, monthly billing) is a low-risk step. Move to Pro only once voice cloning is a real requirement rather than a nice-to-have; for cloning-first use cases without the editor, ElevenLabs is the closer specialist comparison.",
+    cta: { heading: "Try LOVO AI", body: "Test the combined voiceover-and-video Genny editor on the free plan, then move to the monthly Basic plan for commercial use — upgrade to Pro only once voice cloning is genuinely needed." },
+    reviewedOn: "2026-08-13",
+  },
+
   "listnr": {
     slug: "listnr",
     rank: "B",

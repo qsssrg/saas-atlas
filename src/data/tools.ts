@@ -1291,7 +1291,7 @@ export const tools: Tool[] = [
       authorNote: 'Based on hands-on testing and analysis of AI voice tools across 8 markets',
       lastReviewed: '2026-07-03',
     },
-    lastUpdated: '2026-07-03',
+    lastUpdated: '2026-08-13',
   },
   {
     slug: 'podcastle',
